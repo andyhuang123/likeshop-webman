@@ -824,3 +824,19 @@ CREATE TABLE `la_product` (
   `delete_time` int(11) NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT='商品表';
+
+-- ----------------------------
+-- Records of la_system_menu (商品管理模块)
+-- ----------------------------
+INSERT INTO `la_system_menu` VALUES 
+(200, 0, 'M', '商品管理', 'el-icon-ShoppingCart', 550, '', 'product', '', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+(201, 200, 'C', '商品分类', 'el-icon-Grid', 1, 'product.productCate/lists', 'product_cate', 'product/category/index', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+(202, 200, 'C', '商品列表', 'el-icon-Document', 2, 'product.product/lists', 'product_lists', 'product/lists/index', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+(203, 201, 'A', '新增', '', 1, 'product.productCate/add', '', '', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+(204, 201, 'A', '编辑', '', 1, 'product.productCate/edit', '', '', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+(205, 201, 'A', '删除', '', 1, 'product.productCate/delete', '', '', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+(206, 201, 'A', '修改状态', '', 1, 'product.productCate/updateStatus', '', '', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+(207, 202, 'A', '新增', '', 1, 'product.product/add', '', '', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+(208, 202, 'A', '编辑', '', 1, 'product.product/edit', '', '', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+(209, 202, 'A', '删除', '', 1, 'product.product/delete', '', '', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()),
+(210, 202, 'A', '修改状态', '', 1, 'product.product/updateStatus', '', '', '', '', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
