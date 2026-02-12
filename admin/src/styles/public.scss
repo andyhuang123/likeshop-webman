@@ -16,3 +16,55 @@ body {
 #nprogress .bar {
     @apply bg-primary #{!important};
 }
+
+/* Focus Visible - 提升无障碍访问 */
+:focus-visible {
+    outline: 2px solid var(--el-color-primary);
+    outline-offset: 2px;
+}
+
+/* 按钮 focus 样式 */
+button:focus-visible,
+.el-button:focus-visible {
+    outline: 2px solid var(--el-color-primary);
+    outline-offset: -2px;
+}
+
+/* 表单元素 focus 样式 */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+.el-input__wrapper:focus-visible {
+    outline: 2px solid var(--el-color-primary);
+    outline-offset: -1px;
+}
+
+/* 移除默认 outline，使用自定义样式 */
+*:focus {
+    outline: none;
+}
+
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Loading 样式优化 */
+.el-loading-spinner {
+    --el-loading-spinner-size: 42px;
+    --el-loading-spinner-stroke-width: 2;
+}
+
+.el-loading-mask {
+    backdrop-filter: blur(2px);
+}
+
+/* 表格加载状态样式 */
+.el-table {
+    --el-table-loading-bgcolor: rgba(255, 255, 255, 0.8);
+}
+
+/* 卡片加载状态样式 */
+.el-card {
+    --el-card-padding: 20px;
+}
+
