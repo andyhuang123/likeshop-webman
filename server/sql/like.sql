@@ -197,7 +197,7 @@ COMMIT;
 -- ----------------------------
 -- Table structure for la_dept
 -- ----------------------------
-DROP TABLE IF EXISTS `la_dept`;
+  DROP TABLE IF EXISTS `la_dept`;
 CREATE TABLE `la_dept`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '部门名称',
@@ -788,3 +788,39 @@ ALTER TABLE `la_recharge_order`
 /* Alter table in target */
 ALTER TABLE `la_user`
     CHANGE `login_ip` `login_ip` varchar(200)  COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '最后登录IP' after `is_disable` ;
+
+-- ----------------------------
+-- Table structure for la_product_cate
+-- ----------------------------
+DROP TABLE IF EXISTS `la_product_cate`;
+CREATE TABLE `la_product_cate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商品分类id',
+  `name` varchar(90) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '分类名称',
+  `sort` int(11) NULL DEFAULT 0 COMMENT '排序',
+  `is_show` tinyint(1) NULL DEFAULT 1 COMMENT '是否显示:1-是;0-否',
+  `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
+  `delete_time` int(10) NULL DEFAULT NULL COMMENT '删除时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT='商品分类表';
+
+-- ----------------------------
+-- Table structure for la_product
+-- ----------------------------
+DROP TABLE IF EXISTS `la_product`;
+CREATE TABLE `la_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商品id',
+  `cid` int(11) NOT NULL COMMENT '商品分类',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '商品名称',
+  `sku` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT 'SKU',
+  `image` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品封面',
+  `price` decimal(10,2) NOT NULL DEFAULT 0.00 COMMENT '价格',
+  `stock` int(11) NOT NULL DEFAULT 0 COMMENT '库存',
+  `desc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '商品描述',
+  `is_show` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否显示:1-是.0-否',
+  `sort` int(5) NULL DEFAULT 0 COMMENT '排序',
+  `create_time` int(11) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
+  `delete_time` int(11) NULL DEFAULT NULL COMMENT '删除时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT='商品表';
