@@ -39,19 +39,19 @@ class WebSettingLogic extends BaseLogic
     {
         return [
             'name' => ConfigService::get('website', 'name'),
-            'web_favicon' => FileService::getFileUrl(ConfigService::get('website', 'web_favicon')),
-            'web_logo' => FileService::getFileUrl(ConfigService::get('website', 'web_logo')),
-            'login_image' => FileService::getFileUrl(ConfigService::get('website', 'login_image')),
+            'web_favicon' => FileService::getFileUrl(ConfigService::get('website', 'web_favicon', '')),
+            'web_logo' => FileService::getFileUrl(ConfigService::get('website', 'web_logo', '')),
+            'login_image' => FileService::getFileUrl(ConfigService::get('website', 'login_image', '')),
             'shop_name' => ConfigService::get('website', 'shop_name'),
-            'shop_logo' => FileService::getFileUrl(ConfigService::get('website', 'shop_logo')),
+            'shop_logo' => FileService::getFileUrl(ConfigService::get('website', 'shop_logo', '')),
 
-            'pc_logo' => FileService::getFileUrl(ConfigService::get('website', 'pc_logo')),
+            'pc_logo' => FileService::getFileUrl(ConfigService::get('website', 'pc_logo', '')),
             'pc_title' => ConfigService::get('website', 'pc_title', ''),
-            'pc_ico' => FileService::getFileUrl(ConfigService::get('website', 'pc_ico')),
+            'pc_ico' => FileService::getFileUrl(ConfigService::get('website', 'pc_ico', '')),
             'pc_desc' => ConfigService::get('website', 'pc_desc', ''),
             'pc_keywords' => ConfigService::get('website', 'pc_keywords', ''),
 
-            'h5_favicon' => FileService::getFileUrl(ConfigService::get('website', 'h5_favicon')),
+            'h5_favicon' => FileService::getFileUrl(ConfigService::get('website', 'h5_favicon', '')),
         ];
     }
 
@@ -84,7 +84,7 @@ class WebSettingLogic extends BaseLogic
         ConfigService::set('website', 'pc_desc', $params['pc_desc'] ?? '');
         ConfigService::set('website', 'pc_keywords', $params['pc_keywords'] ?? '');
 
-        ConfigService::set('website', 'h5_favicon', $h5favicon);
+        ConfigService::set('website', 'h5_favicon', FileService::setFileUrl($params['h5_favicon'] ?? ''));
     }
 
 

@@ -155,6 +155,27 @@
             }
         },
         {
+            "path": "pages/marketing/blind_box/index",
+            "style": {
+                "navigationBarTitleText": "盲盒抽奖"
+            }
+        },
+        {
+            "path": "pages/marketing/blind_box/detail",
+            "style": {
+                "navigationBarTitleText": "盲盒详情"
+            }
+        },
+        {
+            "path": "pages/marketing/blind_box/cabinet",
+            "style": {
+                "navigationBarTitleText": "我的盒柜"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
             "path": "uni_modules/vk-uview-ui/components/u-avatar-cropper/u-avatar-cropper",
             "style": {
                 "navigationBarTitleText": "头像裁剪",

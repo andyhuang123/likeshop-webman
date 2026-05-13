@@ -2,6 +2,7 @@ CREATE TABLE `la_product` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '商品ID',
   `category_id` int(11) UNSIGNED NOT NULL COMMENT '商品分类ID',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '商品名称',
+  `sku` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT 'SKU编码',
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '商品描述',
   `main_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '商品主图',
   `price` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '商品默认价格（可作为参考价或无SKU时使用）',

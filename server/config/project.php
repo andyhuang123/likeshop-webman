@@ -24,7 +24,7 @@ return [
         // 限制密码错误次数
         'password_error_times' => 5,
         // 限制禁止多少分钟不能登录
-        'limit_login_time' => 30,
+        'limit_login_time' => 5,
     ],
 
     // 唯一标识，密码盐、路径加密等

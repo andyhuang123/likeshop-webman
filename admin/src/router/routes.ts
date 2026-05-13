@@ -52,7 +52,45 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     {
         path: '/decoration/pc_details',
         component: () => import('@/views/decoration/pc_details.vue')
-    }
+    },
+    {
+        path: '/product',
+        component: LAYOUT,
+        children: [
+            {
+                path: 'lists/edit',
+                component: () => import('@/views/product/lists/edit.vue'),
+                name: Symbol(),
+                meta: {
+                    title: '编辑商品',
+                    activeMenu: '/product/lists'
+                }
+            }
+        ]
+    },
+    {
+        path: '/marketing',
+        component: LAYOUT,
+        children: [
+            {
+                path: 'blind_box/lists',
+                component: () => import('@/views/marketing/blind_box/lists/index.vue'),
+                name: Symbol(),
+                meta: {
+                    title: '盲盒管理'
+                }
+            },
+            {
+                path: 'blind_box/lists/edit',
+                component: () => import('@/views/marketing/blind_box/lists/edit.vue'),
+                name: Symbol(),
+                meta: {
+                    title: '编辑盲盒',
+                    activeMenu: '/marketing/blind_box/lists'
+                }
+            }
+        ]
+    },
     // {
     //     path: '/dev_tools',
     //     component: LAYOUT,

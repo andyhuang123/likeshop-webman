@@ -18,6 +18,7 @@ use Alipay\EasySDK\Kernel\Config;
 use app\common\enum\PayEnum;
 use app\common\enum\user\UserTerminalEnum;
 use app\common\logic\PayNotifyLogic;
+use app\common\model\marketing\BlindBoxOrder;
 use app\common\model\member\MemberOrder;
 use app\common\model\pay\PayConfig;
 use app\common\model\recharge\RechargeOrder;
@@ -181,6 +182,13 @@ class AliPayService extends BasePayService
                         return true;
                     }
                     PayNotifyLogic::handle('recharge', $data['out_trade_no'], $extra);
+                    break;
+                case 'blind_box':
+                    $order = BlindBoxOrder::where(['sn' => $data['out_trade_no']])->findOrEmpty();
+                    if ($order->isEmpty() || $order->pay_status == PayEnum::ISPAID) {
+                        return true;
+                    }
+                    PayNotifyLogic::handle('blind_box', $data['out_trade_no'], $extra);
                     break;
             }
 

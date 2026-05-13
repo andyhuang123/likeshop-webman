@@ -82,4 +82,3 @@ export default defineComponent({
     justify-content: center;
 }
 </style>
-

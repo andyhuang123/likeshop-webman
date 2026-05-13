@@ -41,7 +41,13 @@
                 </el-form-item>
             </el-form>
         </el-card>
-        <el-card v-loading="pager.loading" class="mt-4 !border-none" shadow="never" element-loading-spinner="el-icon-Loading" element-loading-background="rgba(255, 255, 255, 0.8)">
+        <el-card
+            v-loading="pager.loading"
+            class="mt-4 !border-none"
+            shadow="never"
+            element-loading-spinner="el-icon-Loading"
+            element-loading-background="rgba(255, 255, 255, 0.8)"
+        >
             <el-button v-perms="['auth.admin/add']" type="primary" @click="handleAdd">
                 <template #icon>
                     <icon name="el-icon-Plus" />

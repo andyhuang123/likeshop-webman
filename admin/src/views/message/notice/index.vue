@@ -18,7 +18,13 @@
                     lazy
                 ></el-tab-pane>
             </el-tabs>
-            <el-table size="large" :data="pager.lists" v-loading="pager.loading" element-loading-spinner="el-icon-Loading" element-loading-background="rgba(255, 255, 255, 0.8)">
+            <el-table
+                size="large"
+                :data="pager.lists"
+                v-loading="pager.loading"
+                element-loading-spinner="el-icon-Loading"
+                element-loading-background="rgba(255, 255, 255, 0.8)"
+            >
                 <el-table-column label="通知场景" prop="scene_name" min-width="120" />
                 <el-table-column label="通知类型" prop="type_desc" min-width="160" />
                 <el-table-column label="短信通知" min-width="80">

@@ -11,7 +11,7 @@ class ProductLists extends BaseAdminDataLists implements ListsSearchInterface, L
     public function setSearch(): array
     {
         return [
-            '=' => ['cid', 'is_show'],
+            '=' => ['category_id', 'status'],
             '%like%' => ['name'],
         ];
     }

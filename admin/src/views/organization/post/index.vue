@@ -46,7 +46,14 @@
                     新增
                 </el-button>
             </div>
-            <el-table class="mt-4" size="large" v-loading="pager.loading" :data="pager.lists" element-loading-spinner="el-icon-Loading" element-loading-background="rgba(255, 255, 255, 0.8)">
+            <el-table
+                class="mt-4"
+                size="large"
+                v-loading="pager.loading"
+                :data="pager.lists"
+                element-loading-spinner="el-icon-Loading"
+                element-loading-background="rgba(255, 255, 255, 0.8)"
+            >
                 <el-table-column label="岗位编码" prop="code" min-width="100" />
                 <el-table-column label="岗位名称" prop="name" min-width="100" />
                 <el-table-column label="排序" prop="sort" min-width="100" />

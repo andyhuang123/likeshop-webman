@@ -1,6 +1,13 @@
 <template>
     <div class="edit-popup">
-        <popup ref="popupRef" :title="popupTitle" :async="true" width="550px" @confirm="handleSubmit" @close="handleClose">
+        <popup
+            ref="popupRef"
+            :title="popupTitle"
+            :async="true"
+            width="550px"
+            @confirm="handleSubmit"
+            @close="handleClose"
+        >
             <el-form ref="formRef" :model="formData" label-width="84px" :rules="formRules">
                 <el-form-item label="分类名称" prop="name">
                     <el-input v-model="formData.name" placeholder="请输入分类名称" clearable />
@@ -20,8 +27,10 @@
 </template>
 <script lang="ts" setup name="productCategoryEdit">
 import type { FormInstance } from 'element-plus'
+
 import { productCateAdd, productCateDetail, productCateEdit } from '@/api/product'
 import Popup from '@/components/popup/index.vue'
+import type { ProductCateItem } from '@/types/product'
 
 const emit = defineEmits(['success', 'close'])
 const formRef = shallowRef<FormInstance>()
@@ -38,14 +47,18 @@ const formData = reactive({
 })
 
 const formRules = {
-    name: [
-        { required: true, message: '请输入分类名称', trigger: ['blur'] }
-    ]
+    name: [{ required: true, message: '请输入分类名称', trigger: ['blur'] }]
 }
 
 const handleSubmit = async () => {
     await formRef.value?.validate()
-    mode.value == 'edit' ? await productCateEdit(formData) : await productCateAdd(formData)
+    const submitData = {
+        ...formData,
+        id: formData.id ? Number(formData.id) : undefined
+    }
+    mode.value == 'edit'
+        ? await productCateEdit(submitData as any)
+        : await productCateAdd(submitData as any)
     popupRef.value?.close()
     emit('success')
 }
@@ -55,16 +68,16 @@ const open = (type = 'add') => {
     popupRef.value?.open()
 }
 
-const setFormData = (data: Record<any, any>) => {
+const setFormData = (data: Record<string, any>) => {
     for (const key in formData) {
         if (data[key] != null && data[key] != undefined) {
-            //@ts-ignore
+            // @ts-ignore
             formData[key] = data[key]
         }
     }
 }
 
-const getDetail = async (row: Record<string, any>) => {
+const getDetail = async (row: ProductCateItem) => {
     const data = await productCateDetail({ id: row.id })
     setFormData(data)
 }
@@ -75,4 +88,3 @@ const handleClose = () => {
 
 defineExpose({ open, setFormData, getDetail })
 </script>
-

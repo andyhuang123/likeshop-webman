@@ -7,6 +7,7 @@ use app\common\enum\PayEnum;
 use app\common\enum\YesNoEnum;
 use app\common\model\pay\PayWay;
 use app\common\model\recharge\RechargeOrder;
+use app\common\model\marketing\BlindBoxOrder;
 use app\common\model\user\User;
 use app\common\service\pay\AliPayService;
 use app\common\service\pay\WeChatPayService;
@@ -37,6 +38,8 @@ class PaymentLogic extends BaseLogic
             if ($params['from'] == 'recharge') {
                 // 充值
                 $order = RechargeOrder::findOrEmpty($params['order_id'])->toArray();
+            } else if ($params['from'] == 'blind_box') {
+                $order = BlindBoxOrder::findOrEmpty($params['order_id'])->toArray();
             }
 
             if (empty($order)) {
@@ -107,6 +110,19 @@ class PaymentLogic extends BaseLogic
                         'pay_time' => $payTime,
                     ];
                     break;
+                case 'blind_box':
+                    $order = BlindBoxOrder::where(['user_id' => $params['user_id'], 'id' => $params['order_id']])
+                        ->findOrEmpty();
+                    $payTime = empty($order['pay_time']) ? '' : date('Y-m-d H:i:s', $order['pay_time']);
+                    $orderInfo = [
+                        'order_id' => $order['id'],
+                        'order_sn' => $order['sn'],
+                        'order_amount' => $order['order_amount'],
+                        'pay_way' => PayEnum::getPayDesc($order['pay_way']),
+                        'pay_status' => PayEnum::getPayStatusDesc($order['pay_status']),
+                        'pay_time' => $payTime,
+                    ];
+                    break;
             }
 
             if (empty($order)) {
@@ -140,6 +156,12 @@ class PaymentLogic extends BaseLogic
                     $order = RechargeOrder::findOrEmpty($params['order_id']);
                     if ($order->isEmpty()) {
                         throw new Exception('充值订单不存在');
+                    }
+                    break;
+                case 'blind_box':
+                    $order = BlindBoxOrder::findOrEmpty($params['order_id']);
+                    if ($order->isEmpty()) {
+                        throw new Exception('盲盒订单不存在');
                     }
                     break;
             }
@@ -178,6 +200,9 @@ class PaymentLogic extends BaseLogic
         switch ($from) {
             case 'recharge':
                 RechargeOrder::update(['pay_way' => $payWay, 'pay_sn' => $paySn], ['id' => $order['id']]);
+                break;
+            case 'blind_box':
+                BlindBoxOrder::update(['pay_way' => $payWay, 'pay_sn' => $paySn], ['id' => $order['id']]);
                 break;
         }
 

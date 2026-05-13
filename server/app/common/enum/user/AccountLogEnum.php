@@ -53,6 +53,7 @@ class AccountLogEnum
      */
     const UM_INC_ADMIN = 200;
     const UM_INC_RECHARGE = 201;
+    const UM_INC_BLIND_BOX_RECYCLE = 202;
 
 
     /**
@@ -70,6 +71,7 @@ class AccountLogEnum
     const UM_INC = [
         self::UM_INC_ADMIN,
         self::UM_INC_RECHARGE,
+        self::UM_INC_BLIND_BOX_RECYCLE,
     ];
 
 
@@ -109,6 +111,7 @@ class AccountLogEnum
             self::UM_INC_ADMIN => '平台增加余额',
             self::UM_INC_RECHARGE => '充值增加余额',
             self::UM_DEC_RECHARGE_REFUND => '充值订单退款减少余额',
+            self::UM_INC_BLIND_BOX_RECYCLE => '盲盒回收增加余额',
         ];
         if ($flag) {
             return $desc;

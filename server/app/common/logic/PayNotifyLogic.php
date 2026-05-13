@@ -5,6 +5,8 @@ namespace app\common\logic;
 use app\common\enum\PayEnum;
 use app\common\enum\user\AccountLogEnum;
 use app\common\model\recharge\RechargeOrder;
+use app\common\model\marketing\BlindBoxOrder;
+use app\common\logic\marketing\BlindBoxDrawLogic;
 use app\common\model\user\User;
 use Exception;
 use think\facade\Db;
@@ -73,5 +75,39 @@ class PayNotifyLogic extends BaseLogic
         $order->save();
     }
 
+    /**
+     * @notes 盲盒支付回调
+     * @param $orderSn
+     * @param array $extra
+     */
+    public static function blind_box($orderSn, $extra = []): void
+    {
+        $order = BlindBoxOrder::where('sn', $orderSn)->findOrEmpty();
+        if ($order->isEmpty()) {
+            // 尝试用 pay_sn 查找
+            $order = BlindBoxOrder::where('pay_sn', $orderSn)->findOrEmpty();
+        }
+        
+        if ($order->isEmpty()) {
+            throw new Exception('订单不存在');
+        }
 
+        if ($order->pay_status == PayEnum::ISPAID) {
+            return;
+        }
+
+        // 执行抽奖
+        try {
+            $winProductId = BlindBoxDrawLogic::drawAndRecord($order);
+            $order->win_product_id = $winProductId;
+        } catch (Exception $e) {
+            Log::error("Blind Box Draw Failed Order:{$order->id} Error:" . $e->getMessage());
+        }
+
+        // 更新订单
+        $order->transaction_id = $extra['transaction_id'] ?? '';
+        $order->pay_status = PayEnum::ISPAID;
+        $order->pay_time = time();
+        $order->save();
+    }
 }

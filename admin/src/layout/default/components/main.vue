@@ -1,7 +1,7 @@
 <template>
     <main class="main-wrap h-full bg-page">
         <el-scrollbar>
-            <div class="p-4">
+            <div class="p-4 h-full">
                 <router-view v-if="isRouteShow" v-slot="{ Component, route }">
                     <keep-alive :include="cachedViews" :exclude="excludeViews" :max="50">
                         <component :is="Component" :key="route.fullPath" />
@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import useAppStore from '@/stores/modules/app'
 import useTabsStore from '@/stores/modules/multipleTabs'
 import useSettingStore from '@/stores/modules/setting'
@@ -20,6 +21,7 @@ import useSettingStore from '@/stores/modules/setting'
 const appStore = useAppStore()
 const tabsStore = useTabsStore()
 const settingStore = useSettingStore()
+
 const isRouteShow = computed(() => appStore.isRouteShow)
 
 // 需要排除缓存的页面组件名称
@@ -37,4 +39,3 @@ const cachedViews = computed(() => {
 </script>
 
 <style></style>
-

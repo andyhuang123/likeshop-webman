@@ -19,6 +19,7 @@ namespace app\common\service\pay;
 use app\common\enum\PayEnum;
 use app\common\enum\user\UserTerminalEnum;
 use app\common\logic\PayNotifyLogic;
+use app\common\model\marketing\BlindBoxOrder;
 use app\common\model\recharge\RechargeOrder;
 use app\common\model\user\UserAuth;
 use app\common\service\wechat\WeChatConfigService;
@@ -335,6 +336,7 @@ class WeChatPayService extends BasePayService
         $desc = [
             'order' => '商品',
             'recharge' => '充值',
+            'blind_box' => '盲盒',
         ];
         return $desc[$from] ?? '商品';
     }
@@ -397,6 +399,13 @@ class WeChatPayService extends BasePayService
                             return $next($message);
                         }
                         PayNotifyLogic::handle('recharge', $message['out_trade_no'], $extra);
+                        break;
+                    case 'blind_box':
+                        $order = BlindBoxOrder::where(['sn' => $message['out_trade_no']])->findOrEmpty();
+                        if($order->isEmpty() || $order->pay_status == PayEnum::ISPAID) {
+                            return $next($message);
+                        }
+                        PayNotifyLogic::handle('blind_box', $message['out_trade_no'], $extra);
                         break;
                 }
             }

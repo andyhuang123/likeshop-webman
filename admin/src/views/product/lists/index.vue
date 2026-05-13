@@ -6,12 +6,27 @@
                     <el-input v-model="params.name" placeholder="请输入商品名称" clearable />
                 </el-form-item>
                 <el-form-item label="商品分类">
-                    <el-select v-model="params.cid" placeholder="请选择商品分类" clearable class="w-60">
-                        <el-option v-for="item in cateOptions" :key="item.id" :label="item.name" :value="item.id" />
+                    <el-select
+                        v-model="params.category_id"
+                        placeholder="请选择商品分类"
+                        clearable
+                        class="w-60"
+                    >
+                        <el-option
+                            v-for="item in cateOptions"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
+                        />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="状态">
-                    <el-select v-model="params.is_show" placeholder="请选择状态" clearable class="w-40">
+                    <el-select
+                        v-model="params.status"
+                        placeholder="请选择状态"
+                        clearable
+                        class="w-40"
+                    >
                         <el-option label="显示" :value="1" />
                         <el-option label="隐藏" :value="0" />
                     </el-select>
@@ -23,7 +38,12 @@
             </el-form>
 
             <div>
-                <el-button class="mb-4" v-perms="['product.product/add']" type="primary" @click="handleAdd()">
+                <el-button
+                    class="mb-4"
+                    v-perms="['product.product/add']"
+                    type="primary"
+                    @click="handleAdd()"
+                >
                     <template #icon>
                         <icon name="el-icon-Plus" />
                     </template>
@@ -35,24 +55,49 @@
                 <el-table-column label="ID" prop="id" width="80" />
                 <el-table-column label="封面" width="100">
                     <template #default="{ row }">
-                        <file-item :uri="row.image_url" file-size="50px" type="image" />
+                        <file-item :uri="row.main_image" file-size="50px" type="image" />
                     </template>
                 </el-table-column>
                 <el-table-column label="名称" prop="name" min-width="150" />
                 <el-table-column label="SKU" prop="sku" min-width="120" />
-                <el-table-column label="价格" prop="price" min-width="120" />
+                <el-table-column label="价格" min-width="120">
+                    <template #default="{ row }">
+                        <div>¥{{ row.price }}</div>
+                        <div v-if="row.market_price" class="text-xs text-gray-400 line-through">
+                            ¥{{ row.market_price }}
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column label="库存" prop="stock" min-width="100" />
                 <el-table-column label="状态" min-width="120">
                     <template #default="{ row }">
-                        <el-switch v-perms="['product.product/updateStatus']" v-model="row.is_show" :active-value="1" :inactive-value="0" @change="changeStatus($event, row.id)" />
+                        <el-switch
+                            v-perms="['product.product/updateStatus']"
+                            v-model="row.status"
+                            :active-value="1"
+                            :inactive-value="0"
+                            @change="changeStatus($event, row.id)"
+                        />
                     </template>
                 </el-table-column>
                 <el-table-column label="排序" prop="sort" min-width="100" />
                 <el-table-column label="创建时间" prop="create_time" min-width="160" />
                 <el-table-column label="操作" width="160" fixed="right">
                     <template #default="{ row }">
-                        <el-button v-perms="['product.product/edit']" type="primary" link @click="handleEdit(row)">编辑</el-button>
-                        <el-button v-perms="['product.product/delete']" type="danger" link @click="handleDelete(row.id)">删除</el-button>
+                        <el-button
+                            v-perms="['product.product/edit']"
+                            type="primary"
+                            link
+                            @click="handleEdit(row)"
+                            >编辑</el-button
+                        >
+                        <el-button
+                            v-perms="['product.product/delete']"
+                            type="danger"
+                            link
+                            @click="handleDelete(row.id)"
+                            >删除</el-button
+                        >
                     </template>
                 </el-table-column>
             </el-table>
@@ -60,40 +105,49 @@
                 <pagination v-model="pager" @change="getLists" />
             </div>
         </el-card>
-        <edit-popup v-if="showEdit" ref="editRef" @success="getLists" @close="showEdit = false" />
     </div>
 </template>
 <script lang="ts" setup name="productLists">
 import { productCateAll, productDelete, productLists, productStatus } from '@/api/product'
+import FileItem from '@/components/material/file.vue'
 import { usePaging } from '@/hooks/usePaging'
+import type { ProductItem } from '@/types/product'
 import feedback from '@/utils/feedback'
-import EditPopup from './edit.vue'
-import FileItem from '@/views/material/file.vue'
 
-const editRef = shallowRef<InstanceType<typeof EditPopup>>()
-const showEdit = ref(false)
+const router = useRouter()
 
-const { pager, getLists, resetParams, params } = usePaging({
-    fetchFun: productLists,
-    params: { name: '', cid: '', is_show: '' }
+const params = reactive({
+    name: '',
+    category_id: '',
+    status: ''
 })
 
-const cateOptions = ref<any[]>([])
+const { pager, getLists, resetParams } = usePaging({
+    fetchFun: productLists,
+    params
+})
+
+const cateOptions = ref<{ id: number; name: string }[]>([])
 const loadCateOptions = async () => {
-    cateOptions.value = await productCateAll()
+    try {
+        const res = await productCateAll()
+        cateOptions.value = Array.isArray(res) ? res : []
+    } catch (e) {
+        cateOptions.value = []
+    }
 }
 
 const handleAdd = async () => {
-    showEdit.value = true
-    await nextTick()
-    editRef.value?.open('add')
+    router.push('/product/lists/edit')
 }
 
-const handleEdit = async (data: any) => {
-    showEdit.value = true
-    await nextTick()
-    editRef.value?.open('edit')
-    editRef.value?.getDetail(data)
+const handleEdit = async (data: ProductItem) => {
+    router.push({
+        path: '/product/lists/edit',
+        query: {
+            id: String(data.id)
+        }
+    })
 }
 
 const handleDelete = async (id: number) => {
@@ -102,9 +156,9 @@ const handleDelete = async (id: number) => {
     getLists()
 }
 
-const changeStatus = async (is_show: any, id: number) => {
+const changeStatus = async (status: string | number | boolean, id: number) => {
     try {
-        await productStatus({ id, is_show })
+        await productStatus({ id, status: Number(status) })
         getLists()
     } catch (error) {
         getLists()
@@ -114,4 +168,3 @@ const changeStatus = async (is_show: any, id: number) => {
 loadCateOptions()
 getLists()
 </script>
-

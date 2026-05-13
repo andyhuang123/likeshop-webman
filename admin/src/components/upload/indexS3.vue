@@ -1,39 +1,39 @@
 <template>
-    <div class='upload'>
+    <div class="upload">
         <el-upload
-            v-model:file-list='fileList'
-            ref='uploadRefs'
-            method='PUT'
-            :action='action'
-            :multiple='multiple'
-            :limit='limit'
-            :show-file-list='false'
-            :headers='headers'
-            :data='data'
-            :on-progress='handleProgress'
-            :on-success='handleSuccess'
-            :on-exceed='handleExceed'
-            :on-error='handleError'
-            :accept='getAccept'
-            :http-request='ajaxUpload'
+            v-model:file-list="fileList"
+            ref="uploadRefs"
+            method="PUT"
+            :action="action"
+            :multiple="multiple"
+            :limit="limit"
+            :show-file-list="false"
+            :headers="headers"
+            :data="data"
+            :on-progress="handleProgress"
+            :on-success="handleSuccess"
+            :on-exceed="handleExceed"
+            :on-error="handleError"
+            :accept="getAccept"
+            :http-request="ajaxUpload"
         >
             <slot />
         </el-upload>
         <el-dialog
-            v-if='showProgress && fileList.length'
-            v-model='visible'
-            title='上传进度'
-            :close-on-click-modal='false'
-            width='500px'
-            :modal='false'
-            @close='handleClose'
+            v-if="showProgress && fileList.length"
+            v-model="visible"
+            title="上传进度"
+            :close-on-click-modal="false"
+            width="500px"
+            :modal="false"
+            @close="handleClose"
         >
-            <div class='file-list p-4'>
-                <template v-for='(item, index) in fileList' :key='index'>
-                    <div class='mb-5'>
+            <div class="file-list p-4">
+                <template v-for="(item, index) in fileList" :key="index">
+                    <div class="mb-5">
                         <div>{{ item.name }}</div>
-                        <div class='flex-1'>
-                            <el-progress :percentage='parseInt(item.percentage)' />
+                        <div class="flex-1">
+                            <el-progress :percentage="parseInt(item.percentage)" />
                         </div>
                     </div>
                 </template>
@@ -42,17 +42,17 @@
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import type { ElUpload, UploadProgressEvent, UploadRequestOptions } from 'element-plus'
+import { UploadAjaxError } from 'element-plus/es/components/upload/src/ajax'
+import { isArray, isNil } from 'lodash'
 import { computed, defineComponent, ref, shallowRef } from 'vue'
 
+import { getUploadToken, setUploadFile } from '@/api/file'
 import config from '@/config'
 import { RequestCodeEnum } from '@/enums/requestEnums'
 import useUserStore from '@/stores/modules/user'
 import feedback from '@/utils/feedback'
-import { isArray, isNil } from 'lodash'
-import { UploadAjaxError } from 'element-plus/es/components/upload/src/ajax'
-import { getUploadToken, setUploadFile } from '@/api/file'
 
 export default defineComponent({
     components: {},
@@ -305,7 +305,8 @@ export default defineComponent({
                     } else {
                         xhr.send(formData)
                     }
-                }).catch((err: any) => {
+                })
+                .catch((err: any) => {
                     return option.onError(
                         new UploadAjaxError(err, -1, option.method, option.action)
                     )
@@ -325,10 +326,9 @@ export default defineComponent({
             handleExceed,
             handleClose,
             ajaxUpload
-
         }
     }
 })
 </script>
 
-<style lang='scss'></style>
+<style lang="scss"></style>

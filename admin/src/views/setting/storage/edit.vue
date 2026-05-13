@@ -45,7 +45,7 @@
                             <el-radio :label="1">开启</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="S3请求方式" prop="method" v-if='formData.is_oss_req == 1'>
+                    <el-form-item label="S3请求方式" prop="method" v-if="formData.is_oss_req == 1">
                         <el-input
                             v-model="formData.method"
                             placeholder="请输入S3请求方式"
@@ -64,7 +64,11 @@
                         label="endpoint S3区域地址"
                         prop="endpoint"
                     >
-                        <el-input v-model="formData.endpoint" placeholder="请输入endpoint" clearable />
+                        <el-input
+                            v-model="formData.endpoint"
+                            placeholder="请输入endpoint"
+                            clearable
+                        />
                     </el-form-item>
                     <el-form-item label="空间域名" prop="domain">
                         <div class="flex-1">
@@ -118,7 +122,7 @@ const formData = reactive({
     status: 0,
     is_oss_req: 0,
     method: 'PUT',
-    endpoint: '',
+    endpoint: ''
 })
 
 const storageArr = [

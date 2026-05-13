@@ -9,7 +9,12 @@
                     新增
                 </el-button>
             </div>
-            <div class="mt-4" v-loading="pager.loading" element-loading-spinner="el-icon-Loading" element-loading-background="rgba(255, 255, 255, 0.8)">
+            <div
+                class="mt-4"
+                v-loading="pager.loading"
+                element-loading-spinner="el-icon-Loading"
+                element-loading-background="rgba(255, 255, 255, 0.8)"
+            >
                 <div>
                     <el-table :data="pager.lists" size="large">
                         <el-table-column prop="id" label="ID" min-width="100" />

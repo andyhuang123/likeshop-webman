@@ -58,7 +58,13 @@
             </el-form>
         </el-card>
         <el-card class="!border-none mt-4" shadow="never">
-            <el-table size="large" v-loading="pager.loading" :data="pager.lists" element-loading-spinner="el-icon-Loading" element-loading-background="rgba(255, 255, 255, 0.8)">
+            <el-table
+                size="large"
+                v-loading="pager.loading"
+                :data="pager.lists"
+                element-loading-spinner="el-icon-Loading"
+                element-loading-background="rgba(255, 255, 255, 0.8)"
+            >
                 <el-table-column label="用户信息" min-width="160">
                     <template #default="{ row }">
                         <div class="flex items-center">

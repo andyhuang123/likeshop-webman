@@ -24,7 +24,7 @@ class ProductCate extends BaseModel
 
     public function product(): HasMany
     {
-        return $this->hasMany(Product::class, 'cid', 'id');
+        return $this->hasMany(Product::class, 'category_id', 'id');
     }
 
     public function getIsShowDescAttr($value, $data)
@@ -34,7 +34,7 @@ class ProductCate extends BaseModel
 
     public function getProductCountAttr($value, $data)
     {
-        return Product::where(['cid' => $data['id']])->count('id');
+        return Product::where(['category_id' => $data['id']])->count('id');
     }
 }
 
