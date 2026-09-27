@@ -36,6 +36,9 @@
                     <user-drop-down />
                 </div>
                 <div class="navbar-item">
+                    <language-switcher />
+                </div>
+                <div class="navbar-item">
                     <el-tooltip
                         class="box-item"
                         effect="dark"
@@ -61,6 +64,7 @@ import Setting from '../setting/index.vue'
 import Breadcrumb from './breadcrumb.vue'
 import Fold from './fold.vue'
 import FullScreen from './full-screen.vue'
+import LanguageSwitcher from './language-switcher.vue'
 import MultipleTabs from './multiple-tabs.vue'
 import Refresh from './refresh.vue'
 import UserDropDown from './user-drop-down.vue'

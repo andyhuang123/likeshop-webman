@@ -5,6 +5,7 @@ import NProgress from 'nprogress'
 import configs from '@/config'
 import { PageEnum } from '@/enums/pageEnum'
 import { ContentTypeEnum, RequestCodeEnum, RequestMethodsEnum } from '@/enums/requestEnums'
+import { getAppLocale } from '@/i18n'
 import router from '@/router'
 
 import { clearAuthInfo, getToken } from '../auth'
@@ -19,6 +20,7 @@ const axiosHooks: AxiosHooks = {
         const { withToken, isParamsToData } = config.requestOptions
         const params = config.params || {}
         const headers = config.headers || {}
+        headers['Accept-Language'] = getAppLocale()
 
         // 添加token
         if (withToken) {
