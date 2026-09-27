@@ -15,6 +15,8 @@
 
 return [
     ''=>[
+        // 请求语言上下文
+        app\common\http\middleware\LocaleMiddleware::class,
         // 跨域中间件
         app\common\http\middleware\AllowMiddleware::class,
         // 日志中间件
