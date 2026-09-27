@@ -70,6 +70,7 @@ class JsonService
      */
     private static function result(int $code, int $show, string $msg = 'OK', array $data = [], int $httpStatus = 200,...$options): Response
     {
+        $msg = LocaleService::translateMessage($msg);
         $result = compact('code', 'show', 'msg', 'data');
         return response(json_encode($result,...$options),$httpStatus,['Content-Type' => 'application/json; charset=utf-8']);
     }
@@ -85,6 +86,7 @@ class JsonService
      */
     public static function throw(string $msg = 'fail', array $data = [], int $code = 0, int $show = 1)
     {
+        $msg = LocaleService::translateMessage($msg);
         $data = compact('code', 'show', 'msg', 'data');
         throw new HttpException(json_encode($data));
     }

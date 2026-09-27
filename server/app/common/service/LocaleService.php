@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace app\common\service;
 
 use support\Context;
-use support\Response;
+use Webman\Http\Response;
 
 class LocaleService
 {
     private const CONTEXT_KEY = 'app.locale';
     private const DEFAULT_LOCALE = 'zh-CN';
+
+    private static array $messageCatalogs = [];
 
     public static function resolve(?string $acceptLanguage): string
     {
@@ -67,6 +69,133 @@ class LocaleService
         } finally {
             Context::set(self::CONTEXT_KEY, $hadLocale ? $previousLocale : null);
         }
+    }
+
+    public static function translate(string $key, array $replace = [], ?string $locale = null): string
+    {
+        $locale = self::resolve($locale ?? self::current());
+        $message = self::messages($locale)[$key] ?? null;
+        if (!is_string($message) && $locale !== self::DEFAULT_LOCALE) {
+            $message = self::messages(self::DEFAULT_LOCALE)[$key] ?? null;
+        }
+        if (!is_string($message)) {
+            $message = self::messages(self::DEFAULT_LOCALE)['system.server_error'] ?? '服务器错误!';
+        }
+
+        return self::replacePlaceholders($message, $replace);
+    }
+
+    public static function translateMessage(string $message, ?string $locale = null): string
+    {
+        $locale = self::resolve($locale ?? self::current());
+        $aliases = self::messages(self::DEFAULT_LOCALE)['_aliases'] ?? [];
+        if (isset($aliases[$message])) {
+            return self::translate($aliases[$message], [], $locale);
+        }
+
+        foreach ($aliases as $source => $key) {
+            if (!is_string($source) || !is_string($key) || !str_contains($source, ':')) {
+                continue;
+            }
+            $replace = self::matchTemplate($source, $message);
+            if ($replace !== null) {
+                return self::translate($key, self::translateAttributes($replace, $locale), $locale);
+            }
+        }
+
+        if ($locale === 'en-US') {
+            if (str_contains($message, ';')) {
+                return implode(';', array_map(
+                    static fn(string $part): string => self::translateMessage($part, $locale),
+                    explode(';', $message)
+                ));
+            }
+            $translated = self::translateValidationMessage($message);
+            if ($translated !== null) {
+                return $translated;
+            }
+        }
+
+        return $message;
+    }
+
+    private static function messages(string $locale): array
+    {
+        if (!isset(self::$messageCatalogs[$locale])) {
+            $directory = $locale === 'en-US' ? 'en' : 'zh_CN';
+            $path = dirname(__DIR__, 3) . '/resource/translations/' . $directory . '/messages.php';
+            self::$messageCatalogs[$locale] = is_file($path) ? require $path : [];
+        }
+        return self::$messageCatalogs[$locale];
+    }
+
+    private static function translateValidationMessage(string $message): ?string
+    {
+        $root = dirname(__DIR__, 3) . '/resource/translations';
+        static $source;
+        static $target;
+        $source ??= require $root . '/zh_CN/validate.php';
+        $target ??= require $root . '/en/validate.php';
+        foreach ($source as $key => $template) {
+            if (!isset($target[$key]) || !is_string($template) || !is_string($target[$key])) {
+                continue;
+            }
+            $replace = self::matchTemplate($template, $message);
+            if ($replace !== null) {
+                return self::replacePlaceholders($target[$key], self::translateAttributes($replace, 'en-US'));
+            }
+        }
+        return null;
+    }
+
+    private static function translateAttributes(array $replace, string $locale): array
+    {
+        if ($locale === 'en-US' && isset($replace['attribute'])) {
+            $attributes = self::messages('en-US')['validation.attributes'] ?? [];
+            $replace['attribute'] = $attributes[$replace['attribute']] ?? $replace['attribute'];
+        }
+        return $replace;
+    }
+
+    private static function matchTemplate(string $template, string $message): ?array
+    {
+        preg_match_all('/\{:[a-zA-Z0-9_]+\}|:[a-zA-Z0-9_]+/u', $template, $tokens, PREG_OFFSET_CAPTURE);
+        $pattern = '';
+        $offset = 0;
+        foreach ($tokens[0] as [$token, $position]) {
+            $pattern .= preg_quote(substr($template, $offset, $position - $offset), '~') . '(.+?)';
+            $offset = $position + strlen($token);
+        }
+        $pattern .= preg_quote(substr($template, $offset), '~');
+
+        if (!preg_match('~^' . $pattern . '$~u', $message, $matches)) {
+            return null;
+        }
+
+        $replace = [];
+        foreach ($tokens[0] as $index => [$token]) {
+            $replace[trim($token, '{}:')] = $matches[$index + 1];
+        }
+        return $replace;
+    }
+
+    private static function replacePlaceholders(string $message, array $replace): string
+    {
+        $values = [];
+        foreach ($replace as $key => $value) {
+            if (is_scalar($value) || $value === null) {
+                $values[trim((string)$key, '{}:')] = (string)$value;
+            }
+        }
+
+        return preg_replace_callback(
+            '/\{:(\w+)\}|:(\w+)/u',
+            static function (array $matches) use ($values): string {
+                $key = $matches[1] !== '' ? $matches[1] : $matches[2];
+                return $values[$key] ?? $matches[0];
+            },
+            $message
+        ) ?? $message;
     }
 
     private static function normalizeLocaleTag(string $locale): ?string

@@ -6,6 +6,7 @@ namespace app\common\exception;
 use Webman\Exception\ExceptionHandler;
 use Webman\Http\Request;
 use Webman\Http\Response;
+use app\common\service\LocaleService;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -32,6 +33,9 @@ class Handler extends ExceptionHandler
             $msg = '服务器错误!';
             if (getenv('APP_DEBUG',false)) {
                 $msg = $exception->getMessage();
+            } else {
+                $locale = LocaleService::resolve($request->header('accept-language'));
+                $msg = LocaleService::translateMessage($msg, $locale);
             }
             $json = ['code' => 0, 'msg' => $msg, 'show' => 1];
             return new Response(200, ['Content-Type' => 'application/json'],
