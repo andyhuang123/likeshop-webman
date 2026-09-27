@@ -1,210 +1,70 @@
-# webman
-High performance HTTP Service Framework for PHP based on [Workerman](https://github.com/walkor/workerman).
+# likeadmin-webman
 
-# Description
-### This version comes with a code generator. Check disabled functions
-    php webman fix-disable-functions
-# Installation Script
-    For Windows environment:
-        ./windows.bat
-        This script will check if the necessary dependencies are installed; if not, it will run the installation script.
-    For Linux environment:
-        php install.php
-        This command will proceed with the installation.
+A multi-client application repository with a Webman PHP backend, a Vue admin console, a Nuxt PC site, and a UniApp client.
 
-# References
-like: https://gitee.com/likeadmin/likeadmin_php.git
+## Projects
 
-like: https://www.workerman.net/doc/webman/
+- server: Webman API service. Admin APIs use the /adminapi prefix; client APIs use /api.
+- admin: Vue 3, TypeScript, and Vite admin console.
+- pc: Nuxt 3 PC site.
+- uniapp: UniApp client.
 
-like: https://gitee.com/MuZJun/gather-admin.git
+See AGENTS.md for repository development rules and each module README for commands and build behavior.
 
-# Running Commands
-    For Windows environment:
-        ./window.bat
+## Requirements
 
-    For Linux environment:
-        php start.php start
+- Backend: PHP 8.2+, Composer, and database/Redis services configured for server.
+- Frontend: Node.js and the package manager selected for the target module. The interactive UniApp development and publish scripts require Node.js 16.16.0+.
+- Docker Compose configuration is under server; deployment notes are in server/README.en.md.
 
-    Production:
-        php start.php start -d
+The admin and pc directories each contain multiple JavaScript lockfiles, and their package.json files do not declare a packageManager. The repository has no single package manager standard. Follow the team's choice and update only its lockfile. The commands below use npm to run existing scripts.
 
-## Docker Deployment
+## Local development
 
+Backend (run from the repository root):
 
-### Prerequisites
+    cd server
+    composer install
+    php start.php start
 
-- Docker
-- Docker Compose
+On Windows, run .\windows.bat from server. It invokes windows.php when the install-state file exists, or install.php otherwise.
 
-### Deployment Steps
+Admin console:
 
-1. Ensure that you have configured the server/.env file.
+    cd admin
+    npm run dev
+    npm run type-check
+    npm run build
 
-2. Run the following commands in the project root directory:
-```bash
-# Build and start the services  
-docker-compose up -d
+npm run lint runs ESLint with automatic fixes; review the working tree before running it.
 
-# Check the status of the services  
-docker-compose ps
+PC site:
 
-# View the service logs  
-docker-compose logs -f server
+    cd pc
+    npm run dev
+    npm run build
 
-# Stop the services 
-docker-compose down
+npm run build generates the static site. Use npm run build:ssr for the Nuxt SSR build.
 
-# Restart the services  
-docker-compose restart
+UniApp:
 
-# Rebuild and start the services  
-docker-compose up -d --build
-```
+    cd uniapp
+    npm run dev
+    npm run dev:h5
+    npm run dev:mp-weixin
 
-# Production: Deploying Nginx Configuration
-### Single-domain deployment for frontend and backend
-Directory structure reference:
+The interactive npm run dev entry lets you choose WeChat Mini Program or H5. See uniapp/package.json for scripts targeting other platforms.
 
-    /server - Backend API
-    /admin - Directory for backend packaged files
-    /pc - Directory for PC version packaged files
+## Build outputs
 
-# nginx config
-Backend API proxy
-```
+Some build scripts replace release directories under server/public:
 
-    #PROXY-START/adminapi
-    
-    location /adminapi/
-    {
-    proxy_pass http://ip:端口/adminapi/;
-    proxy_set_header Host $host;
-    proxy_set_header Scheme $scheme;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header REMOTE-HOST $remote_addr;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $connection_upgrade;
-    proxy_http_version 1.1;
-    # proxy_hide_header Upgrade;
-    
-        add_header X-Cache $upstream_cache_status;
-        #Set Nginx Cache
-    
-        set $static_filehlp70f2i 0;
-        if ( $uri ~* "\.(gif|png|jpg|css|js|woff|woff2)$" )
-        {
-            set $static_filehlp70f2i 1;
-            expires 1m;
-        }
-        if ( $static_filehlp70f2i = 0 )
-        {
-            add_header Cache-Control no-cache;
-        }
-    }
-    #PROXY-END/
-```
-pc/uniapp api proxy
-```
+- The admin build replaces server/public/admin.
+- The pc build script replaces server/public/pc.
+- The UniApp H5 build replaces server/public/mobile.
 
-    #PROXY-START/api
-    
-    location /api/
-    {
-    proxy_pass http://ip:端口/api/;
-    proxy_set_header Host $host;
-    proxy_set_header Scheme $scheme;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header REMOTE-HOST $remote_addr;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $connection_upgrade;
-    proxy_http_version 1.1;
-    # proxy_hide_header Upgrade;
-    
-        add_header X-Cache $upstream_cache_status;
-        #Set Nginx Cache
-    
-        set $static_filehlp70f2i 0;
-        if ( $uri ~* "\.(gif|png|jpg|css|js|woff|woff2)$" )
-        {
-            set $static_filehlp70f2i 1;
-            expires 1m;
-        }
-        if ( $static_filehlp70f2i = 0 )
-        {
-            add_header Cache-Control no-cache;
-        }
-    }
-    #PROXY-END/
-```
-Static resource proxy
-```
-    #PROXY-START/resource
-    
-    location /resource/
-    {
-        proxy_pass http://ip:端口/resource/;
-        proxy_set_header Host $host;
-        proxy_set_header Scheme $scheme;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header REMOTE-HOST $remote_addr;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-        proxy_http_version 1.1;
-        # proxy_hide_header Upgrade;
-    
-        add_header X-Cache $upstream_cache_status;
-            #Set Nginx Cache
-    
-    
-    
-    
-        if ( $uri ~* "\.(gif|png|jpg|css|js|woff|woff2)$" )
-        {
-            expires 1m;
-        }
-        proxy_ignore_headers Set-Cookie Cache-Control expires;
-        proxy_cache cache_one;
-        proxy_cache_key $host$uri$is_args$args;
-        proxy_cache_valid 200 304 301 302 1m;
-    }
-    
-    #PROXY-END/resource
-```
-admin
-```
-    location /admin {
-        alias /www/wwwroot/xxxx.com/admin;
-        index index.html;
-        try_files $uri $uri/ /admin/index.html;
-    }
-```
-pc
-```
-    location /pc {
-        alias /www/wwwroot/xxxx.com/pc;
-        index index.html;
-        try_files $uri $uri/ /pc/index.html;
-    }
-```
-# link
-[![歪比巴卜/likeadmin-webman（PHP版）](https://gitee.com/suyibk/workman-likeadmin-all/widgets/widget_card.svg?colors=ffffff,1e252b,323d47,455059,d7deea,99a0ae)](https://gitee.com/suyibk/workman-likeadmin-all)
+Confirm that each destination may be replaced before running those builds. See the module READMEs for details.
 
-# Manual (文档)
+## Deployment
 
-https://www.workerman.net/doc/webman
-
-# Home page (主页)
-https://www.workerman.net/webman
-
-# Benchmarks （压测）
-
-https://www.techempower.com/benchmarks/#section=test&runid=9716e3cd-9e53-433c-b6c5-d2c48c9593c1&hw=ph&test=db&l=zg24n3-1r&a=2
-![image](https://user-images.githubusercontent.com/6073368/96447814-120fc980-1245-11eb-938d-6ea408716c72.png)
-
-## LICENSE
-
-MIT
+The Docker Compose file is server/docker-compose.yaml; run Compose commands from server. Configure Nginx to route /adminapi, /api, and /resource to the backend and serve the admin, PC, and H5 files from their release directories. Adjust hostnames and paths for the deployment. See server/README.en.md.

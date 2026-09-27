@@ -1,69 +1,22 @@
-# vue-project
+# admin：管理后台
 
-This template should help get you started developing with Vue 3 in Vite.
+本目录是 Vue 3、TypeScript、Vite 管理后台。接口定义位于 src/api，页面位于 src/views，共用组件位于 src/components。
 
-## Recommended IDE Setup
+## 依赖管理
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+当前目录同时包含 package-lock.json、pnpm-lock.yaml 和 yarn.lock，package.json 未声明 packageManager。仓库没有指定唯一包管理器；安装或更新依赖前按团队约定选择一种，并只维护对应锁文件。以下以 npm 运行脚本为例。
 
-## Type Support for `.vue` Imports in TS
+## 开发与检查
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+    npm run dev
+    npm run type-check
+    npm run lint
+    npm run build
+    npm run preview
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- type-check 使用 vue-tsc 检查类型。
+- lint 使用 ESLint 的 --fix 参数，会自动修改可修复的问题；执行前先检查工作区。
+- build 会先构建 Vite 产物，再运行 scripts/release.mjs。
+- release.mjs 会移除 server/public/admin 后，将 dist 复制到该目录；确认目标目录可被替换后再构建发布版本。
 
-1. Disable the built-in TypeScript Extension
-    1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
-
-### Docker 使用说明
-
-构建镜像：
-```bash
-# 构建指定版本
-docker build -t admin-vue:1.0.0 .
-
-# 构建并同时标记为 latest
-docker build -t admin-vue:1.0.0 -t admin-vue:latest .
-
-# 仅构建 latest 版本
-docker build -t admin-vue:latest .
-```
-
-运行容器：
-```bash
-# 运行指定版本
-docker run -d -p 80:8001 admin-vue:1.0.0
-
-# 运行最新版本
-docker run -d -p 80:8001 admin-vue:latest
-```
+查看 package.json 以确认脚本的当前定义。

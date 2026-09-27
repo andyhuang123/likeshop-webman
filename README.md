@@ -1,205 +1,78 @@
-# webman
+# likeadmin-webman
 
-High performance HTTP Service Framework for PHP based on [Workerman](https://github.com/walkor/workerman).
+基于 Webman 的 PHP 后端与 Vue、Nuxt、UniApp 多端应用仓库。
 
-# 说明
-当前版本是带代码生成器
-检查禁用函数
-php webman fix-disable-functions
-# 安装脚本
-    window环境下运行
-        ./windows.bat
-        会检查是否安装未安装会调用安装脚本安装
-    linux环境下运行
-        php install.php
-        进行安装
-# 参考文档
-like: https://gitee.com/likeadmin/likeadmin_php.git
+## 项目组成
 
-like: https://www.workerman.net/doc/webman/
+- server：Webman API 服务，后台接口前缀为 /adminapi，客户端接口前缀为 /api。
+- admin：Vue 3 + TypeScript + Vite 管理后台。
+- pc：Nuxt 3 PC 端。
+- uniapp：UniApp 客户端。
 
-like: https://gitee.com/MuZJun/gather-admin.git
-# 运行命令
-    开发:
-    windows环境
-        ./window.bat
-    linux环境
-        php start.php start
-    生产
-        php start.php start -d
+开发规范见 AGENTS.md。模块专属命令和构建行为见各模块 README。
 
-## Docker 部署 server
+## 环境要求
 
+- 后端：PHP 8.2+、Composer；数据库和 Redis 按 server 的本地配置提供。
+- 前端：Node.js 与模块所需的包管理器。uniapp 的交互式开发和发布入口要求 Node.js 16.16.0+。
+- server 目录包含 Docker Compose 配置；部署说明见 server/README.md。
 
-### 前置要求
+admin 和 pc 目录各有多个 JavaScript 锁文件，仓库没有声明唯一包管理器。安装或更新依赖前，按团队约定选定包管理器并只维护对应锁文件。以下命令以 npm 运行已定义脚本为例。
 
-- Docker
-- Docker Compose
+## 本地开发
 
-### 部署步骤
+后端（从仓库根目录执行）：
 
-1. 确保你已经配置好 `server/.env` 文件
+    cd server
+    composer install
+    php start.php start
 
-2. 在项目根目录下运行：
-```bash
-# 构建并启动服务
-docker-compose up -d
+Windows 可在 server 目录运行 .\windows.bat；脚本会在安装状态文件存在时调用 windows.php，否则运行 install.php。
 
-# 查看服务状态
-docker-compose ps
+管理后台：
 
-# 查看服务日志
-docker-compose logs -f server
+    cd admin
+    npm run dev
+    npm run type-check
+    npm run build
 
-# 停止服务
-docker-compose down
+npm run lint 会调用 ESLint 自动修复文件，运行前先检查工作区改动。
 
-# 重启服务
-docker-compose restart
+PC 端：
 
-# 重新构建并启动服务
-docker-compose up -d --build
-```
-# 生产：部署nginx配置
-### 单域名部署前后台
-    目录接口参考
-    /server     -后台api
-    /admin      -后台打包文件放置目录
-    /pc         -pc版打包文件放置目录
-后台api
-```
+    cd pc
+    npm run dev
+    npm run build
 
-    #PROXY-START/adminapi
-    
-    location /adminapi/
-    {
-    proxy_pass http://ip:端口/adminapi/;
-    proxy_set_header Host $host;
-    proxy_set_header Scheme $scheme;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header REMOTE-HOST $remote_addr;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $connection_upgrade;
-    proxy_http_version 1.1;
-    # proxy_hide_header Upgrade;
-    
-        add_header X-Cache $upstream_cache_status;
-        #Set Nginx Cache
-    
-        set $static_filehlp70f2i 0;
-        if ( $uri ~* "\.(gif|png|jpg|css|js|woff|woff2)$" )
-        {
-            set $static_filehlp70f2i 1;
-            expires 1m;
-        }
-        if ( $static_filehlp70f2i = 0 )
-        {
-            add_header Cache-Control no-cache;
-        }
-    }
-    #PROXY-END/
-```
-前台api
-```
+npm run build 生成静态版本；npm run build:ssr 用于 Nuxt SSR 构建。
 
-    #PROXY-START/api
-    
-    location /api/
-    {
-    proxy_pass http://ip:端口/api/;
-    proxy_set_header Host $host;
-    proxy_set_header Scheme $scheme;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header REMOTE-HOST $remote_addr;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $connection_upgrade;
-    proxy_http_version 1.1;
-    # proxy_hide_header Upgrade;
-    
-        add_header X-Cache $upstream_cache_status;
-        #Set Nginx Cache
-    
-        set $static_filehlp70f2i 0;
-        if ( $uri ~* "\.(gif|png|jpg|css|js|woff|woff2)$" )
-        {
-            set $static_filehlp70f2i 1;
-            expires 1m;
-        }
-        if ( $static_filehlp70f2i = 0 )
-        {
-            add_header Cache-Control no-cache;
-        }
-    }
-    #PROXY-END/
-```
-静态资源代理+缓存
-```
-    #PROXY-START/resource
-    
-    location /resource/
-    {
-        proxy_pass http://ip:端口/resource/;
-        proxy_set_header Host $host;
-        proxy_set_header Scheme $scheme;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header REMOTE-HOST $remote_addr;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-        proxy_http_version 1.1;
-        # proxy_hide_header Upgrade;
-    
-        add_header X-Cache $upstream_cache_status;
-            #Set Nginx Cache
-    
-    
-    
-    
-        if ( $uri ~* "\.(gif|png|jpg|css|js|woff|woff2)$" )
-        {
-            expires 1m;
-        }
-        proxy_ignore_headers Set-Cookie Cache-Control expires;
-        proxy_cache cache_one;
-        proxy_cache_key $host$uri$is_args$args;
-        proxy_cache_valid 200 304 301 302 1m;
-    }
-    
-    #PROXY-END/resource
-```
-后台端页面伪静态
-```
-    location /admin {
-        alias /www/wwwroot/xxxx.com/admin;
-        index index.html;
-        try_files $uri $uri/ /admin/index.html;
-    }
-```
-pc端页面伪静态
-```
-    location /pc {
-        alias /www/wwwroot/xxxx.com/pc;
-        index index.html;
-        try_files $uri $uri/ /pc/index.html;
-    }
-```
-# link
-[![歪比巴卜/likeadmin-webman（PHP版）](https://gitee.com/suyibk/workman-likeadmin-all/widgets/widget_card.svg?colors=ffffff,1e252b,323d47,455059,d7deea,99a0ae)](https://gitee.com/suyibk/workman-likeadmin-all)
+UniApp：
 
-# Manual (文档)
+    cd uniapp
+    npm run dev
+    npm run dev:h5
+    npm run dev:mp-weixin
 
-https://www.workerman.net/doc/webman
+npm run dev 是交互式入口，可选择微信小程序或 H5。其他目标平台的脚本见 uniapp/package.json。
 
-# Home page (主页)
-https://www.workerman.net/webman
+## 构建产物
 
-# Benchmarks （压测）
+部分构建脚本会直接替换 server/public 下的发布目录：
 
-https://www.techempower.com/benchmarks/#section=test&runid=9716e3cd-9e53-433c-b6c5-d2c48c9593c1&hw=ph&test=db&l=zg24n3-1r&a=2
-![image](https://user-images.githubusercontent.com/6073368/96447814-120fc980-1245-11eb-938d-6ea408716c72.png)
+- admin 的 build 会替换 server/public/admin。
+- pc 的 build 脚本会替换 server/public/pc。
+- uniapp 的 H5 构建会替换 server/public/mobile。
 
-## LICENSE
+运行这些构建前，请确认对应发布目录中的内容可以被替换。更多细节见各模块 README。
 
-MIT
+## 部署
+
+Docker Compose 文件位于 server/docker-compose.yaml；从 server 目录执行 Compose 命令。Nginx 应将 /adminapi、/api 和 /resource 转发到后端，并将管理后台、PC 端及 H5 静态文件映射到相应发布目录。具体配置需按实际域名和目录调整，见 server/README.md。
+
+## 开发规范
+
+- [仓库开发规范](AGENTS.md)
+- [后端说明](server/README.md)
+- [管理后台说明](admin/README.md)
+- [PC 端说明](pc/README.md)
+- [UniApp 说明](uniapp/README.md)
