@@ -30,7 +30,7 @@
                 <template #footer>
                     <span class="dialog-footer">
                         <ElButton @click="handleConfirmCropper">
-                            确认裁剪
+                            {{ $ui("确认裁剪") }}
                         </ElButton>
                     </span>
                 </template>

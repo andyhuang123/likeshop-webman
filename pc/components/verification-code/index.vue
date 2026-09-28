@@ -1,6 +1,6 @@
 <template>
     <ElButton v-if="!isStart" @click="handlStart" link>
-        {{ isRetry ? endText : startText }}
+        {{ $ui(isRetry ? endText : startText) }}
     </ElButton>
     <VueCountdown
         v-else
@@ -52,7 +52,7 @@ export default defineComponent({
         }
 
         const getChangeText = (second) => {
-            return props.changeText.replace('x', second)
+            return useNuxtApp().$ui(props.changeText).replace('x', second)
         }
         const handleEnd = () => {
             isStart.value = false

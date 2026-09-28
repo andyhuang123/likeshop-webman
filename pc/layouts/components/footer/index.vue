@@ -4,14 +4,14 @@
             <!-- <NuxtLink> 关于我们 </NuxtLink>
             ｜ -->
             <NuxtLink :to="`/policy/${PolicyAgreementEnum.SERVICE}`">
-                用户协议
+                {{ $ui("用户协议") }}
             </NuxtLink>
             ｜
             <NuxtLink :to="`/policy/${PolicyAgreementEnum.PRIVACY}`">
-                隐私政策
+                {{ $ui("隐私政策") }}
             </NuxtLink>
             ｜
-            <NuxtLink to="/user/info"> 会员中心 </NuxtLink>
+            <NuxtLink to="/user/info"> {{ $ui("会员中心") }} </NuxtLink>
         </div>
         <div class="mt-4 text-tx-secondary">
             <a

@@ -2,7 +2,7 @@
     <div class="login">
         <div class="flex justify-between">
             <span class="text-4xl">
-                {{ hasMobile ? '更换手机号' : '绑定手机号' }}
+                {{ $ui(hasMobile ? '更换手机号' : '绑定手机号') }}
             </span>
         </div>
         <ElForm
@@ -15,11 +15,11 @@
             <ElFormItem prop="mobile">
                 <ElInput
                     v-model="formData.mobile"
-                    placeholder="请输入手机号码"
+                    :placeholder='$ui("请输入手机号码")'
                 />
             </ElFormItem>
             <ElFormItem prop="code">
-                <ElInput v-model="formData.code" placeholder="请输入验证码">
+                <ElInput v-model="formData.code" :placeholder='$ui("请输入验证码")'>
                     <template #suffix>
                         <div
                             class="flex justify-center leading-5 w-[90px] pl-2.5 border-l border-br"
@@ -39,7 +39,7 @@
                     @click="handleConfirmLock"
                     :loading="isLock"
                 >
-                    确认
+                    {{ $ui("确认") }}
                 </ElButton>
             </ElFormItem>
         </ElForm>
@@ -63,18 +63,19 @@ const { toggleShowPopup } = useAccount()
 const userStore = useUserStore()
 const formRef = shallowRef<FormInstance>()
 const verificationCodeRef = shallowRef()
+const ui = useNuxtApp().$ui
 const formRules: FormRules = {
     mobile: [
         {
             required: true,
-            message: '请输入手机号码',
+            message: () => ui('请输入手机号码'),
             trigger: ['change', 'blur']
         }
     ],
     code: [
         {
             required: true,
-            message: '请输入验证码',
+            message: () => ui('请输入验证码'),
             trigger: ['change', 'blur']
         }
     ]

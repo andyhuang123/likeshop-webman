@@ -22,7 +22,7 @@
             <InformationCard
                 link="/information/new"
                 class="flex-1 min-w-0"
-                header="最新资讯"
+                :header="$ui('最新资讯')"
                 :data="pageData.new"
                 :show-time="false"
             />
@@ -31,14 +31,14 @@
             <InformationCard
                 link="/information"
                 class="w-[750px] flex-none mr-5"
-                header="全部资讯"
+                :header="$ui('全部资讯')"
                 :data="pageData.all"
                 :only-title="false"
             />
             <InformationCard
                 link="/information/hot"
                 class="flex-1"
-                header="热门资讯"
+                :header="$ui('热门资讯')"
                 :data="pageData.hot"
                 :only-title="false"
                 image-size="mini"

@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col justify-center items-center">
-        <div class="text-tx-regular mb-4">您还未登录，请先登录</div>
-        <ElButton @click="toLogin">登录</ElButton>
+        <div class="text-tx-regular mb-4">{{ $ui("您还未登录，请先登录") }}</div>
+        <ElButton @click="toLogin">{{ $ui("登录") }}</ElButton>
     </div>
 </template>
 <script lang="ts" setup>

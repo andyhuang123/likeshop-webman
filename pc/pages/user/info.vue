@@ -1,24 +1,24 @@
 <template>
     <div class="px-[30px] py-5 user-info">
         <div class="border-b border-br pb-5">
-            <span class="text-2xl font-medium">个人信息</span>
+            <span class="text-2xl font-medium">{{ $ui("个人信息") }}</span>
         </div>
         <div class="mt-5">
             <div class="info-item">
-                <div class="item-name">头像</div>
+                <div class="item-name">{{ $ui("头像") }}</div>
                 <div class="avatar">
                     <ElAvatar :size="60" :src="userInfo.avatar"></ElAvatar>
                     <div class="change-btn">
                         <CropperUpload
                             @change="setUserInfo($event, UserFieldEnum.AVATAR)"
                         >
-                            <span class="text-xs text-white">修改</span>
+                            <span class="text-xs text-white">{{ $ui("修改") }}</span>
                         </CropperUpload>
                     </div>
                 </div>
             </div>
             <div class="info-item leading-10">
-                <div class="item-name">账号</div>
+                <div class="item-name">{{ $ui("账号") }}</div>
                 <div>
                     {{ userInfo.account }}
                     <ClientOnly>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="info-item leading-10">
-                <div class="item-name">昵称</div>
+                <div class="item-name">{{ $ui("昵称") }}</div>
                 <div>
                     {{ userInfo.nickname }}
                     <ClientOnly>
@@ -58,10 +58,10 @@
                 </div>
             </div>
             <div class="info-item leading-10">
-                <div class="item-name">性别</div>
+                <div class="item-name">{{ $ui("性别") }}</div>
                 <div>
                     <span>
-                        {{ userInfo.sex }}
+                    {{ $ui(userInfo.sex) }}
                     </span>
                     <ClientOnly>
                         <PopoverInput
@@ -70,15 +70,15 @@
                             :teleported="false"
                             :options="[
                                 {
-                                    label: '未知',
+                                    label: $ui('未知'),
                                     value: 0
                                 },
                                 {
-                                    label: '男',
+                                    label: $ui('男'),
                                     value: 1
                                 },
                                 {
-                                    label: '女',
+                                    label: $ui('女'),
                                     value: 2
                                 }
                             ]"
@@ -92,24 +92,24 @@
                 </div>
             </div>
             <div class="info-item leading-10">
-                <div class="item-name">手机号</div>
+                <div class="item-name">{{ $ui("手机号") }}</div>
                 <div v-if="userInfo.mobile">
                     {{ userInfo.mobile }}
                 </div>
 
                 <ElButton link type="primary" @click="changeMobile">
-                    {{ userInfo.mobile ? '更换手机号' : '绑定手机号' }}
+                    {{ $ui(userInfo.mobile ? '更换手机号' : '绑定手机号') }}
                 </ElButton>
             </div>
             <div class="info-item leading-10">
-                <div class="item-name">注册时间</div>
+                <div class="item-name">{{ $ui("注册时间") }}</div>
                 <div>
                     {{ userInfo.create_time }}
                 </div>
             </div>
         </div>
         <div class="mt-[60px] flex justify-center">
-            <ElButton type="primary" @click="handleLogut">退出登录</ElButton>
+            <ElButton type="primary" @click="handleLogut">{{ $ui("退出登录") }}</ElButton>
         </div>
     </div>
 </template>
@@ -162,7 +162,7 @@ watch(showPopup, (value) => {
 })
 
 const handleLogut = async () => {
-    await feedback.confirm('确定退出登录吗？')
+    await feedback.confirm(useNuxtApp().$ui('确定退出登录吗？'))
     await logout()
     userStore.logout()
 }

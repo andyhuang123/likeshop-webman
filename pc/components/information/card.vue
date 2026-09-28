@@ -10,7 +10,7 @@
             </div>
             <ElButton class="button" link v-if="link">
                 <NuxtLink :to="link" class="flex">
-                    更多
+                    {{ $ui("更多") }}
                     <ElIcon><ArrowRight /></ElIcon>
                 </NuxtLink>
             </ElButton>
@@ -46,7 +46,7 @@
         <div v-else>
             <el-empty
                 :image="empty_news"
-                description="暂无资讯"
+                :description="$ui('暂无资讯')"
                 :image-size="250"
             />
         </div>

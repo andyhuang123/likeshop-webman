@@ -2,7 +2,7 @@
     <div class="min-h-full flex flex-col">
         <div class="text-4xl mb-5">
             <span v-if="route.query.keywords">
-                查找"{{ route.query.keywords }}"
+                {{ $ui("查找\"") }}{{ route.query.keywords }}"
             </span>
             <span v-else>{{ route.query.name || getSourceText }}</span>
         </div>
@@ -12,7 +12,7 @@
                 v-if="data.lists.length"
             >
                 <div class="pt-5 text-tx-secondary" v-if="route.query.keywords">
-                    为您找到相关结果 {{ data.count }}个
+                    {{ $ui("为您找到相关结果") }} {{ data.count }}{{ $ui("个") }}
                 </div>
                 <InformationItems
                     v-for="item in data.lists"
@@ -39,7 +39,7 @@
             <div v-else class="flex-1 flex justify-center items-center">
                 <el-empty
                     :image="empty_news"
-                    description="暂无资讯"
+                    :description="$ui('暂无资讯')"
                     :image-size="250"
                 />
             </div>
@@ -68,14 +68,15 @@ const { data, refresh, pending } = await useAsyncData(
     }
 )
 
+const ui = useNuxtApp().$ui
 const getSourceText = computed(() => {
     switch (route.params.source) {
         case 'hot':
-            return '热门资讯'
+            return ui('热门资讯')
         case 'new':
-            return ' 最新资讯'
+            return ui('最新资讯')
         default:
-            return '全部资讯'
+            return ui('全部资讯')
     }
 })
 

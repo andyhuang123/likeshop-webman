@@ -1,26 +1,26 @@
 <template>
     <div class="px-[30px] py-5 user-info">
         <div class="border-b border-br pb-5">
-            <span class="text-2xl font-medium">账号安全</span>
+            <span class="text-2xl font-medium">{{ $ui("账号安全") }}</span>
         </div>
         <div class="mt-5">
             <div class="info-item leading-10 flex justify-between">
-                <div class="item-name">登录密码</div>
+                <div class="item-name">{{ $ui("登录密码") }}</div>
                 <div>
                     <ElButton
                         link
                         type="primary"
                         @click="showMobilePopup = true"
                     >
-                        {{ userInfo.has_password ? '点击修改' : '点击设置' }}
+                        {{ $ui(userInfo.has_password ? '点击修改' : '点击设置') }}
                         <Icon name="el-icon-ArrowRight" />
                     </ElButton>
                 </div>
             </div>
             <div class="info-item leading-10 flex justify-between">
-                <div class="item-name">绑定微信</div>
+                <div class="item-name">{{ $ui("绑定微信") }}</div>
                 <div>
-                    {{ userInfo.has_auth ? '已绑定' : '未绑定' }}
+                    {{ $ui(userInfo.has_auth ? '已绑定' : '未绑定') }}
                 </div>
             </div>
         </div>
@@ -35,8 +35,8 @@
                         <span class="text-4xl">
                             {{
                                 userInfo.has_password
-                                    ? '修改登录密码'
-                                    : '设置登录密码'
+                                    ? $ui('修改登录密码')
+                                    : $ui('设置登录密码')
                             }}
                         </span>
                         <ElButton
@@ -45,7 +45,7 @@
                             @click="toForgetPwd"
                             v-if="userInfo.has_password"
                         >
-                            忘记原密码
+                            {{ $ui("忘记原密码") }}
                         </ElButton>
                     </div>
                     <ElForm
@@ -61,7 +61,7 @@
                         >
                             <ElInput
                                 v-model="formData.old_password"
-                                placeholder="请输入原密码"
+                                :placeholder='$ui("请输入原密码")'
                                 type="password"
                                 show-password
                             />
@@ -69,7 +69,7 @@
                         <ElFormItem prop="password">
                             <ElInput
                                 v-model="formData.password"
-                                placeholder="请输入6-20位数字+字母或符号组合"
+                                :placeholder='$ui("请输入6-20位数字+字母或符号组合")'
                                 type="password"
                                 show-password
                             />
@@ -77,7 +77,7 @@
                         <ElFormItem prop="password_confirm">
                             <ElInput
                                 v-model="formData.password_confirm"
-                                placeholder="请再次输入密码"
+                                :placeholder='$ui("请再次输入密码")'
                                 type="password"
                                 show-password
                             />
@@ -89,7 +89,7 @@
                                 @click="handleConfirmLock"
                                 :loading="isLock"
                             >
-                                确认
+                                {{ $ui("确认") }}
                             </ElButton>
                         </ElFormItem>
                     </ElForm>
@@ -122,24 +122,25 @@ const userStore = useUserStore()
 const showMobilePopup = ref(false)
 const { setPopupType, toggleShowPopup } = useAccount()
 const formRef = shallowRef<FormInstance>()
+const ui = useNuxtApp().$ui
 const formRules: FormRules = {
     old_password: [
         {
             required: true,
-            message: '请输入原密码',
+            message: () => ui('请输入原密码'),
             trigger: ['change', 'blur']
         }
     ],
     password: [
         {
             required: true,
-            message: '请输入6-20位数字+字母或符号组合',
+            message: () => ui('请输入6-20位数字+字母或符号组合'),
             trigger: ['change', 'blur']
         },
         {
             min: 6,
             max: 20,
-            message: '密码长度应为6-20',
+            message: () => ui('密码长度应为6-20'),
             trigger: ['change', 'blur']
         }
     ],
@@ -147,9 +148,9 @@ const formRules: FormRules = {
         {
             validator(rule: any, value: any, callback: any) {
                 if (value === '') {
-                    callback(new Error('请再次输入密码'))
+                    callback(new Error(ui('请再次输入密码')))
                 } else if (value !== formData.password) {
-                    callback(new Error('两次输入的密码不一致'))
+                    callback(new Error(ui('两次输入的密码不一致')))
                 } else {
                     callback()
                 }

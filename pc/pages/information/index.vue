@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="text-4xl mb-5">资讯中心</div>
+        <div class="text-4xl mb-5">{{ $ui("资讯中心") }}</div>
         <div class="flex flex-wrap gap-4">
             <InformationCard
                 v-for="item in newsLists"

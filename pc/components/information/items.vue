@@ -64,7 +64,7 @@
                         <ElIcon>
                             <View />
                         </ElIcon>
-                        <span>&nbsp;{{ click }}人浏览</span>
+                        <span>&nbsp;{{ click }}{{ $ui("人浏览") }}</span>
                     </div>
                 </div>
             </div>

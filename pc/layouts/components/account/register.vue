@@ -1,13 +1,13 @@
 <template>
     <div class="login">
         <div class="flex justify-between">
-            <span class="text-4xl">注册账号</span>
+            <span class="text-4xl">{{ $ui("注册账号") }}</span>
             <ElButton
                 type="primary"
                 link
                 @click="setPopupType(PopupTypeEnum.LOGIN)"
             >
-                返回登录
+                {{ $ui("返回登录") }}
             </ElButton>
         </div>
         <ElForm
@@ -20,7 +20,7 @@
             <ElFormItem prop="account">
                 <ElInput
                     v-model="formData.account"
-                    placeholder="请输入创建的账号"
+                    :placeholder='$ui("请输入创建的账号")'
                 />
             </ElFormItem>
             <ElFormItem prop="password">
@@ -28,7 +28,7 @@
                     v-model="formData.password"
                     type="password"
                     show-password
-                    placeholder="请输入6-20位数字+字母或符号组合"
+                    :placeholder='$ui("请输入6-20位数字+字母或符号组合")'
                 />
             </ElFormItem>
             <ElFormItem prop="password_confirm">
@@ -36,7 +36,7 @@
                     v-model="formData.password_confirm"
                     type="password"
                     show-password
-                    placeholder="请再次输入密码"
+                    :placeholder='$ui("请再次输入密码")'
                 />
             </ElFormItem>
             <ElFormItem class="mt-[60px]">
@@ -46,7 +46,7 @@
                     :loading="isLock"
                     @click="handleConfirmLock"
                 >
-                    注册
+                    {{ $ui("注册") }}
                 </ElButton>
             </ElFormItem>
         </ElForm>
@@ -65,30 +65,31 @@ import { register } from '~~/api/account'
 import { useAccount, PopupTypeEnum } from './useAccount'
 const { setPopupType } = useAccount()
 const formRef = shallowRef<FormInstance>()
+const ui = useNuxtApp().$ui
 const formRules: FormRules = {
     account: [
         {
             required: true,
-            message: '请输入创建的账号',
+            message: () => ui('请输入创建的账号'),
             trigger: ['change', 'blur']
         },
         {
             min: 3,
             max: 12,
-            message: '账号长度应为3-12',
+            message: () => ui('账号长度应为3-12'),
             trigger: ['change', 'blur']
         }
     ],
     password: [
         {
             required: true,
-            message: '请输入6-20位数字+字母或符号组合',
+            message: () => ui('请输入6-20位数字+字母或符号组合'),
             trigger: ['change', 'blur']
         },
         {
             min: 6,
             max: 20,
-            message: '密码长度应为6-20',
+            message: () => ui('密码长度应为6-20'),
             trigger: ['change', 'blur']
         }
     ],
@@ -96,9 +97,9 @@ const formRules: FormRules = {
         {
             validator(rule: any, value: any, callback: any) {
                 if (value === '') {
-                    callback(new Error('请再次输入密码'))
+                    callback(new Error(ui('请再次输入密码')))
                 } else if (value !== formData.password) {
-                    callback(new Error('两次输入的密码不一致'))
+                    callback(new Error(ui('两次输入的密码不一致')))
                 } else {
                     callback()
                 }

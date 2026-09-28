@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <div class="text-4xl">欢迎登录</div>
+        <div class="text-4xl">{{ $ui("欢迎登录") }}</div>
         <ElForm
             ref="formRef"
             class="mt-[35px]"
@@ -14,7 +14,7 @@
                 <ElFormItem prop="account">
                     <ElInput
                         v-model="formData.account"
-                        placeholder="请输入账号/手机号"
+                        :placeholder='$ui("请输入账号/手机号")'
                     />
                 </ElFormItem>
                 <ElFormItem prop="password">
@@ -22,7 +22,7 @@
                         v-model="formData.password"
                         type="password"
                         show-password
-                        placeholder="请输入密码"
+                        :placeholder='$ui("请输入密码")'
                     />
                 </ElFormItem>
             </template>
@@ -32,11 +32,11 @@
                 <ElFormItem prop="account">
                     <ElInput
                         v-model="formData.account"
-                        placeholder="请输入手机号"
+                        :placeholder='$ui("请输入手机号")'
                     />
                 </ElFormItem>
                 <ElFormItem prop="code">
-                    <ElInput v-model="formData.code" placeholder="请输入验证码">
+                    <ElInput v-model="formData.code" :placeholder='$ui("请输入验证码")'>
                         <template #suffix>
                             <div
                                 class="flex justify-center leading-5 w-[90px] pl-2.5 border-l border-br"
@@ -61,7 +61,7 @@
                         link
                         @click="changeLoginWay"
                     >
-                        手机验证码登录
+                        {{ $ui("手机验证码登录") }}
                     </ElButton>
                     <ElButton
                         v-if="
@@ -72,7 +72,7 @@
                         link
                         @click="changeLoginWay"
                     >
-                        账号密码登录
+                        {{ $ui("账号密码登录") }}
                     </ElButton>
                 </div>
 
@@ -81,7 +81,7 @@
                     link
                     @click="setPopupType(PopupTypeEnum.FORGOT_PWD)"
                 >
-                    忘记密码？
+                    {{ $ui("忘记密码？") }}
                 </ElButton>
             </div>
             <ElFormItem class="mt-[30px]">
@@ -91,13 +91,13 @@
                     :loading="isLock"
                     @click="loginLock"
                 >
-                    登录
+                    {{ $ui("登录") }}
                 </ElButton>
             </ElFormItem>
             <div class="mt-[40px]" v-if="isOpenOtherAuth">
                 <ElDivider>
                     <span class="text-tx-secondary font-normal">
-                        第三方登录
+                        {{ $ui("第三方登录") }}
                     </span>
                 </ElDivider>
                 <div class="flex justify-center">
@@ -115,7 +115,7 @@
                 <div class="flex-1">
                     <ElCheckbox v-if="isOpenAgreement" v-model="isAgreement">
                         <span class="text-tx-secondary text-sm">
-                            已阅读并同意
+                            {{ $ui("已阅读并同意") }}
                             <NuxtLink
                                 :to="`/policy/${PolicyAgreementEnum.SERVICE}`"
                                 custom
@@ -126,10 +126,10 @@
                                     :href="href"
                                     target="_blank"
                                 >
-                                    《服务协议》
+                                    {{ $ui("《服务协议》") }}
                                 </a>
                             </NuxtLink>
-                            和
+                            {{ $ui("和") }}
                             <NuxtLink
                                 class="text-tx-primary"
                                 :to="`/policy/${PolicyAgreementEnum.PRIVACY}`"
@@ -141,7 +141,7 @@
                                     :href="href"
                                     target="_blank"
                                 >
-                                    《隐私政策》
+                                    {{ $ui("《隐私政策》") }}
                                 </a>
                             </NuxtLink>
                         </span>
@@ -153,7 +153,7 @@
                         type="primary"
                         @click="setPopupType(PopupTypeEnum.REGISTER)"
                     >
-                        <span class="text-sm">注册账号</span>
+                        <span class="text-sm">{{ $ui("注册账号") }}</span>
                     </ElButton>
                 </div>
             </div>
@@ -187,6 +187,7 @@ enum LoginWayEnum {
 }
 const isAgreement = ref(false)
 const formRef = shallowRef<FormInstance>()
+const ui = useNuxtApp().$ui
 const formRules: FormRules = {
     account: [
         {
@@ -196,8 +197,8 @@ const formRules: FormRules = {
                     callback(
                         new Error(
                             formData.scene == LoginWayEnum.ACCOUNT
-                                ? '请输入账号/手机号'
-                                : '请输入手机号'
+                                ? ui('请输入账号/手机号')
+                                : ui('请输入手机号')
                         )
                     )
                     return
@@ -210,14 +211,14 @@ const formRules: FormRules = {
     password: [
         {
             required: true,
-            message: '请输入密码',
+            message: () => ui('请输入密码'),
             trigger: ['change', 'blur']
         }
     ],
     code: [
         {
             required: true,
-            message: '请输入验证码',
+            message: () => ui('请输入验证码'),
             trigger: ['change', 'blur']
         }
     ]
@@ -279,7 +280,7 @@ const agreementConfirm = async () => {
     if (isAgreement.value) {
         return
     }
-    await feedback.confirm('确认已阅读并同意《服务协议》和《隐私政策》')
+    await feedback.confirm(ui('确认已阅读并同意《服务协议》和《隐私政策》'))
     isAgreement.value = true
 }
 const loginLock = async () => {

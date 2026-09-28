@@ -1,7 +1,7 @@
 <template>
     <div class="px-[30px] py-5 user-info min-h-full flex flex-col">
         <div class="border-b border-br pb-5">
-            <span class="text-2xl font-medium">我的收藏</span>
+            <span class="text-2xl font-medium">{{ $ui("我的收藏") }}</span>
         </div>
         <div v-if="data.lists.length">
             <div
@@ -28,12 +28,12 @@
                         <div
                             class="mt-5 text-tx-secondary flex justify-between"
                         >
-                            <div>收藏于{{ item.collect_time }}</div>
+                            <div>{{ $ui("收藏于") }}{{ item.collect_time }}</div>
                             <ElButton
                                 link
                                 @click.stop="handelCollect(item.article_id)"
                             >
-                                取消收藏
+                                {{ $ui("取消收藏") }}
                             </ElButton>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
         <div class="flex flex-1 justify-center items-center" v-else>
             <el-empty
                 :image="empty_news"
-                description="暂无收藏"
+                :description="$ui('暂无收藏')"
                 :image-size="250"
             />
         </div>
@@ -74,7 +74,7 @@ const { data, refresh } = await useAsyncData(() => getCollect(params), {
 })
 const handelCollect = async (id) => {
     await cancelCollect({ id })
-    feedback.msgSuccess('已取消收藏')
+    feedback.msgSuccess(useNuxtApp().$ui('已取消收藏'))
     refresh()
 }
 definePageMeta({

@@ -1,14 +1,14 @@
 <template>
     <div class="login">
         <div class="flex justify-between">
-            <span class="text-4xl">忘记登录密码</span>
+            <span class="text-4xl">{{ $ui("忘记登录密码") }}</span>
             <ElButton
                 type="primary"
                 link
                 @click="setPopupType(PopupTypeEnum.LOGIN)"
                 v-if="!userStore.isLogin"
             >
-                返回登录
+                {{ $ui("返回登录") }}
             </ElButton>
         </div>
         <ElForm
@@ -21,11 +21,11 @@
             <ElFormItem prop="mobile">
                 <ElInput
                     v-model="formData.mobile"
-                    placeholder="请输入手机号码"
+                    :placeholder='$ui("请输入手机号码")'
                 />
             </ElFormItem>
             <ElFormItem prop="code">
-                <ElInput v-model="formData.code" placeholder="请输入验证码">
+                <ElInput v-model="formData.code" :placeholder='$ui("请输入验证码")'>
                     <template #suffix>
                         <div
                             class="flex justify-center leading-5 w-[90px] pl-2.5 border-l border-br"
@@ -41,7 +41,7 @@
             <ElFormItem prop="password">
                 <ElInput
                     v-model="formData.password"
-                    placeholder="请输入6-20位数字+字母或符号组合"
+                    :placeholder='$ui("请输入6-20位数字+字母或符号组合")'
                     type="password"
                     show-password
                 />
@@ -49,7 +49,7 @@
             <ElFormItem prop="password_confirm">
                 <ElInput
                     v-model="formData.password_confirm"
-                    placeholder="请再次输入密码"
+                    :placeholder='$ui("请再次输入密码")'
                     type="password"
                     show-password
                 />
@@ -61,7 +61,7 @@
                     @click="handleConfirmLock"
                     :loading="isLock"
                 >
-                    确认
+                    {{ $ui("确认") }}
                 </ElButton>
             </ElFormItem>
         </ElForm>
@@ -85,37 +85,38 @@ const userStore = useUserStore()
 const { setPopupType, toggleShowPopup } = useAccount()
 const formRef = shallowRef<FormInstance>()
 const verificationCodeRef = shallowRef()
+const ui = useNuxtApp().$ui
 const formRules: FormRules = {
     mobile: [
         {
             required: true,
-            message: '请输入手机号码',
+            message: () => ui('请输入手机号码'),
             trigger: ['change', 'blur']
         },
         {
             min: 3,
             max: 12,
-            message: '账号长度应为3-12',
+            message: () => ui('账号长度应为3-12'),
             trigger: ['change', 'blur']
         }
     ],
     code: [
         {
             required: true,
-            message: '请输入验证码',
+            message: () => ui('请输入验证码'),
             trigger: ['change', 'blur']
         }
     ],
     password: [
         {
             required: true,
-            message: '请输入6-20位数字+字母或符号组合',
+            message: () => ui('请输入6-20位数字+字母或符号组合'),
             trigger: ['change', 'blur']
         },
         {
             min: 6,
             max: 20,
-            message: '密码长度应为6-20',
+            message: () => ui('密码长度应为6-20'),
             trigger: ['change', 'blur']
         }
     ],
@@ -123,9 +124,9 @@ const formRules: FormRules = {
         {
             validator(rule: any, value: any, callback: any) {
                 if (value === '') {
-                    callback(new Error('请再次输入密码'))
+                    callback(new Error(ui('请再次输入密码')))
                 } else if (value !== formData.password) {
-                    callback(new Error('两次输入的密码不一致'))
+                    callback(new Error(ui('两次输入的密码不一致')))
                 } else {
                     callback()
                 }
