@@ -1,5 +1,6 @@
-import { useThemeStore } from '@/stores/theme'
 import { useAppStore } from '@/stores/app'
+import { useThemeStore } from '@/stores/theme'
+import { updateNavigationBarTitle } from '@/i18n'
 
 export default {
     computed: {
@@ -14,5 +15,8 @@ export default {
                 title: appStore.getWebsiteConfig.shop_name
             }
         }
+    },
+    onShow() {
+        updateNavigationBarTitle()
     }
 }
