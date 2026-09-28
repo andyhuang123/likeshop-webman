@@ -5,6 +5,7 @@
             <Navbar class="w-[600px]" />
             <div class="flex-1"></div>
             <Search class="mr-[40px] flex-none" />
+            <LanguageSwitcher class="flex-none" />
             <User class="flex-none" />
         </div>
     </header>
@@ -14,6 +15,7 @@ import User from './user.vue'
 import Search from './search.vue'
 import Logo from './logo.vue'
 import Navbar from './navbar.vue'
+import LanguageSwitcher from './language-switcher.vue'
 </script>
 
 <style lang="scss" scoped>

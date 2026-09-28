@@ -41,6 +41,10 @@ export function createRequest(opt?: Partial<FetchOptions>) {
                     options.params = {}
                 }
                 const headers = options.headers || {}
+                const locale = import.meta.client
+                    ? document.cookie.match(/(?:^|;\s*)app_locale=(zh-CN|en-US)(?:;|$)/)?.[1]
+                    : useCookie<'zh-CN' | 'en-US'>('app_locale').value
+                headers['Accept-Language'] = locale || 'zh-CN'
                 if (withToken) {
                     const token = userStore.token
                     headers['token'] = token

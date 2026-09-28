@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 import { ID_INJECTION_KEY, ElConfigProvider } from 'element-plus'
+import en from 'element-plus/es/locale/lang/en'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import { useI18n } from 'vue-i18n'
 import { useAppStore } from './stores/app'
 
 provide(ID_INJECTION_KEY, {
     prefix: 100,
     current: 0
 })
-const config = {
-    locale: zhCn
-}
+const { locale } = useI18n({ useScope: 'global' })
+const config = computed(() => ({ locale: locale.value === 'en-US' ? en : zhCn }))
 const appStore = useAppStore()
 const { pc_title, pc_ico, pc_keywords, pc_desc } = appStore.getWebsiteConfig
 const { clarity_code } = appStore.getSiteStatistics
