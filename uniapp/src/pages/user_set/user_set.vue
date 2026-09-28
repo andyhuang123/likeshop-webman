@@ -14,7 +14,7 @@
                 <view class="ml-[20rpx] flex flex-1 justify-between items-center">
                     <view>
                         <view class="mb-[15rpx] text-xl font-medium">{{ userInfo.nickname }}</view>
-                        <view class="text-content text-xs">账号：{{ userInfo.account }}</view>
+                        <view class="text-content text-xs">{{ $ui('账号：') }}{{ userInfo.account }}</view>
                     </view>
                     <u-icon name="arrow-right" color="#666"></u-icon>
                 </view>
@@ -24,7 +24,7 @@
             class="item bg-white mt-[20rpx] btn-border flex flex-1 justify-between"
             @click="handlePwd"
         >
-            <view class="">登录密码</view>
+            <view class="">{{ $ui('登录密码') }}</view>
             <u-icon name="arrow-right" color="#666"></u-icon>
         </view>
         <!--  #ifdef H5 || MP-WEIXIN -->
@@ -33,10 +33,10 @@
             class="item bg-white flex flex-1 justify-between"
             @click="bindWechatLock"
         >
-            <view class="">绑定微信</view>
+            <view class="">{{ $ui("绑定微信") }}</view>
             <view class="flex justify-between">
                 <view class="text-muted mr-[20rpx]">
-                    {{ userInfo.is_auth ? '已绑定' : '未绑定' }}
+                    {{ userInfo.is_auth ? $ui('已绑定') : $ui('未绑定') }}
                 </view>
                 <u-icon v-if="userInfo.is_auth == 0" name="arrow-right" color="#666"></u-icon>
             </view>
@@ -44,19 +44,19 @@
         <!-- #endif -->
         <navigator :url="`/pages/agreement/agreement?type=${AgreementEnum.PRIVACY}`">
             <view class="item bg-white mt-[20rpx] btn-border flex flex-1 justify-between">
-                <view class="">隐私政策</view>
+                <view class="">{{ $ui('隐私政策') }}</view>
                 <u-icon name="arrow-right" color="#666"></u-icon>
             </view>
         </navigator>
         <navigator :url="`/pages/agreement/agreement?type=${AgreementEnum.SERVICE}`">
             <view class="item bg-white btn-border flex flex-1 justify-between">
-                <view class="">服务协议</view>
+                <view class="">{{ $ui('服务协议') }}</view>
                 <u-icon name="arrow-right" color="#666"></u-icon>
             </view>
         </navigator>
         <navigator url="/pages/as_us/as_us">
             <view class="item bg-white flex flex-1 justify-between">
-                <view class="">关于我们</view>
+                <view class="">{{ $ui('关于我们') }}</view>
                 <view class="flex justify-between">
                     <view class="text-muted mr-[20rpx]">
                         {{ appStore.config.version }}
@@ -67,7 +67,14 @@
         </navigator>
 
         <view class="mt-[60rpx] mx-[26rpx]">
-            <u-button type="primary" shape="circle" @click="showLogout = true"> 退出登录</u-button>
+            <u-button type="primary" shape="circle" @click="showLogout = true">{{ $ui('退出登录') }}</u-button>
+        </view>
+
+        <view class="item bg-white mt-[20rpx] flex justify-between items-center">
+            <view>{{ $ui('语言') }}</view>
+            <picker :range="languageOptions" :value="localeIndex" @change="handleLocaleChange">
+                <view>{{ languageOptions[localeIndex] }}　›</view>
+            </picker>
         </view>
 
         <u-action-sheet
@@ -86,9 +93,9 @@
             :maskCloseAble="false"
         >
             <view class="content bg-white w-[560rpx] p-[40rpx]">
-                <view class="text-2xl font-medium text-center"> 温馨提示</view>
+                <view class="text-2xl font-medium text-center">{{ $ui('温馨提示') }}</view>
                 <view class="pt-[30rpx] pb-[40rpx]">
-                    <view> 是否清除当前登录信息，退出登录？</view>
+                    <view>{{ $ui('是否清除当前登录信息，退出登录？') }}</view>
                 </view>
                 <view class="flex">
                     <view class="flex-1 mr-[20rpx]">
@@ -101,7 +108,7 @@
                             :customStyle="{ width: '100%' }"
                             @click="showLogout = false"
                         >
-                            取消
+                            {{ $ui('取消') }}
                         </u-button>
                     </view>
                     <view class="flex-1">
@@ -113,7 +120,7 @@
                             :customStyle="{ width: '100%' }"
                             @click="logoutHandle"
                         >
-                            确认
+                            {{ $ui('确认') }}
                         </u-button>
                     </view>
                 </view>
@@ -132,6 +139,7 @@ import {isWeixinClient} from '@/utils/client'
 import {mnpAuthBind, oaAuthBind} from '@/api/account'
 import {useLockFn} from '@/hooks/useLockFn'
 import {useRouter} from "uniapp-router-next";
+import {getAppLocale, setAppLocale, translateUiText} from '@/i18n'
 // #ifdef H5
 import wechatOa from '@/utils/wechat'
 // #endif
@@ -141,15 +149,19 @@ const appStore = useAppStore()
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.userInfo)
 
-const list = ref([
+const list = computed(() => [
     {
-        text: '修改密码'
+        text: translateUiText('修改密码')
     },
     {
-        text: '忘记密码'
+        text: translateUiText('忘记密码')
     }
 ])
-
+const languageOptions = ['简体中文', 'English']
+const localeIndex = computed(() => (getAppLocale() === 'en-US' ? 1 : 0))
+const handleLocaleChange = (event: any) => {
+    setAppLocale(event.detail.value === '1' ? 'en-US' : 'zh-CN')
+}
 const isWeixin = ref(true)
 // #ifdef H5
 isWeixin.value = isWeixinClient()
@@ -186,7 +198,7 @@ const bindWechat = async () => {
     if (userInfo.value.is_auth) return
     try {
         uni.showLoading({
-            title: '请稍后...'
+            title: translateUiText('请稍后...')
         })
         // #ifdef MP-WEIXIN
         const {code}: any = await uni.login({
@@ -220,7 +232,7 @@ onLoad(async (options) => {
     if (!isWeixin.value) return
     if (code) {
         uni.showLoading({
-            title: '请稍后...'
+            title: translateUiText('请稍后...')
         })
         try {
             await oaAuthBind({code})

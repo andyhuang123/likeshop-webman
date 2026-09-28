@@ -6,6 +6,7 @@ import { RequestCodeEnum, RequestMethodsEnum } from "@/enums/requestEnums";
 import { useUserStore } from "@/stores/user";
 import appConfig from "@/config";
 import { getClient } from "../client";
+import { getAppLocale, translateUiText } from "@/i18n";
 
 const requestHooks: RequestHooks = {
     requestInterceptorsHook(options, config) {
@@ -23,6 +24,7 @@ const requestHooks: RequestHooks = {
             options.header.token = token;
         }
         options.header.version = appConfig.version;
+        options.header['Accept-Language'] = getAppLocale();
         // options.header.terminal = getClient();
         return options;
     },
@@ -62,7 +64,7 @@ const requestHooks: RequestHooks = {
     },
     async responseInterceptorsCatchHook(options, error) {
         if (options.method?.toUpperCase() == RequestMethodsEnum.POST) {
-            uni.$u.toast("请求失败，请重试");
+            uni.$u.toast(translateUiText("请求失败，请重试"));
         }
         return Promise.reject(error);
     },
