@@ -36,6 +36,16 @@ const i18n = createI18n({
     }
 })
 
+const uiMessages: Record<AppLocale, Record<string, string>> = {
+    'zh-CN': zhCN.ui.messages,
+    'en-US': enUS.ui.messages
+}
+
+export function translateUiText(source: string): string {
+    const locale = normalizeLocale(i18n.global.locale.value)
+    return uiMessages[locale][source] ?? source
+}
+
 export function setAppLocale(locale: AppLocale): void {
     i18n.global.locale.value = locale
     window.localStorage.setItem(STORAGE_KEY, locale)

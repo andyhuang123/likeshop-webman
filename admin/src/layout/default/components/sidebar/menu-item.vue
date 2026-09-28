@@ -9,7 +9,7 @@
                     :name="routeMeta?.icon"
                 />
                 <template #title>
-                    <span>{{ routeMeta?.title }}</span>
+                    <span>{{ $ui(routeMeta?.title || '') }}</span>
                 </template>
             </el-menu-item>
         </app-link>
@@ -21,7 +21,7 @@
                     v-if="routeMeta?.icon"
                     :name="routeMeta?.icon"
                 />
-                <span>{{ routeMeta?.title }}</span>
+                <span>{{ $ui(routeMeta?.title || '') }}</span>
             </template>
             <menu-item
                 v-for="item in route?.children"

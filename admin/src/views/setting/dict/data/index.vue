@@ -1,9 +1,9 @@
 <template>
     <div class="dict-type">
         <el-card class="!border-none" shadow="never">
-            <el-page-header class="mb-4" content="数据管理" @back="$router.back()" />
+            <el-page-header class="mb-4" :content='$ui("数据管理")' @back="$router.back()" />
             <el-form ref="formRef" class="mb-[-16px]" :model="queryParams" inline>
-                <el-form-item label="字典名称">
+                <el-form-item :label='$ui("字典名称")'>
                     <el-select class="w-[280px]" v-model="queryParams.type_id" @change="getLists">
                         <el-option
                             v-for="item in optionsData.dict_type"
@@ -13,7 +13,7 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="数据名称">
+                <el-form-item :label='$ui("数据名称")'>
                     <el-input
                         class="w-[280px]"
                         v-model="queryParams.name"
@@ -21,16 +21,16 @@
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="数据状态">
+                <el-form-item :label='$ui("数据状态")'>
                     <el-select class="w-[280px]" v-model="queryParams.status">
-                        <el-option label="全部" value />
-                        <el-option label="正常" :value="1" />
-                        <el-option label="停用" :value="0" />
+                        <el-option :label='$ui("全部")' value />
+                        <el-option :label='$ui("正常")' :value="1" />
+                        <el-option :label='$ui("停用")' :value="0" />
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
+                    <el-button type="primary" @click="resetPage">{{ $ui("查询") }}</el-button>
+                    <el-button @click="resetParams">{{ $ui("重置") }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -44,7 +44,7 @@
                     <template #icon>
                         <icon name="el-icon-Plus" />
                     </template>
-                    添加数据
+                    {{ $ui("添加数据") }}
                 </el-button>
                 <el-button
                     v-perms="['setting.dict.dict_data/delete']"
@@ -55,7 +55,7 @@
                     <template #icon>
                         <icon name="el-icon-Delete" />
                     </template>
-                    删除
+                    {{ $ui("删除") }}
                 </el-button>
             </div>
             <div class="mt-4" v-loading="pager.loading">
@@ -67,22 +67,22 @@
                     >
                         <el-table-column type="selection" width="55" />
                         <el-table-column label="ID" prop="id" />
-                        <el-table-column label="数据名称" prop="name" min-width="120" />
-                        <el-table-column label="数据值" prop="value" min-width="120" />
-                        <el-table-column label="状态">
+                        <el-table-column :label='$ui("数据名称")' prop="name" min-width="120" />
+                        <el-table-column :label='$ui("数据值")' prop="value" min-width="120" />
+                        <el-table-column :label='$ui("状态")'>
                             <template v-slot="{ row }">
-                                <el-tag v-if="row.status == 1">正常</el-tag>
-                                <el-tag v-else type="danger">停用</el-tag>
+                                <el-tag v-if="row.status == 1">{{ $ui("正常") }}</el-tag>
+                                <el-tag v-else type="danger">{{ $ui("停用") }}</el-tag>
                             </template>
                         </el-table-column>
                         <el-table-column
-                            label="备注"
+                            :label='$ui("备注")'
                             prop="remark"
                             min-width="120"
                             show-tooltip-when-overflow
                         />
-                        <el-table-column label="排序" prop="sort" />
-                        <el-table-column label="操作" width="120" fixed="right">
+                        <el-table-column :label='$ui("排序")' prop="sort" />
+                        <el-table-column :label='$ui("操作")' width="120" fixed="right">
                             <template #default="{ row }">
                                 <el-button
                                     v-perms="['setting.dict.dict_data/edit']"
@@ -90,7 +90,7 @@
                                     type="primary"
                                     @click="handleEdit(row)"
                                 >
-                                    编辑
+                                    {{ $ui("编辑") }}
                                 </el-button>
                                 <el-button
                                     v-perms="['setting.dict.dict_data/delete']"
@@ -98,7 +98,7 @@
                                     type="danger"
                                     @click="handleDelete(row.id)"
                                 >
-                                    删除
+                                    {{ $ui("删除") }}
                                 </el-button>
                             </template>
                         </el-table-column>
@@ -114,6 +114,7 @@
 </template>
 
 <script lang="ts" setup name="dictData">
+import { translateUiText } from "@/i18n";
 import { dictDataDelete, dictDataLists, dictTypeLists } from '@/api/setting/dict'
 import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
@@ -167,7 +168,7 @@ const handleEdit = async (data: any) => {
 }
 
 const handleDelete = async (id: any[] | number) => {
-    await feedback.confirm('确定要删除？')
+    await feedback.confirm(translateUiText("确定要删除？"))
     await dictDataDelete({ id })
     getLists()
 }

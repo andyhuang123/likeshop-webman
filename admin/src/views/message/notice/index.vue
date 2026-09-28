@@ -3,7 +3,7 @@
         <el-card class="!border-none" shadow="never">
             <el-alert
                 type="warning"
-                title="温馨提示：平台配置在各个场景下的通知发送方式和内容模板"
+                :title='$ui("温馨提示：平台配置在各个场景下的通知发送方式和内容模板")'
                 :closable="false"
                 show-icon
             ></el-alert>
@@ -13,7 +13,7 @@
                 <el-tab-pane
                     v-for="(item, index) in tabsMap"
                     :key="index"
-                    :label="item.name"
+                    :label="$ui(item.name)"
                     :name="item.type"
                     lazy
                 ></el-tab-pane>
@@ -25,15 +25,15 @@
                 element-loading-spinner="el-icon-Loading"
                 element-loading-background="rgba(255, 255, 255, 0.8)"
             >
-                <el-table-column label="通知场景" prop="scene_name" min-width="120" />
-                <el-table-column label="通知类型" prop="type_desc" min-width="160" />
-                <el-table-column label="短信通知" min-width="80">
+                <el-table-column :label='$ui("通知场景")' prop="scene_name" min-width="120" />
+                <el-table-column :label='$ui("通知类型")' prop="type_desc" min-width="160" />
+                <el-table-column :label='$ui("短信通知")' min-width="80">
                     <template #default="{ row }">
-                        <el-tag v-if="row.sms_notice?.status == 1">开启</el-tag>
-                        <el-tag type="danger" v-else>关闭</el-tag>
+                        <el-tag v-if="row.sms_notice?.status == 1">{{ $ui("开启") }}</el-tag>
+                        <el-tag type="danger" v-else>{{ $ui("关闭") }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" min-width="80" fixed="right">
+                <el-table-column :label='$ui("操作")' min-width="80" fixed="right">
                     <template #default="{ row }">
                         <el-button v-perms="['notice.notice/set']" type="primary" link>
                             <router-link
@@ -44,7 +44,7 @@
                                     }
                                 }"
                             >
-                                设置
+                                {{ $ui("设置") }}
                             </router-link>
                         </el-button>
                     </template>
@@ -54,6 +54,7 @@
     </div>
 </template>
 <script lang="ts" setup name="notice">
+import { translateUiText } from "@/i18n";
 import { noticeLists } from '@/api/message'
 import { usePaging } from '@/hooks/usePaging'
 import { getRoutePath } from '@/router'

@@ -35,11 +35,12 @@
         </div>
 
         <footer-btns :fixed="true" v-perms="['decorate:tabbar:save']">
-            <el-button type="primary" @click="setData">保存</el-button>
+            <el-button type="primary" @click="setData">{{ $ui("保存") }}</el-button>
         </footer-btns>
     </div>
 </template>
 <script lang="ts" setup name="decorationTabbar">
+import { translateUiText } from "@/i18n";
 import { getDecorateTabbar, setDecorateTabbar } from '@/api/decoration'
 
 import Menu from './component/pages/menu.vue'

@@ -15,19 +15,19 @@
                 :model="formData"
                 label-width="84px"
             >
-                <el-form-item label="字典名称" prop="name">
-                    <el-input v-model="formData.name" placeholder="请输入字典名称" clearable />
+                <el-form-item :label='$ui("字典名称")' prop="name">
+                    <el-input v-model="formData.name" :placeholder='$ui("请输入字典名称")' clearable />
                 </el-form-item>
-                <el-form-item label="字典类型" prop="type">
-                    <el-input v-model="formData.type" placeholder="请输入字典类型" clearable />
+                <el-form-item :label='$ui("字典类型")' prop="type">
+                    <el-input v-model="formData.type" :placeholder='$ui("请输入字典类型")' clearable />
                 </el-form-item>
-                <el-form-item label="字典状态" required prop="status">
+                <el-form-item :label='$ui("字典状态")' required prop="status">
                     <el-radio-group v-model="formData.status">
-                        <el-radio :label="1">正常</el-radio>
-                        <el-radio :label="0">停用</el-radio>
+                        <el-radio :label="1">{{ $ui("正常") }}</el-radio>
+                        <el-radio :label="0">{{ $ui("停用") }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="备注" prop="remark">
+                <el-form-item :label='$ui("备注")' prop="remark">
                     <el-input
                         v-model="formData.remark"
                         type="textarea"
@@ -42,6 +42,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 
 import { dictTypeAdd, dictTypeEdit } from '@/api/setting/dict'
@@ -52,7 +53,7 @@ const formRef = shallowRef<FormInstance>()
 const popupRef = shallowRef<InstanceType<typeof Popup>>()
 const mode = ref('add')
 const popupTitle = computed(() => {
-    return mode.value == 'edit' ? '编辑字典类型' : '新增字典类型'
+    return mode.value == 'edit' ? translateUiText("编辑字典类型") : translateUiText("新增字典类型")
 })
 const formData = reactive({
     id: '',
@@ -66,14 +67,14 @@ const rules = {
     name: [
         {
             required: true,
-            message: '请输入字典名称',
+            message: () => translateUiText("请输入字典名称"),
             trigger: ['blur']
         }
     ],
     type: [
         {
             required: true,
-            message: '请输入字典类型',
+            message: () => translateUiText("请输入字典类型"),
             trigger: ['blur']
         }
     ]

@@ -9,7 +9,7 @@
             />
         </div>
         <div v-if="type == 'video'">
-            <el-dialog v-model="visible" width="740px" title="视频预览" :before-close="handleClose">
+            <el-dialog v-model="visible" width="740px" :title='$ui("视频预览")' :before-close="handleClose">
                 <video-player ref="playerRef" :src="url" width="100%" height="450px" />
             </el-dialog>
         </div>

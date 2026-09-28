@@ -1,6 +1,6 @@
 <template>
-    <popup ref="popupRef" title="轮播图设置" :async="true" width="980px" @confirm="handleSubmit">
-        <el-alert title="最多可添加10张，建议图片尺寸750px*440px" type="warning" />
+    <popup ref="popupRef" :title='$ui("轮播图设置")' :async="true" width="980px" @confirm="handleSubmit">
+        <el-alert :title='$ui("最多可添加10张，建议图片尺寸750px*440px")' type="warning" />
 
         <el-scrollbar height="400px" class="mt-4">
             <div class="flex flex-wrap p-4">
@@ -19,7 +19,7 @@
                                         <div
                                             class="w-[122px] h-[122px] flex justify-center items-center"
                                         >
-                                            轮播图
+                                            {{ $ui("轮播图") }}
                                         </div>
                                     </template>
                                 </material-picker>
@@ -30,12 +30,13 @@
                 </div>
             </div>
             <div class="mt-4 ml-4">
-                <el-button link type="primary" @click="handleAdd">+ 添加轮播图</el-button>
+                <el-button link type="primary" @click="handleAdd">{{ $ui("+ 添加轮播图") }}</el-button>
             </div>
         </el-scrollbar>
     </popup>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import { cloneDeep } from 'lodash-es'
 import type { PropType } from 'vue'
 
@@ -87,7 +88,7 @@ const handleAdd = () => {
 
 const handleDelete = (index: number) => {
     if (props.content.data?.length <= 1) {
-        return feedback.msgError('最少保留一个轮播图')
+        return feedback.msgError(translateUiText("最少保留一个轮播图"))
     }
     const content = cloneDeep(props.content)
     content.data.splice(index, 1)

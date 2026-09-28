@@ -2,7 +2,7 @@
     <div>
         <el-form label-width="90px" size="large" label-position="top">
             <el-card shadow="never" class="!border-none flex mt-2">
-                <el-form-item label="平台名称">
+                <el-form-item :label='$ui("平台名称")'>
                     <el-input
                         class="w-[400px]"
                         show-word-limit
@@ -11,13 +11,13 @@
                     />
                 </el-form-item>
 
-                <el-form-item label="客服二维码">
+                <el-form-item :label='$ui("客服二维码")'>
                     <div>
                         <material-picker v-model="contentData.qrcode" exclude-domain />
                     </div>
                 </el-form-item>
 
-                <el-form-item label="备注">
+                <el-form-item :label='$ui("备注")'>
                     <el-input
                         class="w-[400px]"
                         show-word-limit
@@ -25,10 +25,10 @@
                         v-model="contentData.remark"
                     />
                 </el-form-item>
-                <el-form-item label="联系电话">
+                <el-form-item :label='$ui("联系电话")'>
                     <el-input class="w-[400px]" v-model="contentData.mobile" />
                 </el-form-item>
-                <el-form-item label="服务时间">
+                <el-form-item :label='$ui("服务时间")'>
                     <el-input
                         class="w-[400px]"
                         show-word-limit

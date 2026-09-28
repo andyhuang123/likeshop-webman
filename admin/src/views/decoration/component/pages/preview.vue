@@ -1,7 +1,7 @@
 <template>
     <el-scrollbar class="pages-preview-container">
         <div v-if="pageMeta !== null" class="absolute right-4 top-4" @click="handleClickPageMeta">
-            <el-button>页面设置</el-button>
+            <el-button>{{ $ui("页面设置") }}</el-button>
         </div>
         <div class="shadow mx-[30px] pages-preview">
             <div
@@ -48,7 +48,7 @@
                         </el-tooltip>
                     </div>
                     <div>
-                        <el-tooltip effect="dark" content="上移" placement="right">
+                        <el-tooltip effect="dark" :content='$ui("上移")' placement="right">
                             <el-button
                                 class="py-[5px]"
                                 type="primary"
@@ -59,7 +59,7 @@
                         </el-tooltip>
                     </div>
                     <div>
-                        <el-tooltip effect="dark" content="下移" placement="right">
+                        <el-tooltip effect="dark" :content='$ui("下移")' placement="right">
                             <el-button
                                 class="py-[5px]"
                                 type="primary"

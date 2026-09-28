@@ -15,32 +15,32 @@
                 :model="formData"
                 label-width="84px"
             >
-                <el-form-item label="字典类型">
+                <el-form-item :label='$ui("字典类型")'>
                     <el-input
                         :model-value="formData.type_value"
-                        placeholder="请输入字典类型"
+                        :placeholder='$ui("请输入字典类型")'
                         disabled
                     />
                 </el-form-item>
-                <el-form-item label="数据名称" prop="name">
-                    <el-input v-model="formData.name" placeholder="请输入数据名称" clearable />
+                <el-form-item :label='$ui("数据名称")' prop="name">
+                    <el-input v-model="formData.name" :placeholder='$ui("请输入数据名称")' clearable />
                 </el-form-item>
-                <el-form-item label="数据值" prop="value">
-                    <el-input v-model="formData.value" placeholder="请输入数据值" clearable />
+                <el-form-item :label='$ui("数据值")' prop="value">
+                    <el-input v-model="formData.value" :placeholder='$ui("请输入数据值")' clearable />
                 </el-form-item>
-                <el-form-item label="排序" prop="sort">
+                <el-form-item :label='$ui("排序")' prop="sort">
                     <div>
                         <el-input-number v-model="formData.sort" :min="0" :max="9999" />
-                        <div class="form-tips">数值越大越排前</div>
+                        <div class="form-tips">{{ $ui("数值越大越排前") }}</div>
                     </div>
                 </el-form-item>
-                <el-form-item label="状态" required prop="status">
+                <el-form-item :label='$ui("状态")' required prop="status">
                     <el-radio-group v-model="formData.status">
-                        <el-radio :label="1">正常</el-radio>
-                        <el-radio :label="0">停用</el-radio>
+                        <el-radio :label="1">{{ $ui("正常") }}</el-radio>
+                        <el-radio :label="0">{{ $ui("停用") }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="备注" prop="remark">
+                <el-form-item :label='$ui("备注")' prop="remark">
                     <el-input
                         v-model="formData.remark"
                         type="textarea"
@@ -55,6 +55,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 
 import { dictDataAdd, dictDataEdit } from '@/api/setting/dict'
@@ -65,7 +66,7 @@ const formRef = shallowRef<FormInstance>()
 const popupRef = shallowRef<InstanceType<typeof Popup>>()
 const mode = ref('add')
 const popupTitle = computed(() => {
-    return mode.value == 'edit' ? '编辑字典数据' : '新增字典数据'
+    return mode.value == 'edit' ? translateUiText("编辑字典数据") : translateUiText("新增字典数据")
 })
 const formData = reactive({
     id: '',
@@ -82,14 +83,14 @@ const rules = {
     name: [
         {
             required: true,
-            message: '请输入数据名称',
+            message: () => translateUiText("请输入数据名称"),
             trigger: ['blur']
         }
     ],
     value: [
         {
             required: true,
-            message: '请输入数据值',
+            message: () => translateUiText("请输入数据值"),
             trigger: ['blur']
         }
     ]

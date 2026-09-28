@@ -3,7 +3,7 @@
         <el-card class="!border-none" shadow="never">
             <el-alert
                 type="warning"
-                title="温馨提示：1.粉丝在公众号发送内容时，通过关键词可触发关键词回复；2.同时可启用多个关键词回复，有多条关键词匹配时优选选择排序靠前的一条"
+                :title='$ui("温馨提示：1.粉丝在公众号发送内容时，通过关键词可触发关键词回复；2.同时可启用多个关键词回复，有多条关键词匹配时优选选择排序靠前的一条")'
                 :closable="false"
                 show-icon
             />
@@ -14,24 +14,24 @@
                     <template #icon>
                         <icon name="el-icon-Plus" />
                     </template>
-                    新增
+                    {{ $ui("新增") }}
                 </el-button>
             </div>
             <el-table size="large" :data="pager.lists" v-loading="pager.loading">
-                <el-table-column label="规则名称" prop="name" min-width="120" />
+                <el-table-column :label='$ui("规则名称")' prop="name" min-width="120" />
 
-                <el-table-column label="关键词" prop="keyword" min-width="120" />
-                <el-table-column label="匹配方式" min-width="120">
+                <el-table-column :label='$ui("关键词")' prop="keyword" min-width="120" />
+                <el-table-column :label='$ui("匹配方式")' min-width="120">
                     <template #default="{ row }">
                         {{ getMatchingType(row.matching_type) }}
                     </template>
                 </el-table-column>
-                <el-table-column label="回复类型" min-width="120">
+                <el-table-column :label='$ui("回复类型")' min-width="120">
                     <template #default="{ row }">
                         {{ getContentType(row.content_type) }}
                     </template>
                 </el-table-column>
-                <el-table-column label="状态" min-width="120">
+                <el-table-column :label='$ui("状态")' min-width="120">
                     <template #default="{ row }">
                         <el-switch
                             v-model="row.status"
@@ -41,12 +41,12 @@
                         />
                     </template>
                 </el-table-column>
-                <el-table-column label="排序" prop="sort" min-width="120" />
-                <el-table-column label="操作" width="120" fixed="right">
+                <el-table-column :label='$ui("排序")' prop="sort" min-width="120" />
+                <el-table-column :label='$ui("操作")' width="120" fixed="right">
                     <template #default="{ row }">
-                        <el-button type="primary" link @click="handleEdit(row)"> 编辑 </el-button>
+                        <el-button type="primary" link @click="handleEdit(row)"> {{ $ui("编辑") }} </el-button>
                         <el-button type="danger" link @click="handleDelete(row.id)">
-                            删除
+                            {{ $ui("删除") }}
                         </el-button>
                     </template>
                 </el-table-column>
@@ -59,6 +59,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import { changeOaReplyStatus, getOaReplyList, oaReplyDel } from '@/api/channel/wx_oa'
 import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
@@ -72,9 +73,9 @@ const getMatchingType = computed(() => {
     return (val: number) => {
         switch (val) {
             case 1:
-                return '全匹配'
+                return translateUiText("全匹配")
             case 2:
-                return '模糊匹配'
+                return translateUiText("模糊匹配")
         }
     }
 })
@@ -83,7 +84,7 @@ const getContentType = computed(() => {
     return (val: number) => {
         switch (val) {
             case 1:
-                return '文本'
+                return translateUiText("文本")
         }
     }
 })
@@ -108,7 +109,7 @@ const handleEdit = async (data: any) => {
 }
 
 const handleDelete = async (id: number) => {
-    await feedback.confirm('确定要删除？')
+    await feedback.confirm(translateUiText("确定要删除？"))
     await oaReplyDel({ id })
     getLists()
 }

@@ -3,7 +3,7 @@
         <el-card class="!border-none" shadow="never">
             <el-alert
                 type="warning"
-                title="温馨提示：用于管理网站的分类，只可添加到一级"
+                :title='$ui("温馨提示：用于管理网站的分类，只可添加到一级")'
                 :closable="false"
                 show-icon
             />
@@ -19,13 +19,13 @@
                     <template #icon>
                         <icon name="el-icon-Plus" />
                     </template>
-                    新增
+                    {{ $ui("新增") }}
                 </el-button>
             </div>
             <el-table size="large" :data="pager.lists">
-                <el-table-column label="栏目名称" prop="name" min-width="120" />
-                <el-table-column label="文章数" prop="article_count" min-width="120" />
-                <el-table-column label="状态" min-width="120">
+                <el-table-column :label='$ui("栏目名称")' prop="name" min-width="120" />
+                <el-table-column :label='$ui("文章数")' prop="article_count" min-width="120" />
+                <el-table-column :label='$ui("状态")' min-width="120">
                     <template #default="{ row }">
                         <el-switch
                             v-perms="['article.articleCate/updateStatus']"
@@ -36,8 +36,8 @@
                         />
                     </template>
                 </el-table-column>
-                <el-table-column label="排序" prop="sort" min-width="120" />
-                <el-table-column label="操作" width="120" fixed="right">
+                <el-table-column :label='$ui("排序")' prop="sort" min-width="120" />
+                <el-table-column :label='$ui("操作")' width="120" fixed="right">
                     <template #default="{ row }">
                         <el-button
                             v-perms="['article.articleCate/edit']"
@@ -45,7 +45,7 @@
                             link
                             @click="handleEdit(row)"
                         >
-                            编辑
+                            {{ $ui("编辑") }}
                         </el-button>
                         <el-button
                             v-perms="['article.articleCate/delete']"
@@ -53,7 +53,7 @@
                             link
                             @click="handleDelete(row.id)"
                         >
-                            删除
+                            {{ $ui("删除") }}
                         </el-button>
                     </template>
                 </el-table-column>
@@ -66,6 +66,7 @@
     </div>
 </template>
 <script lang="ts" setup name="articleColumn">
+import { translateUiText } from "@/i18n";
 import { articleCateDelete, articleCateLists, articleCateStatus } from '@/api/article'
 import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
@@ -92,7 +93,7 @@ const handleEdit = async (data: any) => {
 }
 
 const handleDelete = async (id: number) => {
-    await feedback.confirm('确定要删除？')
+    await feedback.confirm(translateUiText("确定要删除？"))
     await articleCateDelete({ id })
     getLists()
 }

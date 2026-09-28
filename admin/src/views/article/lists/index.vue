@@ -2,7 +2,7 @@
     <div class="article-lists">
         <el-card class="!border-none" shadow="never">
             <el-form ref="formRef" class="mb-[-16px]" :model="queryParams" :inline="true">
-                <el-form-item label="文章标题">
+                <el-form-item :label='$ui("文章标题")'>
                     <el-input
                         class="w-[280px]"
                         v-model="queryParams.title"
@@ -10,9 +10,9 @@
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="栏目名称">
+                <el-form-item :label='$ui("栏目名称")'>
                     <el-select class="w-[280px]" v-model="queryParams.cid">
-                        <el-option label="全部" value />
+                        <el-option :label='$ui("全部")' value />
                         <el-option
                             v-for="item in optionsData.article_cate"
                             :key="item.id"
@@ -21,16 +21,16 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="文章状态">
+                <el-form-item :label='$ui("文章状态")'>
                     <el-select class="w-[280px]" v-model="queryParams.is_show">
-                        <el-option label="全部" value />
-                        <el-option label="显示" :value="1" />
-                        <el-option label="隐藏" :value="0" />
+                        <el-option :label='$ui("全部")' value />
+                        <el-option :label='$ui("显示")' :value="1" />
+                        <el-option :label='$ui("隐藏")' :value="0" />
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
+                    <el-button type="primary" @click="resetPage">{{ $ui("查询") }}</el-button>
+                    <el-button @click="resetParams">{{ $ui("重置") }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -46,7 +46,7 @@
                         <template #icon>
                             <icon name="el-icon-Plus" />
                         </template>
-                        发布文章
+                        {{ $ui("发布文章") }}
                     </el-button>
                 </router-link>
             </div>
@@ -59,7 +59,7 @@
                 class="table-loading"
             >
                 <el-table-column label="ID" prop="id" min-width="80" />
-                <el-table-column label="封面" min-width="100">
+                <el-table-column :label='$ui("封面")' min-width="100">
                     <template #default="{ row }">
                         <image-contain
                             v-if="row.image"
@@ -73,15 +73,15 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                    label="标题"
+                    :label='$ui("标题")'
                     prop="title"
                     min-width="160"
                     show-tooltip-when-overflow
                 />
-                <el-table-column label="栏目" prop="cate_name" min-width="100" />
-                <el-table-column label="作者" prop="author" min-width="120" />
-                <el-table-column label="浏览量" prop="click" min-width="100" />
-                <el-table-column label="状态" min-width="100">
+                <el-table-column :label='$ui("栏目")' prop="cate_name" min-width="100" />
+                <el-table-column :label='$ui("作者")' prop="author" min-width="120" />
+                <el-table-column :label='$ui("浏览量")' prop="click" min-width="100" />
+                <el-table-column :label='$ui("状态")' min-width="100">
                     <template #default="{ row }">
                         <el-switch
                             v-perms="['article.article/updateStatus']"
@@ -92,9 +92,9 @@
                         />
                     </template>
                 </el-table-column>
-                <el-table-column label="排序" prop="sort" min-width="100" />
-                <el-table-column label="发布时间" prop="create_time" min-width="120" />
-                <el-table-column label="操作" width="120" fixed="right">
+                <el-table-column :label='$ui("排序")' prop="sort" min-width="100" />
+                <el-table-column :label='$ui("发布时间")' prop="create_time" min-width="120" />
+                <el-table-column :label='$ui("操作")' width="120" fixed="right">
                     <template #default="{ row }">
                         <el-button
                             v-perms="['article.article/edit', 'article.article/add:edit']"
@@ -109,7 +109,7 @@
                                     }
                                 }"
                             >
-                                编辑
+                                {{ $ui("编辑") }}
                             </router-link>
                         </el-button>
                         <el-button
@@ -118,7 +118,7 @@
                             link
                             @click="handleDelete(row.id)"
                         >
-                            删除
+                            {{ $ui("删除") }}
                         </el-button>
                     </template>
                 </el-table-column>
@@ -130,6 +130,7 @@
     </div>
 </template>
 <script lang="ts" setup name="articleLists">
+import { translateUiText } from "@/i18n";
 import { articleCateAll, articleDelete, articleLists, articleStatus } from '@/api/article'
 import { useDictOptions } from '@/hooks/useDictOptions'
 import { usePaging } from '@/hooks/usePaging'
@@ -165,7 +166,7 @@ const changeStatus = async (is_show: any, id: number) => {
 }
 
 const handleDelete = async (id: number) => {
-    await feedback.confirm('确定要删除？')
+    await feedback.confirm(translateUiText("确定要删除？"))
     await articleDelete({ id })
     getLists()
 }

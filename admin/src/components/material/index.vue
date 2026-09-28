@@ -21,7 +21,9 @@
                                         src="@/assets/images/icon_folder.png"
                                     />
                                     <span class="flex-1 truncate mr-2">
-                                        <overflow-tooltip :content="data.name" />
+                                        <overflow-tooltip
+                                            :content="data.id === '' ? $ui('全部') : data.id === 0 ? $ui('未分组') : data.name"
+                                        />
                                     </span>
                                     <el-dropdown v-if="data.id > 0" :hide-on-click="false">
                                         <span class="muted m-r-10">···</span>
@@ -38,7 +40,7 @@
                                                 >
                                                     <div>
                                                         <el-dropdown-item>
-                                                            命名分组
+                                                            {{ $ui("命名分组") }}
                                                         </el-dropdown-item>
                                                     </div>
                                                 </popover-input>
@@ -52,7 +54,7 @@
                                                 >
                                                     <div>
                                                         <el-dropdown-item>
-                                                            添加分组
+                                                            {{ $ui("添加分组") }}
                                                         </el-dropdown-item>
                                                     </div>
                                                 </popover-input>
@@ -64,7 +66,7 @@
                                                         )
                                                     "
                                                 >
-                                                    <el-dropdown-item>删除分组</el-dropdown-item>
+                                                    <el-dropdown-item>{{ $ui("删除分组") }}</el-dropdown-item>
                                                 </div>
                                             </el-dropdown-menu>
                                         </template>
@@ -85,7 +87,7 @@
                     show-limit
                     teleported
                 >
-                    <el-button> 添加分组 </el-button>
+                    <el-button> {{ $ui("添加分组") }} </el-button>
                 </popover-input>
             </div>
         </div>
@@ -100,7 +102,7 @@
                         :show-progress="true"
                         @change="refresh"
                     >
-                        <el-button type="primary">本地上传</el-button>
+                        <el-button type="primary">{{ $ui("本地上传") }}</el-button>
                     </upload>
                     <upload
                         v-if="type == 'video'"
@@ -110,7 +112,7 @@
                         :show-progress="true"
                         @allSuccess="refresh"
                     >
-                        <el-button type="primary">本地上传</el-button>
+                        <el-button type="primary">{{ $ui("本地上传") }}</el-button>
                     </upload>
                     <upload
                         v-if="type == 'file'"
@@ -120,14 +122,14 @@
                         :show-progress="true"
                         @allSuccess="refresh"
                     >
-                        <el-button type="primary">本地上传</el-button>
+                        <el-button type="primary">{{ $ui("本地上传") }}</el-button>
                     </upload>
                     <el-button
                         v-if="mode == 'page'"
                         :disabled="!select.length"
                         @click.stop="batchFileDelete()"
                     >
-                        删除
+                        {{ $ui("删除") }}
                     </el-button>
 
                     <popup
@@ -135,15 +137,15 @@
                         class="ml-3"
                         @confirm="batchFileMove"
                         :disabled="!select.length"
-                        title="移动文件"
+                        :title='$ui("移动文件")'
                     >
                         <template #trigger>
-                            <el-button :disabled="!select.length">移动</el-button>
+                            <el-button :disabled="!select.length">{{ $ui("移动") }}</el-button>
                         </template>
 
                         <div>
-                            <span class="mr-5">移动文件至</span>
-                            <el-select v-model="moveId" placeholder="请选择">
+                            <span class="mr-5">{{ $ui("移动文件至") }}</span>
+                            <el-select v-model="moveId" :placeholder='$ui("请选择")'>
                                 <template v-for="item in cateLists" :key="item.id">
                                     <el-option
                                         v-if="item.id !== ''"
@@ -157,7 +159,7 @@
                 </div>
                 <el-select
                     v-model="fileParams.source"
-                    placeholder="请选择文件来源"
+                    :placeholder='$ui("请选择文件来源")'
                     clearable
                     style="margin-right: 20px"
                     class="w-50"
@@ -165,13 +167,13 @@
                     <el-option
                         v-for="item in options"
                         :key="item.value"
-                        :label="item.label"
+                        :label="$ui(item.label)"
                         :value="item.value"
                     />
                 </el-select>
                 <el-input
                     class="w-60"
-                    placeholder="请输入名称"
+                    :placeholder='$ui("请输入名称")'
                     v-model="fileParams.name"
                     @keyup.enter="refresh"
                 >
@@ -185,7 +187,7 @@
                 </el-input>
 
                 <div class="flex items-center ml-2">
-                    <el-tooltip content="列表视图" placement="top">
+                    <el-tooltip :content='$ui("列表视图")' placement="top">
                         <div
                             class="list-icon"
                             :class="{
@@ -196,7 +198,7 @@
                             <icon name="local-icon-list-2" :size="18" />
                         </div>
                     </el-tooltip>
-                    <el-tooltip content="平铺视图" placement="top">
+                    <el-tooltip :content='$ui("平铺视图")' placement="top">
                         <div
                             class="list-icon"
                             :class="{
@@ -216,7 +218,7 @@
                     @change="selectAll"
                     :indeterminate="isIndeterminate"
                 >
-                    当页全选
+                    {{ $ui("当页全选") }}
                 </el-checkbox>
             </div>
             <div class="material-center__content flex flex-col flex-1 mb-1 min-h-0">
@@ -252,7 +254,7 @@
                                     show-limit
                                     teleported
                                 >
-                                    <el-button type="primary" link> 重命名 </el-button>
+                                    <el-button type="primary" link> {{ $ui("重命名") }} </el-button>
                                 </popover-input>
 
                                 <el-button
@@ -261,7 +263,7 @@
                                     link
                                     @click="handlePreview(item.url)"
                                 >
-                                    查看
+                                    {{ $ui("查看") }}
                                 </el-button>
 
                                 <el-button
@@ -270,7 +272,7 @@
                                     link
                                     @click="textCopy(item.url)"
                                     style="margin-left: 1px"
-                                    >地址</el-button
+                                    >{{ $ui("地址") }}</el-button
                                 >
                                 <el-link
                                     v-else
@@ -278,7 +280,7 @@
                                     :underline="false"
                                     style="margin-left: 25px"
                                     :href="item.url"
-                                    >下载</el-link
+                                    >{{ $ui("下载") }}</el-link
                                 >
                             </div>
                         </li>
@@ -300,20 +302,20 @@
                             <el-checkbox :modelValue="isSelect(row.id)" @change="selectFile(row)" />
                         </template>
                     </el-table-column>
-                    <el-table-column label="图片" width="100">
+                    <el-table-column :label='$ui("图片")' width="100">
                         <template #default="{ row }">
                             <file-item :uri="row.url" file-size="50px" :type="type"></file-item>
                         </template>
                     </el-table-column>
-                    <el-table-column label="名称" min-width="100" show-overflow-tooltip>
+                    <el-table-column :label='$ui("名称")' min-width="100" show-overflow-tooltip>
                         <template #default="{ row }">
                             <el-link @click.stop="handlePreview(row.url)" :underline="false">
                                 {{ row.name }}
                             </el-link>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="create_time" label="上传时间" min-width="100" />
-                    <el-table-column label="操作" width="150" fixed="right">
+                    <el-table-column prop="create_time" :label='$ui("上传时间")' min-width="100" />
+                    <el-table-column :label='$ui("操作")' width="150" fixed="right">
                         <template #default="{ row }">
                             <div class="inline-block">
                                 <popover-input
@@ -325,12 +327,12 @@
                                     show-limit
                                     teleported
                                 >
-                                    <el-button type="primary" link> 重命名 </el-button>
+                                    <el-button type="primary" link> {{ $ui("重命名") }} </el-button>
                                 </popover-input>
                             </div>
                             <div class="inline-block">
                                 <el-button type="primary" link @click.stop="handlePreview(row.url)">
-                                    查看
+                                    {{ $ui("查看") }}
                                 </el-button>
                             </div>
                             <div class="inline-block">
@@ -339,7 +341,7 @@
                                     link
                                     @click.stop="batchFileDelete([row.id])"
                                 >
-                                    删除
+                                    {{ $ui("删除") }}
                                 </el-button>
                             </div>
                         </template>
@@ -350,7 +352,7 @@
                     class="flex flex-1 justify-center items-center"
                     v-if="!pager.loading && !pager.lists.length"
                 >
-                    暂无数据~
+                    {{ $ui("暂无数据~") }}
                 </div>
             </div>
             <div class="material-center__footer flex justify-between items-center mt-2">
@@ -363,25 +365,25 @@
                                 @change="selectAll"
                                 :indeterminate="isIndeterminate"
                             >
-                                当页全选
+                                {{ $ui("当页全选") }}
                             </el-checkbox>
                         </span>
                         <el-button :disabled="!select.length" @click="batchFileDelete()">
-                            删除
+                            {{ $ui("删除") }}
                         </el-button>
                         <popup
                             class="ml-3 inline"
                             @confirm="batchFileMove"
                             :disabled="!select.length"
-                            title="移动文件"
+                            :title='$ui("移动文件")'
                         >
                             <template #trigger>
-                                <el-button :disabled="!select.length">移动</el-button>
+                                <el-button :disabled="!select.length">{{ $ui("移动") }}</el-button>
                             </template>
 
                             <div>
-                                <span class="mr-5">移动文件至</span>
-                                <el-select v-model="moveId" placeholder="请选择">
+                                <span class="mr-5">{{ $ui("移动文件至") }}</span>
+                                <el-select v-model="moveId" :placeholder='$ui("请选择")'>
                                     <template v-for="item in cateLists" :key="item.id">
                                         <el-option
                                             v-if="item.id !== ''"
@@ -404,10 +406,10 @@
         <div class="material__right" v-if="mode == 'picker'">
             <div class="flex justify-between p-2 flex-wrap">
                 <div class="sm flex items-center">
-                    已选择 {{ select.length }}
+                    {{ $ui("已选择") }} {{ select.length }}
                     <span v-if="limit">/{{ limit }}</span>
                 </div>
-                <el-button type="primary" link @click="clearSelect">清空</el-button>
+                <el-button type="primary" link @click="clearSelect">{{ $ui("清空") }}</el-button>
             </div>
             <div class="flex-1 min-h-0">
                 <el-scrollbar class="ls-scrollbar">
@@ -433,6 +435,7 @@
 </template>
 
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import { ElMessage } from 'element-plus'
 import type { Ref } from 'vue'
 
@@ -586,7 +589,7 @@ const textCopy = (uri: string) => {
     input.select() // 选中文本
     document.execCommand('copy') // 浏览器复制
     ElMessage({
-        message: '地址复制成功',
+        message: translateUiText("地址复制成功"),
         type: 'success'
     })
 }

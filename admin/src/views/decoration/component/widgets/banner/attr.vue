@@ -2,33 +2,33 @@
     <el-form label-width="70px">
         <el-card shadow="never" class="!border-none flex mt-2">
             <div class="flex items-end mb-4">
-                <div class="text-base dark:text-[#ffffff] text-[#101010] font-medium">展示样式</div>
+                <div class="text-base dark:text-[#ffffff] text-[#101010] font-medium">{{ $ui("展示样式") }}</div>
             </div>
             <el-radio-group v-model="contentData.style">
-                <el-radio :label="1">常规</el-radio>
-                <el-radio :label="2">大屏</el-radio>
+                <el-radio :label="1">{{ $ui("常规") }}</el-radio>
+                <el-radio :label="2">{{ $ui("大屏") }}</el-radio>
             </el-radio-group>
         </el-card>
         <el-card shadow="never" class="!border-none flex mt-2" v-if="content.style == 1">
             <div class="flex items-end mb-4">
-                <div class="text-base text-[#101010] dark:text-[#ffffff] font-medium">背景联动</div>
+                <div class="text-base text-[#101010] dark:text-[#ffffff] font-medium">{{ $ui("背景联动") }}</div>
             </div>
             <el-radio-group v-model="contentData.bg_style">
-                <el-radio :label="1">开启</el-radio>
-                <el-radio :label="0">关闭</el-radio>
+                <el-radio :label="1">{{ $ui("开启") }}</el-radio>
+                <el-radio :label="0">{{ $ui("关闭") }}</el-radio>
             </el-radio-group>
             <div class="p-[15px] rounded-[8px] bg-[#f3f8ff] text-[#136bdf] mt-2">
-                开启背景联动后，需为轮播图设置背景图，轮播图切换时，背景图也跟随切换，此时该页面自身的“页面背景“设置将失效。
+                {{ $ui("开启背景联动后，需为轮播图设置背景图，轮播图切换时，背景图也跟随切换，此时该页面自身的“页面背景“设置将失效。") }}
             </div>
         </el-card>
         <el-card shadow="never" class="!border-none flex-1 mt-2">
             <div class="flex items-end">
-                <div class="text-base text-[#101010] dark:text-[#ffffff] font-medium">轮播图片</div>
+                <div class="text-base text-[#101010] dark:text-[#ffffff] font-medium">{{ $ui("轮播图片") }}</div>
                 <div v-if="content.style == 1" class="text-xs text-tx-secondary ml-2">
-                    最多添加5张，建议图片尺寸：750px*340px
+                    {{ $ui("最多添加5张，建议图片尺寸：750px*340px") }}
                 </div>
                 <div v-else class="text-xs text-tx-secondary ml-2">
-                    最多添加5张，建议图片尺寸：750px*1100px
+                    {{ $ui("最多添加5张，建议图片尺寸：750px*1100px") }}
                 </div>
             </div>
             <div class="flex-1">
@@ -52,7 +52,7 @@
                                         >
                                             <template #upload>
                                                 <div class="w-[122px] h-[122px] banner-upload-btn">
-                                                    轮播图
+                                                    {{ $ui("轮播图") }}
                                                 </div>
                                             </template>
                                         </material-picker>
@@ -66,7 +66,7 @@
                                         >
                                             <template #upload>
                                                 <div class="w-[122px] h-[122px] banner-upload-btn">
-                                                    背景图
+                                                    {{ $ui("背景图") }}
                                                 </div>
                                             </template>
                                         </material-picker>
@@ -82,15 +82,15 @@
                                     </template>
                                 </div>
                                 <div class="flex-1">
-                                    <el-form-item class="mt-[18px]" label="图片链接">
+                                    <el-form-item class="mt-[18px]" :label='$ui("图片链接")'>
                                         <link-picker v-if="type == 'mobile'" v-model="item.link" />
                                         <el-input
                                             v-if="type == 'pc'"
-                                            placeholder="请输入链接"
+                                            :placeholder='$ui("请输入链接")'
                                             v-model="item.link.path"
                                         />
                                     </el-form-item>
-                                    <el-form-item label="是否显示" class="mt-[18px] !mb-0">
+                                    <el-form-item :label='$ui("是否显示")' class="mt-[18px] !mb-0">
                                         <div class="flex-1 flex items-center">
                                             <el-switch
                                                 v-model="item.is_show"
@@ -109,12 +109,13 @@
                 </draggable>
             </div>
             <div class="mt-4" v-if="content.data?.length < limit">
-                <el-button class="w-full" type="primary" @click="handleAdd">添加图片</el-button>
+                <el-button class="w-full" type="primary" @click="handleAdd">{{ $ui("添加图片") }}</el-button>
             </div>
         </el-card>
     </el-form>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import { cloneDeep } from 'lodash-es'
 import type { PropType } from 'vue'
 import Draggable from 'vuedraggable'
@@ -165,7 +166,7 @@ const handleAdd = () => {
 }
 const handleDelete = (index: number) => {
     if (props.content.data?.length <= 1) {
-        return feedback.msgError('最少保留一张图片')
+        return feedback.msgError(translateUiText("最少保留一张图片"))
     }
     const content = cloneDeep(props.content)
     content.data.splice(index, 1)

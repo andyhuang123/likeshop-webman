@@ -4,7 +4,7 @@
             ref="popupRef"
             width="1050px"
             custom-class="body-padding"
-            :title="`选择${tipsText}`"
+            :title="$ui('选择') + $ui(tipsText)"
             @confirm="handleConfirm"
             @close="handleClose"
         >
@@ -30,9 +30,9 @@
                                     ></file-item>
                                 </del-wrap>
                                 <div class="operation-btns text-xs text-center">
-                                    <span>修改</span>
+                                    <span>{{ $ui("修改") }}</span>
                                     |
-                                    <span @click.stop="handlePreview(element)">查看</span>
+                                    <span @click.stop="handlePreview(element)">{{ $ui("查看") }}</span>
                                 </div>
                             </div>
                         </template>
@@ -56,7 +56,7 @@
                                 }"
                             >
                                 <icon :size="25" name="el-icon-Plus" />
-                                <span>添加</span>
+                                <span>{{ $ui("添加") }}</span>
                             </div>
                         </slot>
                     </div>
@@ -79,6 +79,7 @@
 </template>
 
 <script lang="ts">
+import { translateUiText } from "@/i18n";
 import { useThrottleFn } from '@vueuse/core'
 import Draggable from 'vuedraggable'
 
@@ -167,9 +168,9 @@ export default defineComponent({
         const tipsText = computed(() => {
             switch (props.type) {
                 case 'image':
-                    return '图片'
+                    return translateUiText("图片")
                 case 'video':
-                    return '视频'
+                    return translateUiText("视频")
                 default:
                     return ''
             }

@@ -2,7 +2,7 @@
     <div class="blind-box-lists">
         <el-card class="!border-none mb-4" shadow="never">
             <el-form class="mb-[-16px]" :model="queryParams" :inline="true">
-                <el-form-item label="盲盒名称">
+                <el-form-item :label='$ui("盲盒名称")'>
                     <el-input
                         v-model="queryParams.name"
                         class="w-[280px]"
@@ -10,29 +10,29 @@
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="状态">
+                <el-form-item :label='$ui("状态")'>
                     <el-select class="w-[280px]" v-model="queryParams.status">
-                        <el-option label="全部" value="" />
-                        <el-option label="开启" :value="1" />
-                        <el-option label="关闭" :value="0" />
+                        <el-option :label='$ui("全部")' value="" />
+                        <el-option :label='$ui("开启")' :value="1" />
+                        <el-option :label='$ui("关闭")' :value="0" />
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
+                    <el-button type="primary" @click="resetPage">{{ $ui("查询") }}</el-button>
+                    <el-button @click="resetParams">{{ $ui("重置") }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card class="!border-none" shadow="never">
             <div class="mb-4">
-                <el-button type="primary" @click="handleAdd">新增盲盒</el-button>
+                <el-button type="primary" @click="handleAdd">{{ $ui("新增盲盒") }}</el-button>
             </div>
 
             <el-table size="large" v-loading="pager.loading" :data="pager.lists">
                 <el-table-column label="ID" prop="id" min-width="80" />
-                <el-table-column label="盲盒名称" prop="name" min-width="150" />
-                <el-table-column label="封面图" min-width="100">
+                <el-table-column :label='$ui("盲盒名称")' prop="name" min-width="150" />
+                <el-table-column :label='$ui("封面图")' min-width="100">
                     <template #default="{ row }">
                         <image-contain
                             v-if="row.image"
@@ -45,8 +45,8 @@
                         />
                     </template>
                 </el-table-column>
-                <el-table-column label="价格" prop="price" min-width="100" />
-                <el-table-column label="状态" min-width="100">
+                <el-table-column :label='$ui("价格")' prop="price" min-width="100" />
+                <el-table-column :label='$ui("状态")' min-width="100">
                     <template #default="{ row }">
                         <el-switch
                             v-model="row.status"
@@ -56,14 +56,14 @@
                         />
                     </template>
                 </el-table-column>
-                <el-table-column label="排序" prop="sort" min-width="80" />
-                <el-table-column label="创建时间" prop="create_time" min-width="180" />
-                <el-table-column label="操作" width="180" fixed="right">
+                <el-table-column :label='$ui("排序")' prop="sort" min-width="80" />
+                <el-table-column :label='$ui("创建时间")' prop="create_time" min-width="180" />
+                <el-table-column :label='$ui("操作")' width="180" fixed="right">
                     <template #default="{ row }">
-                        <el-button type="primary" link @click="handleEdit(row)"> 编辑 </el-button>
-                        <el-button type="primary" link @click="handlePrize(row)"> 奖品配置 </el-button>
+                        <el-button type="primary" link @click="handleEdit(row)"> {{ $ui("编辑") }} </el-button>
+                        <el-button type="primary" link @click="handlePrize(row)"> {{ $ui("奖品配置") }} </el-button>
                         <el-button type="danger" link @click="handleDelete(row.id)">
-                            删除
+                            {{ $ui("删除") }}
                         </el-button>
                     </template>
                 </el-table-column>
@@ -79,6 +79,7 @@
 </template>
 
 <script lang="ts" setup name="BlindBoxLists">
+import { translateUiText } from "@/i18n";
 import { reactive, ref, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -125,16 +126,16 @@ const handlePrize = async (data: any) => {
 }
 
 const handleDelete = async (id: number) => {
-    await feedback.confirm('确定要删除此盲盒吗？')
+    await feedback.confirm(translateUiText("确定要删除此盲盒吗？"))
     await blindBoxDelete({ id })
-    feedback.msgSuccess('删除成功')
+    feedback.msgSuccess(translateUiText("删除成功"))
     getLists()
 }
 
 const handleStatus = async (row: any) => {
     try {
         await blindBoxStatus({ id: row.id, status: row.status })
-        feedback.msgSuccess('修改成功')
+        feedback.msgSuccess(translateUiText("修改成功"))
     } catch (error) {
         row.status = row.status === 1 ? 0 : 1
     }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-card header="基础使用" shadow="never" class="!border-none">
+        <el-card :header='$ui("基础使用")' shadow="never" class="!border-none">
             <div class="flex flex-wrap">
                 <div class="m-4">
                     <UploadS3
@@ -9,7 +9,7 @@
                         @error="onError"
                         :show-progress="true"
                     >
-                        <el-button type="primary">S3上传</el-button>
+                        <el-button type="primary">{{ $ui("S3上传") }}</el-button>
                     </UploadS3>
                 </div>
                 <div class="m-4">
@@ -19,7 +19,7 @@
                         @error="onError"
                         :show-progress="true"
                     >
-                        <el-button type="primary">上传图片</el-button>
+                        <el-button type="primary">{{ $ui("上传图片") }}</el-button>
                     </upload>
                 </div>
                 <div class="m-4">
@@ -30,7 +30,7 @@
                         @error="onError"
                         :show-progress="true"
                     >
-                        <el-button type="primary">上传视频</el-button>
+                        <el-button type="primary">{{ $ui("上传视频") }}</el-button>
                     </upload>
                 </div>
                 <div class="m-4">
@@ -41,7 +41,7 @@
                         @error="onError"
                         :show-progress="true"
                     >
-                        <el-button type="primary">取消多选</el-button>
+                        <el-button type="primary">{{ $ui("取消多选") }}</el-button>
                     </upload>
                 </div>
                 <div class="m-4">
@@ -52,36 +52,37 @@
                         @error="onError"
                         :show-progress="true"
                     >
-                        <el-button type="primary">一次最多上传2张</el-button>
+                        <el-button type="primary">{{ $ui("一次最多上传2张") }}</el-button>
                     </upload>
                 </div>
                 <div class="m-4">
                     <analysisXlsx @success="onSuccess" @error="onError" :show-progress="false">
-                        <el-button type="primary">前端并解析xlsx生成json</el-button>
+                        <el-button type="primary">{{ $ui("前端并解析xlsx生成json") }}</el-button>
                     </analysisXlsx>
                 </div>
                 <div class="m-4">
-                    <el-button type="primary" @click="createXlsx"> 前端根据json生成xlsx </el-button>
+                    <el-button type="primary" @click="createXlsx"> {{ $ui("前端根据json生成xlsx") }} </el-button>
                 </div>
             </div>
         </el-card>
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import analysisXlsx from '@/components/analysis-xlsx/index.vue'
 import Upload from '@/components/upload/index.vue'
 import UploadS3 from '@/components/upload/indexS3.vue'
 import { toSheet } from '@/utils/util'
 const onChange = (file: any) => {
-    console.log('上传文件的状态发生改变', file)
+    console.log(translateUiText("上传文件的状态发生改变"), file)
 }
 
 const onSuccess = (file: any) => {
-    console.log('上传文件成功', file)
+    console.log(translateUiText("上传文件成功"), file)
 }
 
 const onError = (file: any) => {
-    console.log('上传文件失败', file)
+    console.log(translateUiText("上传文件失败"), file)
 }
 const createXlsx = () => {
     toSheet(

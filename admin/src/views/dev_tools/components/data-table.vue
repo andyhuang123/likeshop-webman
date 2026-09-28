@@ -3,7 +3,7 @@
         <popup
             ref="popupRef"
             :clickModalClose="false"
-            title="选择表"
+            :title='$ui("选择表")'
             width="900px"
             :async="true"
             @confirm="handleConfirm"
@@ -12,7 +12,7 @@
                 <slot></slot>
             </template>
             <el-form class="ls-form" :model="formData" inline>
-                <el-form-item label="表名称">
+                <el-form-item :label='$ui("表名称")'>
                     <el-input
                         class="w-[280px]"
                         v-model="formData.name"
@@ -20,7 +20,7 @@
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="表描述">
+                <el-form-item :label='$ui("表描述")'>
                     <el-input
                         class="w-[280px]"
                         v-model="formData.comment"
@@ -29,8 +29,8 @@
                     />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
+                    <el-button type="primary" @click="resetPage">{{ $ui("查询") }}</el-button>
+                    <el-button @click="resetParams">{{ $ui("重置") }}</el-button>
                 </el-form-item>
             </el-form>
             <div class="m-4" v-loading="pager.loading">
@@ -41,9 +41,9 @@
                     @selection-change="handleSelectionChange"
                 >
                     <el-table-column type="selection" width="55" />
-                    <el-table-column label="表名称" prop="name" min-width="150" />
-                    <el-table-column label="表描述" prop="comment" min-width="160" />
-                    <el-table-column label="创建时间" prop="create_time" min-width="180" />
+                    <el-table-column :label='$ui("表名称")' prop="name" min-width="150" />
+                    <el-table-column :label='$ui("表描述")' prop="comment" min-width="160" />
+                    <el-table-column :label='$ui("创建时间")' prop="create_time" min-width="180" />
                 </el-table>
             </div>
             <div class="flex justify-end mt-4">
@@ -54,6 +54,7 @@
 </template>
 
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import { dataTable, selectTable } from '@/api/tools/code'
 import Pagination from '@/components/pagination/index.vue'
 import Popup from '@/components/popup/index.vue'
@@ -87,7 +88,7 @@ const handleSelectionChange = (val: any[]) => {
 }
 
 const handleConfirm = async () => {
-    if (!selectData.value.length) return feedback.msgError('请选择数据表')
+    if (!selectData.value.length) return feedback.msgError(translateUiText("请选择数据表"))
     await selectTable({
         table: selectData.value
     })

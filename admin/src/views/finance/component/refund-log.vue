@@ -1,12 +1,12 @@
 <template>
     <div class="code-preview">
-        <el-dialog v-model="show" width="760px" title="退款日志">
+        <el-dialog v-model="show" width="760px" :title='$ui("退款日志")'>
             <el-table size="large" v-loading="loading" :data="logLists" height="500">
-                <el-table-column label="流水单号" prop="sn" min-width="190" />
-                <el-table-column label="退款金额" min-width="110">
+                <el-table-column :label='$ui("流水单号")' prop="sn" min-width="190" />
+                <el-table-column :label='$ui("退款金额")' min-width="110">
                     <template #default="{ row }"> ¥{{ row.refund_amount }} </template>
                 </el-table-column>
-                <el-table-column label="退款状态" prop="" min-width="100">
+                <el-table-column :label='$ui("退款状态")' prop="" min-width="100">
                     <template #default="{ row }">
                         <el-tag type="warning" v-if="row.refund_status == 0">
                             {{ row.refund_status_text }}
@@ -19,8 +19,8 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="记录时间" prop="create_time" min-width="180" />
-                <el-table-column label="操作人" prop="handler" min-width="120" />
+                <el-table-column :label='$ui("记录时间")' prop="create_time" min-width="180" />
+                <el-table-column :label='$ui("操作人")' prop="handler" min-width="120" />
             </el-table>
         </el-dialog>
     </div>

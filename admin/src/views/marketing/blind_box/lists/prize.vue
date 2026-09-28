@@ -2,7 +2,7 @@
     <div class="edit-popup">
         <popup
             ref="popupRef"
-            title="奖品配置"
+            :title='$ui("奖品配置")'
             :async="true"
             width="900px"
             @confirm="handleSubmit"
@@ -11,11 +11,11 @@
             <el-form ref="formRef" :model="formData" label-width="84px">
                 <div class="mb-4">
                     <el-button type="primary" @click="addProduct">
-                        + 添加奖品
+                        {{ $ui("+ 添加奖品") }}
                     </el-button>
                 </div>
                 <el-table :data="formData.blind_box_detail" border style="width: 100%">
-                    <el-table-column label="商品" min-width="200">
+                    <el-table-column :label='$ui("商品")' min-width="200">
                         <template #default="{ row, $index }">
                             <div v-if="row.product_id" class="flex items-center">
                                 <el-image :src="row.image" class="w-[40px] h-[40px] mr-2" />
@@ -27,11 +27,11 @@
                                 link
                                 @click="selectProduct($index)"
                             >
-                                选择商品
+                                {{ $ui("选择商品") }}
                             </el-button>
                         </template>
                     </el-table-column>
-                    <el-table-column label="中奖权重" width="150">
+                    <el-table-column :label='$ui("中奖权重")' width="150">
                         <template #default="{ row }">
                             <el-input-number
                                 v-model="row.probability"
@@ -40,10 +40,10 @@
                             />
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作" width="80">
+                    <el-table-column :label='$ui("操作")' width="80">
                         <template #default="{ $index }">
                             <el-button type="danger" link @click="removeProduct($index)"
-                                >删除</el-button
+                                >{{ $ui("删除") }}</el-button
                             >
                         </template>
                     </el-table-column>
@@ -60,6 +60,7 @@
 </template>
 
 <script lang="ts" setup name="BlindBoxPrize">
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 import { ref } from 'vue'
 
@@ -81,12 +82,12 @@ const formData = ref({
 
 const handleSubmit = async () => {
     if (!formData.value.blind_box_detail?.length) {
-        feedback.msgError('请至少配置一个奖品')
+        feedback.msgError(translateUiText("请至少配置一个奖品"))
         return
     }
     for (const item of formData.value.blind_box_detail) {
         if (!item.product_id) {
-            feedback.msgError('请选择奖品商品')
+            feedback.msgError(translateUiText("请选择奖品商品"))
             return
         }
     }

@@ -1,7 +1,7 @@
 <template>
     <el-breadcrumb class="app-breadcrumb">
         <el-breadcrumb-item v-for="item in breadcrumbs" :key="item.path">
-            {{ item.meta.title }}
+            {{ $ui(item.meta.title || '') }}
         </el-breadcrumb-item>
     </el-breadcrumb>
 </template>

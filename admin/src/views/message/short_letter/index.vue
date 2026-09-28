@@ -2,14 +2,14 @@
     <div>
         <el-card class="!border-none" shadow="never" v-loading="state.loading">
             <el-table size="large" :data="state.lists">
-                <el-table-column label="短信渠道" prop="name" min-width="120" />
-                <el-table-column label="状态" min-width="120">
+                <el-table-column :label='$ui("短信渠道")' prop="name" min-width="120" />
+                <el-table-column :label='$ui("状态")' min-width="120">
                     <template #default="{ row }">
-                        <el-tag v-if="row.status == 1">开启</el-tag>
-                        <el-tag type="danger" v-else>关闭</el-tag>
+                        <el-tag v-if="row.status == 1">{{ $ui("开启") }}</el-tag>
+                        <el-tag type="danger" v-else>{{ $ui("关闭") }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" min-width="120" fixed="right">
+                <el-table-column :label='$ui("操作")' min-width="120" fixed="right">
                     <template #default="{ row }">
                         <el-button
                             v-perms="['notice.sms_config/setConfig']"
@@ -17,7 +17,7 @@
                             link
                             @click="handleSet(row.type)"
                         >
-                            设置
+                            {{ $ui("设置") }}
                         </el-button>
                     </template>
                 </el-table-column>

@@ -5,7 +5,7 @@
                 <el-tab-pane
                     v-for="(item, index) in tabsList"
                     :key="item.id"
-                    :label="item.name"
+                    :label="$ui(item.name)"
                     :name="index"
                 >
                     <component :is="item.component" v-model="item.data" />
@@ -14,10 +14,11 @@
         </div>
     </el-card>
     <footer-btns class="mt-4" :fixed="true">
-        <el-button type="primary" @click="setData">保存</el-button>
+        <el-button type="primary" @click="setData">{{ $ui("保存") }}</el-button>
     </footer-btns>
 </template>
 <script setup lang="ts">
+import { translateUiText } from "@/i18n";
 import { getDecoratePages, setDecoratePages } from '@/api/decoration'
 
 import MobileStyle from './components/mobile-style.vue'

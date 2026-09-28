@@ -3,8 +3,8 @@
         v-model="content"
         type="datetimerange"
         range-separator="-"
-        start-placeholder="开始时间"
-        end-placeholder="结束时间"
+        :start-placeholder='$ui("开始时间")'
+        :end-placeholder='$ui("结束时间")'
         value-format="YYYY-MM-DD HH:mm:ss"
         clearable
     ></el-date-picker>

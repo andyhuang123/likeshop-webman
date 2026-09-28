@@ -1,17 +1,17 @@
 <template>
     <div>
         <el-card class="!border-none" shadow="never">
-            <el-page-header content="用户详情" @back="$router.back()" />
+            <el-page-header :content='$ui("用户详情")' @back="$router.back()" />
         </el-card>
-        <el-card class="mt-4 !border-none" header="基本资料" shadow="never">
+        <el-card class="mt-4 !border-none" :header='$ui("基本资料")' shadow="never">
             <el-form ref="formRef" class="ls-form" :model="formData" label-width="120px">
                 <div class="bg-page flex py-5 mb-10 items-center">
                     <div class="basis-40 flex flex-col justify-center items-center">
-                        <div class="mb-2 text-tx-regular">用户头像</div>
+                        <div class="mb-2 text-tx-regular">{{ $ui("用户头像") }}</div>
                         <el-avatar :src="formData.avatar" :size="58" />
                     </div>
                     <div class="basis-40 flex flex-col justify-center items-center">
-                        <div class="text-tx-regular">账户余额</div>
+                        <div class="text-tx-regular">{{ $ui("账户余额") }}</div>
                         <div class="mt-2 flex items-center">
                             ¥{{ formData.user_money }}
                             <el-button
@@ -20,15 +20,15 @@
                                 link
                                 @click="handleAdjust(formData.user_money)"
                             >
-                                调整
+                                {{ $ui("调整") }}
                             </el-button>
                         </div>
                     </div>
                 </div>
-                <el-form-item label="用户昵称：">
+                <el-form-item :label='$ui("用户昵称：")'>
                     {{ formData.nickname }}
                 </el-form-item>
-                <el-form-item label="账号：">
+                <el-form-item :label='$ui("账号：")'>
                     {{ formData.account }}
                     <popover-input
                         class="ml-[10px]"
@@ -41,7 +41,7 @@
                         </el-button>
                     </popover-input>
                 </el-form-item>
-                <el-form-item label="真实姓名：">
+                <el-form-item :label='$ui("真实姓名：")'>
                     {{ formData.real_name || '-' }}
                     <popover-input
                         class="ml-[10px]"
@@ -54,22 +54,22 @@
                         </el-button>
                     </popover-input>
                 </el-form-item>
-                <el-form-item label="性别：">
+                <el-form-item :label='$ui("性别：")'>
                     {{ formData.sex }}
                     <popover-input
                         class="ml-[10px]"
                         type="select"
                         :options="[
                             {
-                                label: '未知',
+                                label: $ui('未知'),
                                 value: 0
                             },
                             {
-                                label: '男',
+                                label: $ui('男'),
                                 value: 1
                             },
                             {
-                                label: '女',
+                                label: $ui('女'),
                                 value: 2
                             }
                         ]"
@@ -81,7 +81,7 @@
                         </el-button>
                     </popover-input>
                 </el-form-item>
-                <el-form-item label="联系电话：">
+                <el-form-item :label='$ui("联系电话：")'>
                     {{ formData.mobile || '-' }}
                     <popover-input
                         class="ml-[10px]"
@@ -94,9 +94,9 @@
                         </el-button>
                     </popover-input>
                 </el-form-item>
-                <el-form-item label="注册来源："> {{ formData.channel }} </el-form-item>
-                <el-form-item label="注册时间："> {{ formData.create_time }} </el-form-item>
-                <el-form-item label="最近登录时间："> {{ formData.login_time }} </el-form-item>
+                <el-form-item :label='$ui("注册来源：")'> {{ formData.channel }} </el-form-item>
+                <el-form-item :label='$ui("注册时间：")'> {{ formData.create_time }} </el-form-item>
+                <el-form-item :label='$ui("最近登录时间：")'> {{ formData.login_time }} </el-form-item>
             </el-form>
         </el-card>
 

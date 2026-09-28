@@ -11,7 +11,7 @@
                 :key="index"
                 @click="handleSelect(item)"
             >
-                {{ item.name }}
+                {{ $ui(item.name) }}
             </div>
         </div>
     </div>

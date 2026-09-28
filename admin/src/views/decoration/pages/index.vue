@@ -24,7 +24,7 @@
             />
         </div>
         <footer-btns class="mt-4" :fixed="false" v-perms="['decorate:pages:save']">
-            <el-button type="primary" @click="setData">保存</el-button>
+            <el-button type="primary" @click="setData">{{ $ui("保存") }}</el-button>
         </footer-btns>
     </div>
 </template>

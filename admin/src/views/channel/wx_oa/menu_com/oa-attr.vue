@@ -19,7 +19,7 @@ const {
     <!-- Attr -->
     <template v-for="(attrItem, attrIndex) in menuList" :key="attrIndex">
         <div class="flex-1 oa-attr min-w-0" v-show="attrIndex === menuIndex">
-            <div class="text-base oa-attr-title">菜单配置</div>
+            <div class="text-base oa-attr-title">{{ $ui("菜单配置") }}</div>
 
             <del-wrap @close="handleDelMenu(menuIndex)">
                 <div class="flex items-center w-full p-4 mt-4 rounded bg-fill-light">
@@ -56,7 +56,7 @@ const {
 
                                     <!-- 删除子菜单 -->
                                     <popup @confirm="handleDelSubMenu(menuIndex, subIndex)">
-                                        是否删除当前子菜单？
+                                        {{ $ui("是否删除当前子菜单？") }}
                                         <template #trigger>
                                             <el-button link>
                                                 <el-icon class="ml-5"><Delete /></el-icon>
@@ -73,7 +73,7 @@ const {
                                     link
                                     :disabled="attrItem.sub_button.length >= 5"
                                 >
-                                    添加子菜单({{ attrItem.sub_button.length }}/5)
+                                    {{ $ui('添加子菜单') }}({{ attrItem.sub_button.length }}/5)
                                 </el-button>
                             </oa-menu-form-edit>
                         </div>

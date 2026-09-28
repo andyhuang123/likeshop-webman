@@ -2,10 +2,10 @@
     <div class="xl:flex">
         <el-card class="!border-none flex-1 xl:mr-4 mb-4" shadow="never">
             <template #header>
-                <span class="font-medium">服务协议</span>
+                <span class="font-medium">{{ $ui("服务协议") }}</span>
             </template>
             <el-form :model="formData" label-width="80px">
-                <el-form-item label="协议名称">
+                <el-form-item :label='$ui("协议名称")'>
                     <el-input v-model="formData.service_title" />
                 </el-form-item>
             </el-form>
@@ -14,10 +14,10 @@
         </el-card>
         <el-card class="!border-none flex-1 mb-4" shadow="never">
             <template #header>
-                <span class="font-medium">隐私协议</span>
+                <span class="font-medium">{{ $ui("隐私协议") }}</span>
             </template>
             <el-form :model="formData" label-width="80px">
-                <el-form-item label="协议名称">
+                <el-form-item :label='$ui("协议名称")'>
                     <el-input v-model="formData.privacy_title" />
                 </el-form-item>
             </el-form>
@@ -26,7 +26,7 @@
         </el-card>
     </div>
     <footer-btns v-perms="['setting.web.web_setting/setAgreement']">
-        <el-button type="primary" @click="handleProtocolEdit">保存</el-button>
+        <el-button type="primary" @click="handleProtocolEdit">{{ $ui("保存") }}</el-button>
     </footer-btns>
 </template>
 

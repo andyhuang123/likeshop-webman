@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-card header="element-plus图标" shadow="never" class="!border-none">
+        <el-card :header='$ui("element-plus图标")' shadow="never" class="!border-none">
             <div class="flex items-center">
                 <icon class="m-4" :size="24" name="el-icon-Search" />
                 <icon class="m-4" :size="24" name="el-icon-Plus" />
@@ -9,7 +9,7 @@
                 <icon class="m-4" :size="24" name="el-icon-Warning" />
             </div>
         </el-card>
-        <el-card header="本地图标" shadow="never" class="!border-none mt-4">
+        <el-card :header='$ui("本地图标")' shadow="never" class="!border-none mt-4">
             <div class="flex items-center">
                 <icon class="m-4" :size="24" name="local-icon-baoxian" />
                 <icon class="m-4" :size="24" name="local-icon-youhui" />
@@ -18,13 +18,13 @@
                 <icon class="m-4" :size="24" name="local-icon-dianzifapiao" />
             </div>
         </el-card>
-        <el-card header="图标选择器" shadow="never" class="!border-none mt-4">
+        <el-card :header='$ui("图标选择器")' shadow="never" class="!border-none mt-4">
             <div class="flex items-center">
                 <icon-picker v-model="state.value" />
             </div>
         </el-card>
         <el-card
-            header="element-plus图标库大全（点击复制图标名称）"
+            :header='$ui("element-plus图标库大全（点击复制图标名称）")'
             shadow="never"
             class="!border-none mt-4"
         >
@@ -39,7 +39,7 @@
             </div>
         </el-card>
         <el-card
-            header="本地图标库大全（点击复制图标名称）"
+            :header='$ui("本地图标库大全（点击复制图标名称）")'
             shadow="never"
             class="!border-none mt-4"
         >

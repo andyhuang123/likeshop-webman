@@ -9,9 +9,9 @@
                     style="color: #fff"
                     @click="handleBack"
                 >
-                    返回
+                    {{ $ui("返回") }}
                 </el-button>
-                <el-button v-perms="['decorate:pages:save']" @click="setData"> 保存 </el-button>
+                <el-button v-perms="['decorate:pages:save']" @click="setData"> {{ $ui("保存") }} </el-button>
             </div>
         </el-card>
         <div class="flex-1 h-full">
@@ -20,6 +20,7 @@
     </div>
 </template>
 <script lang="ts" setup name="decorationPc">
+import { translateUiText } from "@/i18n";
 import { ArrowLeft } from '@element-plus/icons-vue'
 
 import { getDecoratePages, setDecoratePages } from '@/api/decoration'
@@ -56,7 +57,7 @@ const getPageData = computed(() => {
 })
 
 const handleBack = async () => {
-    await feedback.confirm('确定离开此页面？系统可能不会保存您所做的更改。')
+    await feedback.confirm(translateUiText("确定离开此页面？系统可能不会保存您所做的更改。"))
     router.back()
 }
 

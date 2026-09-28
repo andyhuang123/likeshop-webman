@@ -1,5 +1,5 @@
 export default () => ({
-    title: '首页中部轮播图',
+    title: "首页中部轮播图",
     name: 'middle-banner',
     content: {
         enabled: 1,

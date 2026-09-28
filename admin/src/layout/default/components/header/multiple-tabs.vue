@@ -8,7 +8,7 @@
                 @tab-remove="removeTab($event)"
             >
                 <template v-for="item in tabsLists" :key="item.fullPath">
-                    <el-tab-pane :label="item.title" :name="item.fullPath"></el-tab-pane>
+                    <el-tab-pane :label="$ui(item.title || '')" :name="item.fullPath"></el-tab-pane>
                 </template>
             </el-tabs>
         </div>
@@ -18,9 +18,9 @@
             </span>
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item command="closeCurrent"> 关闭当前 </el-dropdown-item>
-                    <el-dropdown-item command="closeOther"> 关闭其他 </el-dropdown-item>
-                    <el-dropdown-item command="closeAll"> 关闭全部 </el-dropdown-item>
+                    <el-dropdown-item command="closeCurrent"> {{ $ui("关闭当前") }} </el-dropdown-item>
+                    <el-dropdown-item command="closeOther"> {{ $ui("关闭其他") }} </el-dropdown-item>
+                    <el-dropdown-item command="closeAll"> {{ $ui("关闭全部") }} </el-dropdown-item>
                 </el-dropdown-menu>
             </template>
         </el-dropdown>

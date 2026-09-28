@@ -2,7 +2,7 @@
     <div class="admin">
         <el-card class="!border-none" shadow="never">
             <el-form class="mb-[-16px]" :model="formData" inline>
-                <el-form-item label="管理员账号">
+                <el-form-item :label='$ui("管理员账号")'>
                     <el-input
                         v-model="formData.account"
                         class="w-[280px]"
@@ -10,7 +10,7 @@
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="管理员名称">
+                <el-form-item :label='$ui("管理员名称")'>
                     <el-input
                         v-model="formData.name"
                         class="w-[280px]"
@@ -18,9 +18,9 @@
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="管理员角色">
+                <el-form-item :label='$ui("管理员角色")'>
                     <el-select class="w-[280px]" v-model="formData.role_id">
-                        <el-option label="全部" value="" />
+                        <el-option :label='$ui("全部")' value="" />
                         <el-option
                             v-for="(item, index) in optionsData.role"
                             :key="index"
@@ -30,8 +30,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
+                    <el-button type="primary" @click="resetPage">{{ $ui("查询") }}</el-button>
+                    <el-button @click="resetParams">{{ $ui("重置") }}</el-button>
                     <export-data
                         class="ml-2.5"
                         :fetch-fun="adminLists"
@@ -52,34 +52,34 @@
                 <template #icon>
                     <icon name="el-icon-Plus" />
                 </template>
-                新增
+                {{ $ui("新增") }}
             </el-button>
             <div class="mt-4">
                 <el-table :data="pager.lists" size="large">
                     <el-table-column label="ID" prop="id" min-width="60" />>
-                    <el-table-column label="头像" min-width="100">
+                    <el-table-column :label='$ui("头像")' min-width="100">
                         <template #default="{ row }">
                             <el-avatar :size="50" :src="row.avatar"></el-avatar>
                         </template>
                     </el-table-column>
-                    <el-table-column label="账号" prop="account" min-width="100" />
-                    <el-table-column label="名称" prop="name" min-width="100" />
+                    <el-table-column :label='$ui("账号")' prop="account" min-width="100" />
+                    <el-table-column :label='$ui("名称")' prop="name" min-width="100" />
                     <el-table-column
-                        label="角色"
+                        :label='$ui("角色")'
                         prop="role_name"
                         min-width="100"
                         show-tooltip-when-overflow
                     />
                     <el-table-column
-                        label="部门"
+                        :label='$ui("部门")'
                         prop="dept_name"
                         min-width="100"
                         show-tooltip-when-overflow
                     />
-                    <el-table-column label="创建时间" prop="create_time" min-width="180" />
-                    <el-table-column label="最近登录时间" prop="login_time" min-width="180" />
-                    <el-table-column label="最近登录IP" prop="login_ip" min-width="120" />
-                    <el-table-column label="状态" min-width="100" v-perms="['auth.admin/edit']">
+                    <el-table-column :label='$ui("创建时间")' prop="create_time" min-width="180" />
+                    <el-table-column :label='$ui("最近登录时间")' prop="login_time" min-width="180" />
+                    <el-table-column :label='$ui("最近登录IP")' prop="login_ip" min-width="120" />
+                    <el-table-column :label='$ui("状态")' min-width="100" v-perms="['auth.admin/edit']">
                         <template #default="{ row }">
                             <el-switch
                                 v-if="row.root != 1"
@@ -90,7 +90,7 @@
                             />
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作" width="120" fixed="right">
+                    <el-table-column :label='$ui("操作")' width="120" fixed="right">
                         <template #default="{ row }">
                             <el-button
                                 v-perms="['auth.admin/edit']"
@@ -98,7 +98,7 @@
                                 link
                                 @click="handleEdit(row)"
                             >
-                                编辑
+                                {{ $ui("编辑") }}
                             </el-button>
                             <el-button
                                 v-if="row.root != 1"
@@ -107,7 +107,7 @@
                                 link
                                 @click="handleDelete(row.id)"
                             >
-                                删除
+                                {{ $ui("删除") }}
                             </el-button>
                         </template>
                     </el-table-column>
@@ -122,6 +122,7 @@
 </template>
 
 <script lang="ts" setup name="admin">
+import { translateUiText } from "@/i18n";
 import { adminDelete, adminEdit, adminLists } from '@/api/perms/admin'
 import { roleAll } from '@/api/perms/role'
 import { useDictOptions } from '@/hooks/useDictOptions'
@@ -172,7 +173,7 @@ const handleEdit = async (data: any) => {
 }
 
 const handleDelete = async (id: number) => {
-    await feedback.confirm('确定要删除？')
+    await feedback.confirm(translateUiText("确定要删除？"))
     await adminDelete({ id })
     getLists()
 }

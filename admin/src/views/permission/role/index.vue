@@ -6,7 +6,7 @@
                     <template #icon>
                         <icon name="el-icon-Plus" />
                     </template>
-                    新增
+                    {{ $ui("新增") }}
                 </el-button>
             </div>
             <div
@@ -18,17 +18,17 @@
                 <div>
                     <el-table :data="pager.lists" size="large">
                         <el-table-column prop="id" label="ID" min-width="100" />
-                        <el-table-column prop="name" label="名称" min-width="150" />
+                        <el-table-column prop="name" :label='$ui("名称")' min-width="150" />
                         <el-table-column
                             prop="desc"
-                            label="备注"
+                            :label='$ui("备注")'
                             min-width="150"
                             show-overflow-tooltip
                         />
-                        <el-table-column prop="sort" label="排序" min-width="100" />
-                        <el-table-column prop="num" label="管理员人数" min-width="100" />
-                        <el-table-column prop="create_time" label="创建时间" min-width="180" />
-                        <el-table-column label="操作" width="200" fixed="right">
+                        <el-table-column prop="sort" :label='$ui("排序")' min-width="100" />
+                        <el-table-column prop="num" :label='$ui("管理员人数")' min-width="100" />
+                        <el-table-column prop="create_time" :label='$ui("创建时间")' min-width="180" />
+                        <el-table-column :label='$ui("操作")' width="200" fixed="right">
                             <template #default="{ row }">
                                 <el-button
                                     link
@@ -36,7 +36,7 @@
                                     v-perms="['auth.role/edit']"
                                     @click="handleEdit(row)"
                                 >
-                                    编辑
+                                    {{ $ui("编辑") }}
                                 </el-button>
                                 <el-button
                                     link
@@ -44,7 +44,7 @@
                                     v-perms="['auth.role/edit']"
                                     @click="handleAuth(row)"
                                 >
-                                    分配权限
+                                    {{ $ui("分配权限") }}
                                 </el-button>
                                 <el-button
                                     v-perms="['auth.role/delete']"
@@ -52,7 +52,7 @@
                                     type="danger"
                                     @click="handleDelete(row.id)"
                                 >
-                                    删除
+                                    {{ $ui("删除") }}
                                 </el-button>
                             </template>
                         </el-table-column>
@@ -69,6 +69,7 @@
 </template>
 
 <script lang="ts" setup name="role">
+import { translateUiText } from "@/i18n";
 import { roleDelete, roleLists } from '@/api/perms/role'
 import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
@@ -105,7 +106,7 @@ const handleAuth = async (data: any) => {
 
 // 删除角色
 const handleDelete = async (id: number) => {
-    await feedback.confirm('确定要删除？')
+    await feedback.confirm(translateUiText("确定要删除？"))
     await roleDelete({ id })
     getLists()
 }

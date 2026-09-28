@@ -2,7 +2,7 @@
     <div class="search">
         <div class="search-con flex items-center px-[15px]">
             <icon name="el-icon-Search" :size="17" />
-            <span class="ml-[5px]">请输入关键词搜索</span>
+            <span class="ml-[5px]">{{ $ui("请输入关键词搜索") }}</span>
         </div>
     </div>
 </template>

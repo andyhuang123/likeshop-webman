@@ -1,7 +1,7 @@
 <template>
     <div class="article-edit">
         <el-card class="!border-none" shadow="never">
-            <el-page-header :content="$route.meta.title" @back="$router.back()" />
+            <el-page-header :content="$ui($route.meta.title)" @back="$router.back()" />
         </el-card>
         <el-card class="mt-4 !border-none" shadow="never">
             <el-form
@@ -13,11 +13,11 @@
             >
                 <div class="xl:flex">
                     <div>
-                        <el-form-item label="文章标题" prop="title">
+                        <el-form-item :label='$ui("文章标题")' prop="title">
                             <div class="w-80">
                                 <el-input
                                     v-model="formData.title"
-                                    placeholder="请输入文章标题"
+                                    :placeholder='$ui("请输入文章标题")'
                                     type="textarea"
                                     :autosize="{ minRows: 3, maxRows: 3 }"
                                     maxlength="64"
@@ -26,11 +26,11 @@
                                 />
                             </div>
                         </el-form-item>
-                        <el-form-item label="文章栏目" prop="cid">
+                        <el-form-item :label='$ui("文章栏目")' prop="cid">
                             <el-select
                                 class="w-80"
                                 v-model="formData.cid"
-                                placeholder="请选择文章栏目"
+                                :placeholder='$ui("请选择文章栏目")'
                                 clearable
                             >
                                 <el-option
@@ -41,11 +41,11 @@
                                 />
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="文章简介" prop="desc">
+                        <el-form-item :label='$ui("文章简介")' prop="desc">
                             <div class="w-80">
                                 <el-input
                                     v-model="formData.desc"
-                                    placeholder="请输入文章简介"
+                                    :placeholder='$ui("请输入文章简介")'
                                     type="textarea"
                                     :autosize="{ minRows: 3, maxRows: 6 }"
                                     :maxlength="200"
@@ -54,7 +54,7 @@
                                 />
                             </div>
                         </el-form-item>
-                        <el-form-item label="摘要" prop="abstract">
+                        <el-form-item :label='$ui("摘要")' prop="abstract">
                             <div class="w-80">
                                 <el-input
                                     type="textarea"
@@ -66,39 +66,39 @@
                                 />
                             </div>
                         </el-form-item>
-                        <el-form-item label="文章封面" prop="image">
+                        <el-form-item :label='$ui("文章封面")' prop="image">
                             <div>
                                 <div>
                                     <material-picker v-model="formData.image" :limit="1" />
                                 </div>
-                                <div class="form-tips">建议尺寸：240*180px</div>
+                                <div class="form-tips">{{ $ui("建议尺寸：240*180px") }}</div>
                             </div>
                         </el-form-item>
-                        <el-form-item label="作者" prop="author">
+                        <el-form-item :label='$ui("作者")' prop="author">
                             <div class="w-80">
-                                <el-input v-model="formData.author" placeholder="请输入作者名称" />
+                                <el-input v-model="formData.author" :placeholder='$ui("请输入作者名称")' />
                             </div>
                         </el-form-item>
-                        <el-form-item label="排序" prop="sort">
+                        <el-form-item :label='$ui("排序")' prop="sort">
                             <div>
                                 <el-input-number v-model="formData.sort" :min="0" :max="9999" />
-                                <div class="form-tips">默认为0， 数值越大越排前</div>
+                                <div class="form-tips">{{ $ui("默认为0， 数值越大越排前") }}</div>
                             </div>
                         </el-form-item>
-                        <el-form-item label="初始浏览量" prop="click_virtual">
+                        <el-form-item :label='$ui("初始浏览量")' prop="click_virtual">
                             <div>
                                 <el-input-number v-model="formData.click_virtual" :min="0" />
                             </div>
                         </el-form-item>
-                        <el-form-item label="文章状态" required prop="is_show">
+                        <el-form-item :label='$ui("文章状态")' required prop="is_show">
                             <el-radio-group v-model="formData.is_show">
-                                <el-radio :label="1">显示</el-radio>
-                                <el-radio :label="0">隐藏</el-radio>
+                                <el-radio :label="1">{{ $ui("显示") }}</el-radio>
+                                <el-radio :label="0">{{ $ui("隐藏") }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </div>
                     <div class="xl:ml-20">
-                        <el-form-item label="文章内容" prop="content">
+                        <el-form-item :label='$ui("文章内容")' prop="content">
                             <editor v-model="formData.content" :height="667" :width="375" />
                         </el-form-item>
                     </div>
@@ -106,12 +106,13 @@
             </el-form>
         </el-card>
         <footer-btns>
-            <el-button type="primary" @click="handleSave">保存</el-button>
+            <el-button type="primary" @click="handleSave">{{ $ui("保存") }}</el-button>
         </footer-btns>
     </div>
 </template>
 
 <script lang="ts" setup name="articleListsEdit">
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 
 import { articleAdd, articleCateAll, articleDetail, articleEdit } from '@/api/article'
@@ -137,8 +138,8 @@ const formData = reactive({
 const { removeTab } = useMultipleTabs()
 const formRef = shallowRef<FormInstance>()
 const rules = reactive({
-    title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }],
-    cid: [{ required: true, message: '请选择文章栏目', trigger: 'blur' }]
+    title: [{ required: true, message: () => translateUiText("请输入文章标题"), trigger: 'blur' }],
+    cid: [{ required: true, message: () => translateUiText("请选择文章栏目"), trigger: 'blur' }]
 })
 
 const getDetails = async () => {

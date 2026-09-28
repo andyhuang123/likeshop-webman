@@ -3,9 +3,9 @@
         <el-form label-width="70px">
             <el-card shadow="never" class="!border-none flex mt-2">
                 <div class="flex items-end mb-4">
-                    <div class="text-base text-[#101010] font-medium">菜单</div>
+                    <div class="text-base text-[#101010] font-medium">{{ $ui("菜单") }}</div>
                     <div class="text-xs text-tx-secondary ml-2">
-                        最多添加5张，建议图片尺寸：750px*200px
+                        {{ $ui("最多添加5张，建议图片尺寸：750px*200px") }}
                     </div>
                 </div>
                 <draggable
@@ -24,13 +24,13 @@
                                     exclude-domain
                                 />
                                 <div class="ml-3 flex-1">
-                                    <el-form-item label="图片名称">
-                                        <el-input v-model="item.name" placeholder="请输入名称" />
+                                    <el-form-item :label='$ui("图片名称")'>
+                                        <el-input v-model="item.name" :placeholder='$ui("请输入名称")' />
                                     </el-form-item>
-                                    <el-form-item class="mt-[18px]" label="图片链接">
+                                    <el-form-item class="mt-[18px]" :label='$ui("图片链接")'>
                                         <link-picker v-model="item.link" />
                                     </el-form-item>
-                                    <el-form-item label="是否显示" class="mt-[18px]">
+                                    <el-form-item :label='$ui("是否显示")' class="mt-[18px]">
                                         <div class="flex-1 flex items-center">
                                             <el-switch
                                                 v-model="item.is_show"
@@ -48,13 +48,14 @@
                     </template>
                 </draggable>
                 <div class="mt-4" v-if="content.data?.length < limit">
-                    <el-button class="w-full" type="primary" @click="handleAdd">添加图片</el-button>
+                    <el-button class="w-full" type="primary" @click="handleAdd">{{ $ui("添加图片") }}</el-button>
                 </div>
             </el-card>
         </el-form>
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import { cloneDeep } from 'lodash-es'
 import type { PropType } from 'vue'
 import Draggable from 'vuedraggable'
@@ -101,7 +102,7 @@ const handleAdd = () => {
 }
 const handleDelete = (index: number) => {
     if (props.content.data?.length <= 1) {
-        return feedback.msgError('最少保留一张图片')
+        return feedback.msgError(translateUiText("最少保留一张图片"))
     }
     const content = cloneDeep(props.content)
     content.data.splice(index, 1)

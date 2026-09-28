@@ -12,7 +12,7 @@ getOaMenuFunc()
         <el-card class="!border-none" shadow="never">
             <el-alert
                 type="warning"
-                title="配置微信公众号菜单，点击确认，保存菜单并发布至微信公众号"
+                :title='$ui("配置微信公众号菜单，点击确认，保存菜单并发布至微信公众号")'
                 :closable="false"
                 show-icon
             />
@@ -32,10 +32,10 @@ getOaMenuFunc()
 
         <footer-btns>
             <el-button type="primary" @click="handleSave" v-perms="['channel:oaMenu:save']">
-                保存
+                {{ $ui("保存") }}
             </el-button>
             <el-button type="primary" @click="handlePublish" v-perms="['channel:oaMenu:publish']">
-                发布
+                {{ $ui("发布") }}
             </el-button>
         </footer-btns>
     </div>

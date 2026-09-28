@@ -15,36 +15,36 @@
                 :rules="formRules"
                 class="pr-10"
             >
-                <el-form-item label="规则名称" prop="name">
+                <el-form-item :label='$ui("规则名称")' prop="name">
                     <div class="flex-1">
-                        <el-input v-model="formData.name" placeholder="请输入规则名称" />
-                        <div class="form-tips">方便通过名称管理关注回复内容</div>
+                        <el-input v-model="formData.name" :placeholder='$ui("请输入规则名称")' />
+                        <div class="form-tips">{{ $ui("方便通过名称管理关注回复内容") }}</div>
                     </div>
                 </el-form-item>
-                <el-form-item label="关键词" prop="keyword" v-if="formData.reply_type == 2">
+                <el-form-item :label='$ui("关键词")' prop="keyword" v-if="formData.reply_type == 2">
                     <div class="flex-1">
-                        <el-input v-model="formData.keyword" placeholder="请输入关键词" />
-                        <div class="form-tips">方便通过名称管理关注回复内容</div>
+                        <el-input v-model="formData.keyword" :placeholder='$ui("请输入关键词")' />
+                        <div class="form-tips">{{ $ui("方便通过名称管理关注回复内容") }}</div>
                     </div>
                 </el-form-item>
-                <el-form-item label="匹配方式" prop="matching_type" v-if="formData.reply_type == 2">
+                <el-form-item :label='$ui("匹配方式")' prop="matching_type" v-if="formData.reply_type == 2">
                     <div class="flex-1">
                         <el-radio-group v-model="formData.matching_type">
-                            <el-radio :label="1">全匹配</el-radio>
-                            <el-radio :label="2">模糊匹配</el-radio>
+                            <el-radio :label="1">{{ $ui("全匹配") }}</el-radio>
+                            <el-radio :label="2">{{ $ui("模糊匹配") }}</el-radio>
                         </el-radio-group>
-                        <div class="form-tips">模糊匹配时，关键词部分匹配用户输入的内容即可</div>
+                        <div class="form-tips">{{ $ui("模糊匹配时，关键词部分匹配用户输入的内容即可") }}</div>
                     </div>
                 </el-form-item>
-                <el-form-item label="回复类型" prop="content_type" :min="0">
+                <el-form-item :label='$ui("回复类型")' prop="content_type" :min="0">
                     <div class="flex-1">
                         <el-radio-group v-model="formData.content_type">
-                            <el-radio :label="1">文本</el-radio>
+                            <el-radio :label="1">{{ $ui("文本") }}</el-radio>
                         </el-radio-group>
-                        <div class="form-tips">暂时只支持文本类型</div>
+                        <div class="form-tips">{{ $ui("暂时只支持文本类型") }}</div>
                     </div>
                 </el-form-item>
-                <el-form-item label="回复内容" prop="content">
+                <el-form-item :label='$ui("回复内容")' prop="content">
                     <div class="flex-1">
                         <el-input
                             v-model="formData.content"
@@ -52,31 +52,31 @@
                             type="textarea"
                             maxlength="200"
                             show-word-limit
-                            placeholder="请输入回复内容"
+                            :placeholder='$ui("请输入回复内容")'
                         />
                     </div>
                 </el-form-item>
-                <el-form-item label="排序">
+                <el-form-item :label='$ui("排序")'>
                     <div class="flex-1">
                         <el-input-number v-model="formData.sort" :min="0" :max="9999" />
                     </div>
                 </el-form-item>
                 <el-form-item
-                    label="回复数量"
+                    :label='$ui("回复数量")'
                     prop="reply_num"
                     required
                     v-if="formData.reply_type == 2"
                 >
                     <div class="flex-1">
                         <el-radio-group v-model="formData.reply_num">
-                            <el-radio :label="1">回复匹配首词条</el-radio>
+                            <el-radio :label="1">{{ $ui("回复匹配首词条") }}</el-radio>
                         </el-radio-group>
                         <div class="form-tips">
-                            设置关键词匹配多条时回复的数量，暂时支持回复一条内容
+                            {{ $ui("设置关键词匹配多条时回复的数量，暂时支持回复一条内容") }}
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item label="启用状态">
+                <el-form-item :label='$ui("启用状态")'>
                     <el-switch v-model="formData.status" :active-value="1" :inactive-value="0" />
                 </el-form-item>
             </el-form>
@@ -84,6 +84,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 import type { FormRules } from 'element-plus'
 
@@ -96,7 +97,7 @@ const formRef = shallowRef<FormInstance>()
 const popupRef = shallowRef<InstanceType<typeof Popup>>()
 const mode = ref('add')
 const popupTitle = computed(() => {
-    return mode.value == 'edit' ? '编辑' : '新增'
+    return mode.value == 'edit' ? translateUiText("编辑") : translateUiText("新增")
 })
 const formData = reactive({
     id: '',
@@ -115,35 +116,35 @@ const formRules: FormRules = {
     name: [
         {
             required: true,
-            message: '请输入规则名称',
+            message: () => translateUiText("请输入规则名称"),
             trigger: ['blur']
         }
     ],
     keyword: [
         {
             required: true,
-            message: '请输入关键词',
+            message: () => translateUiText("请输入关键词"),
             trigger: ['blur']
         }
     ],
     matching_type: [
         {
             required: true,
-            message: '请选择匹配方式',
+            message: () => translateUiText("请选择匹配方式"),
             trigger: ['blur']
         }
     ],
     content_type: [
         {
             required: true,
-            message: '请选择回复类型',
+            message: () => translateUiText("请选择回复类型"),
             trigger: ['blur']
         }
     ],
     content: [
         {
             required: true,
-            message: '请输入回复内容',
+            message: () => translateUiText("请输入回复内容"),
             trigger: ['blur']
         }
     ]

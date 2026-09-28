@@ -2,7 +2,7 @@
     <div class="edit-popup">
         <popup
             ref="popupRef"
-            title="分配权限"
+            :title='$ui("分配权限")'
             :async="true"
             width="550px"
             @confirm="handleSubmit"
@@ -17,11 +17,11 @@
                 v-loading="loading"
             >
                 <el-scrollbar class="h-[400px] sm:h-[600px]">
-                    <el-form-item label="权限" prop="menu_id">
+                    <el-form-item :label='$ui("权限")' prop="menu_id">
                         <div>
-                            <el-checkbox label="展开/折叠" @change="handleExpand" />
-                            <el-checkbox label="全选/不全选" @change="handleSelectAll" />
-                            <el-checkbox v-model="checkStrictly" label="父子联动" />
+                            <el-checkbox :label='$ui("展开/折叠")' @change="handleExpand" />
+                            <el-checkbox :label='$ui("全选/不全选")' @change="handleSelectAll" />
+                            <el-checkbox v-model="checkStrictly" :label='$ui("父子联动")' />
                             <div>
                                 <el-tree
                                     ref="treeRef"
@@ -44,6 +44,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { CheckboxValueType, ElTree, FormInstance } from 'element-plus'
 
 import { menuAll } from '@/api/perms/menu'
@@ -72,7 +73,7 @@ const rules = {
     name: [
         {
             required: true,
-            message: '请输入名称',
+            message: () => translateUiText("请输入名称"),
             trigger: ['blur']
         }
     ]

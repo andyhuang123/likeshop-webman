@@ -1,7 +1,7 @@
 <template>
     <div class="news">
         <div class="flex items-center news-title mx-[10px] my-[15px] text-[17px] font-medium">
-            最新资讯
+            {{ $ui("最新资讯") }}
         </div>
         <div
             v-for="item in newsList"

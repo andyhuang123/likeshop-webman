@@ -1,3 +1,4 @@
+import { translateUiText } from "@/i18n";
 import { isObject } from '@vue/shared'
 import { cloneDeep } from 'lodash'
 import { utils as xlsxUtils, writeFile as xlsxWriteFile } from 'xlsx'
@@ -191,7 +192,7 @@ export const toSheet = async (rows: any, otherJson: any, fileName: string) => {
  * @param otherObj {} 接口追加参数
  */
 export const toSheetByFunc = async (func: any, otherObj: any) => {
-    feedback.loading('正在导出中...')
+    feedback.loading(translateUiText("正在导出中..."))
     try {
         const res = await func({
             export: 2,

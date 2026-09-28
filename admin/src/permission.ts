@@ -7,6 +7,7 @@ import 'nprogress/nprogress.css'
 import NProgress from 'nprogress'
 
 import config from './config'
+import { translateUiText } from './i18n'
 import { PageEnum } from './enums/pageEnum'
 import router, { findFirstValidRoute } from './router'
 import { INDEX_ROUTE, INDEX_ROUTE_NAME } from './router/routes'
@@ -61,7 +62,7 @@ const whiteList: string[] = [PageEnum.LOGIN, PageEnum.ERROR_403]
 router.beforeEach(async (to, from, next) => {
     // 开始 Progress Bar
     NProgress.start()
-    document.title = to.meta.title ?? config.title
+    document.title = translateUiText(to.meta.title ?? config.title)
     const userStore = useUserStore()
     const tabsStore = useTabsStore()
     if (whiteList.includes(to.path)) {

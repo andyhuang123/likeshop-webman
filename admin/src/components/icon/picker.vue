@@ -11,7 +11,7 @@
             >
                 <div>
                     <div class="flex justify-between">
-                        <div class="mb-3">请选择图标</div>
+                        <div class="mb-3">{{ $ui("请选择图标") }}</div>
                         <div>
                             <span
                                 v-for="(item, index) in iconTabsMap"
@@ -22,7 +22,7 @@
                                 }"
                                 @click="tabIndex = index"
                             >
-                                {{ item.name }}
+                                {{ $ui(item.name) }}
                             </span>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                 <el-input
                     ref="inputRef"
                     v-model.trim="state.inputValue"
-                    placeholder="搜索图标"
+                    :placeholder='$ui("搜索图标")'
                     :autofocus="false"
                     :disabled="disabled"
                     @focus="handleFocus"
@@ -63,7 +63,7 @@
                             </el-tooltip>
                         </div>
 
-                        <template v-else>无</template>
+                        <template v-else>{{ $ui("无") }}</template>
                     </template>
                     <template #append>
                         <el-button>

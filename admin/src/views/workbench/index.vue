@@ -3,22 +3,22 @@
         <div class="lg:flex">
             <el-card class="!border-none mb-4 lg:mr-4 lg:w-[350px]" shadow="never">
                 <template #header>
-                    <span class="card-title">版本信息</span>
+                    <span class="card-title">{{ $ui("版本信息") }}</span>
                 </template>
                 <div>
                     <div class="flex leading-9">
-                        <div class="w-20">平台名称</div>
+                        <div class="w-20">{{ $ui("平台名称") }}</div>
                         <span> {{ workbenchData.version.name }}</span>
                     </div>
                     <div class="flex leading-9">
-                        <div class="w-20">当前版本</div>
+                        <div class="w-20">{{ $ui("当前版本") }}</div>
                         <span> {{ workbenchData.version.version }}</span>
                     </div>
                     <div class="flex leading-9">
-                        <div class="w-20">获取渠道</div>
+                        <div class="w-20">{{ $ui("获取渠道") }}</div>
                         <div>
                             <a :href="workbenchData.version.channel.website" target="_blank">
-                                <el-button type="success" size="small">官网</el-button>
+                                <el-button type="success" size="small">{{ $ui("官网") }}</el-button>
                             </a>
                             <a
                                 class="ml-3"
@@ -34,40 +34,40 @@
             <el-card class="!border-none mb-4 flex-1" shadow="never">
                 <template #header>
                     <div>
-                        <span class="card-title">今日数据</span>
+                        <span class="card-title">{{ $ui("今日数据") }}</span>
                         <span class="text-tx-secondary text-xs ml-4">
-                            更新时间：{{ workbenchData.today.time }}
+                            {{ $ui("更新时间：") }}{{ workbenchData.today.time }}
                         </span>
                     </div>
                 </template>
 
                 <div class="flex flex-wrap">
                     <div class="w-1/2 md:w-1/4">
-                        <div class="leading-10">销售额</div>
+                        <div class="leading-10">{{ $ui("销售额") }}</div>
                         <div class="text-6xl">{{ workbenchData.today.today_sales }}</div>
                         <div class="text-tx-secondary text-xs">
-                            总：{{ workbenchData.today.total_sales }}
+                            {{ $ui("总：") }}{{ workbenchData.today.total_sales }}
                         </div>
                     </div>
                     <div class="w-1/2 md:w-1/4">
-                        <div class="leading-10">成交订单</div>
+                        <div class="leading-10">{{ $ui("成交订单") }}</div>
                         <div class="text-6xl">{{ workbenchData.today.order_num }}</div>
                         <div class="text-tx-secondary text-xs">
-                            总：{{ workbenchData.today.order_sum }}
+                            {{ $ui("总：") }}{{ workbenchData.today.order_sum }}
                         </div>
                     </div>
                     <div class="w-1/2 md:w-1/4">
-                        <div class="leading-10">新增用户</div>
+                        <div class="leading-10">{{ $ui("新增用户") }}</div>
                         <div class="text-6xl">{{ workbenchData.today.today_new_user }}</div>
                         <div class="text-tx-secondary text-xs">
-                            总：{{ workbenchData.today.total_new_user }}
+                            {{ $ui("总：") }}{{ workbenchData.today.total_new_user }}
                         </div>
                     </div>
                     <div class="w-1/2 md:w-1/4">
-                        <div class="leading-10">新增访问量</div>
+                        <div class="leading-10">{{ $ui("新增访问量") }}</div>
                         <div class="text-6xl">{{ workbenchData.today.today_visitor }}</div>
                         <div class="text-tx-secondary text-xs">
-                            总：{{ workbenchData.today.total_visitor }}
+                            {{ $ui("总：") }}{{ workbenchData.today.total_visitor }}
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
         <div class="function mb-4">
             <el-card class="flex-1 !border-none" shadow="never">
                 <template #header>
-                    <span>常用功能</span>
+                    <span>{{ $ui("常用功能") }}</span>
                 </template>
                 <div class="flex flex-wrap">
                     <div
@@ -86,7 +86,7 @@
                     >
                         <router-link :to="item.url" class="mb-3 flex flex-col items-center">
                             <image-contain width="40px" height="40px" :src="item?.image" />
-                            <div class="mt-2">{{ item.name }}</div>
+                            <div class="mt-2">{{ $ui(item.name) }}</div>
                         </router-link>
                     </div>
                 </div>
@@ -95,24 +95,24 @@
         <div class="lg:flex gap-4">
             <el-card class="!border-none mb-4 lg:mb-0 w-full lg:w-2/3" shadow="never">
                 <template #header>
-                    <span>访问量趋势图</span>
+                    <span>{{ $ui("访问量趋势图") }}</span>
                 </template>
                 <div>
                     <v-charts
                         style="height: 350px"
-                        :option="workbenchData.visitorOption"
+                        :option="visitorOption"
                         :autoresize="true"
                     />
                 </div>
             </el-card>
             <el-card class="!border-none w-full lg:w-1/3" shadow="never">
                 <template #header>
-                    <span>销售额趋势图</span>
+                    <span>{{ $ui("销售额趋势图") }}</span>
                 </template>
                 <div>
                     <v-charts
                         style="height: 350px"
-                        :option="workbenchData.saleOption"
+                        :option="saleOption"
                         :autoresize="true"
                     />
                 </div>
@@ -122,6 +122,7 @@
 </template>
 
 <script lang="ts" setup name="workbench">
+import { translateUiText } from "@/i18n";
 import vCharts from 'vue-echarts'
 
 import { getWorkbench } from '@/api/app'
@@ -240,6 +241,26 @@ const workbenchData: any = reactive({
         ]
     }
 })
+
+const visitorOption = computed(() => ({
+    ...workbenchData.visitorOption,
+    legend: {
+        ...workbenchData.visitorOption.legend,
+        data: workbenchData.visitorOption.legend.data.map((name: string) => translateUiText(name))
+    },
+    series: workbenchData.visitorOption.series.map((item: any) => ({
+        ...item,
+        name: translateUiText(item.name)
+    }))
+}))
+
+const saleOption = computed(() => ({
+    ...workbenchData.saleOption,
+    yAxis: {
+        ...workbenchData.saleOption.yAxis,
+        name: translateUiText(workbenchData.saleOption.yAxis.name)
+    }
+}))
 
 // 获取工作台主页数据
 const getData = () => {

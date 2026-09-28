@@ -1,6 +1,6 @@
 <template>
     <div class="code-preview">
-        <el-dialog v-model="show" width="900px" title="代码预览">
+        <el-dialog v-model="show" width="900px" :title='$ui("代码预览")'>
             <el-tabs v-model="activeTab">
                 <el-tab-pane
                     v-for="(item, index) in code"
@@ -17,7 +17,7 @@
                                 <template #icon>
                                     <icon name="el-icon-CopyDocument" />
                                 </template>
-                                复制
+                                {{ $ui("复制") }}
                             </el-button>
                         </div>
                     </div>
@@ -28,6 +28,7 @@
 </template>
 
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import useClipboard from 'vue-clipboard3'
 
 import feedback from '@/utils/feedback'
@@ -47,9 +48,9 @@ const activeTab = ref('index0')
 const handleCopy = async (text: string) => {
     try {
         await toClipboard(text)
-        feedback.msgSuccess('复制成功')
+        feedback.msgSuccess(translateUiText("复制成功"))
     } catch (e) {
-        feedback.msgError('复制失败')
+        feedback.msgError(translateUiText("复制失败"))
     }
 }
 

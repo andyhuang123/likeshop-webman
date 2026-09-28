@@ -25,14 +25,14 @@
                             </material-picker>
                             <div class="ml-3 flex-1">
                                 <div class="flex items-center">
-                                    <span class="text-tx-regular flex-none mr-3">名称</span>
-                                    <el-input v-model="item.name" placeholder="请输入名称" />
+                                    <span class="text-tx-regular flex-none mr-3">{{ $ui("名称") }}</span>
+                                    <el-input v-model="item.name" :placeholder='$ui("请输入名称")' />
                                 </div>
                                 <div class="flex items-center mt-[18px]">
-                                    <span class="text-tx-regular flex-none mr-3">链接</span>
+                                    <span class="text-tx-regular flex-none mr-3">{{ $ui("链接") }}</span>
                                     <link-picker v-model="item.link" />
                                 </div>
-                                <el-form-item label="是否显示" class="mt-[18px]">
+                                <el-form-item :label='$ui("是否显示")' class="mt-[18px]">
                                     <div class="flex-1 flex items-center">
                                         <el-switch
                                             v-model="item.is_show"
@@ -51,11 +51,12 @@
             </draggable>
         </div>
         <div>
-            <el-button type="primary" @click="handleAdd">添加</el-button>
+            <el-button type="primary" @click="handleAdd">{{ $ui("添加") }}</el-button>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { PropType } from 'vue'
 import Draggable from 'vuedraggable'
 

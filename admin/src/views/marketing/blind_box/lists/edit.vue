@@ -5,19 +5,19 @@
                 <span class="font-medium">{{ mode === 'edit' ? '编辑盲盒' : '新增盲盒' }}</span>
             </template>
             <el-form ref="formRef" :model="formData" label-width="100px" :rules="formRules">
-                <el-form-item label="盲盒名称" prop="name">
-                    <el-input v-model="formData.name" placeholder="请输入盲盒名称" class="w-[360px]" />
+                <el-form-item :label='$ui("盲盒名称")' prop="name">
+                    <el-input v-model="formData.name" :placeholder='$ui("请输入盲盒名称")' class="w-[360px]" />
                 </el-form-item>
-                <el-form-item label="封面图" prop="image">
+                <el-form-item :label='$ui("封面图")' prop="image">
                     <upload-image v-model="formData.image" :limit="1" />
                 </el-form-item>
-                <el-form-item label="盲盒价格" prop="price">
+                <el-form-item :label='$ui("盲盒价格")' prop="price">
                     <el-input-number v-model="formData.price" :min="0" :precision="2" :step="0.1" class="w-[360px]" />
                 </el-form-item>
-                <el-form-item label="排序" prop="sort">
+                <el-form-item :label='$ui("排序")' prop="sort">
                     <el-input-number v-model="formData.sort" :min="0" :max="9999" class="w-[360px]" />
                 </el-form-item>
-                <el-form-item label="状态" prop="status">
+                <el-form-item :label='$ui("状态")' prop="status">
                     <el-switch v-model="formData.status" :active-value="1" :inactive-value="0" />
                 </el-form-item>
             </el-form>
@@ -25,14 +25,15 @@
 
         <el-card class="!border-none mt-4 fixed-footer" shadow="never">
             <div class="flex justify-center">
-                <el-button @click="handleBack">返回</el-button>
-                <el-button type="primary" @click="handleSubmit">保存</el-button>
+                <el-button @click="handleBack">{{ $ui("返回") }}</el-button>
+                <el-button type="primary" @click="handleSubmit">{{ $ui("保存") }}</el-button>
             </div>
         </el-card>
     </div>
 </template>
 
 <script lang="ts" setup name="BlindBoxEdit">
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -55,9 +56,9 @@ const formData = ref({
 })
 
 const formRules = {
-    name: [{ required: true, message: '请输入盲盒名称', trigger: 'blur' }],
-    image: [{ required: true, message: '请上传封面图', trigger: 'change' }],
-    price: [{ required: true, message: '请输入价格', trigger: 'blur', type: 'number', min: 0 }]
+    name: [{ required: true, message: () => translateUiText("请输入盲盒名称"), trigger: 'blur' }],
+    image: [{ required: true, message: () => translateUiText("请上传封面图"), trigger: 'change' }],
+    price: [{ required: true, message: () => translateUiText("请输入价格"), trigger: 'blur', type: 'number', min: 0 }]
 }
 
 const handleSubmit = async () => {

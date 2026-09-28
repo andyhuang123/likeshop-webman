@@ -15,25 +15,25 @@
                 :model="formData"
                 label-width="60px"
             >
-                <el-form-item label="名称" prop="name">
+                <el-form-item :label='$ui("名称")' prop="name">
                     <el-input
                         class="ls-input"
                         v-model="formData.name"
-                        placeholder="请输入名称"
+                        :placeholder='$ui("请输入名称")'
                         clearable
                     />
                 </el-form-item>
-                <el-form-item label="备注" prop="desc">
+                <el-form-item :label='$ui("备注")' prop="desc">
                     <el-input
                         v-model="formData.desc"
                         type="textarea"
                         :autosize="{ minRows: 4, maxRows: 6 }"
-                        placeholder="请输入备注"
+                        :placeholder='$ui("请输入备注")'
                         maxlength="200"
                         show-word-limit
                     />
                 </el-form-item>
-                <el-form-item label="排序" prop="sort">
+                <el-form-item :label='$ui("排序")' prop="sort">
                     <el-input-number v-model="formData.sort" :min="0" :max="9999" />
                 </el-form-item>
             </el-form>
@@ -41,6 +41,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 
 import { roleAdd, roleEdit } from '@/api/perms/role'
@@ -51,7 +52,7 @@ const formRef = shallowRef<FormInstance>()
 const popupRef = shallowRef<InstanceType<typeof Popup>>()
 const mode = ref('add')
 const popupTitle = computed(() => {
-    return mode.value == 'edit' ? '编辑角色' : '新增角色'
+    return mode.value == 'edit' ? translateUiText("编辑角色") : translateUiText("新增角色")
 })
 const formData = reactive({
     id: '',
@@ -65,7 +66,7 @@ const rules = {
     name: [
         {
             required: true,
-            message: '请输入名称',
+            message: () => translateUiText("请输入名称"),
             trigger: ['blur']
         }
     ]

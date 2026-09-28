@@ -11,7 +11,7 @@
                 class="rounded-full h-[34px] w-[34px]"
                 :style="`background: linear-gradient(to right, ${item.color1}, ${item.color2})`"
             ></div>
-            <div class="ml-[14px]">{{ item.name }}</div>
+            <div class="ml-[14px]">{{ $ui(item.name) }}</div>
         </div>
     </div>
 </template>

@@ -10,29 +10,29 @@
         >
             <el-form ref="formRef" :model="formData" label-width="84px" :rules="formRules">
                 <!-- 账号输入框 -->
-                <el-form-item label="账号" prop="account">
+                <el-form-item :label='$ui("账号")' prop="account">
                     <el-input
                         v-model="formData.account"
                         :disabled="formData.root == 1"
-                        placeholder="请输入账号"
+                        :placeholder='$ui("请输入账号")'
                         clearable
                     />
                 </el-form-item>
                 <!-- 管理员头像 -->
-                <el-form-item label="头像">
+                <el-form-item :label='$ui("头像")'>
                     <div>
                         <div>
                             <material-picker v-model="formData.avatar" :limit="1" />
                         </div>
-                        <div class="form-tips">建议尺寸：100*100px，支持jpg，jpeg，png格式</div>
+                        <div class="form-tips">{{ $ui("建议尺寸：100*100px，支持jpg，jpeg，png格式") }}</div>
                     </div>
                 </el-form-item>
 
                 <!-- 名称输入框 -->
-                <el-form-item label="名称" prop="name">
-                    <el-input v-model="formData.name" placeholder="请输入名称" clearable />
+                <el-form-item :label='$ui("名称")' prop="name">
+                    <el-input v-model="formData.name" :placeholder='$ui("请输入名称")' clearable />
                 </el-form-item>
-                <el-form-item label="归属部门" prop="dept_id">
+                <el-form-item :label='$ui("归属部门")' prop="dept_id">
                     <el-tree-select
                         class="flex-1"
                         v-model="formData.dept_id"
@@ -49,16 +49,16 @@
                         }"
                         check-strictly
                         :default-expand-all="true"
-                        placeholder="请选择上级部门"
+                        :placeholder='$ui("请选择上级部门")'
                     />
                 </el-form-item>
-                <el-form-item label="岗位" prop="jobs_id">
+                <el-form-item :label='$ui("岗位")' prop="jobs_id">
                     <el-select
                         class="flex-1"
                         v-model="formData.jobs_id"
                         clearable
                         multiple
-                        placeholder="请选择岗位"
+                        :placeholder='$ui("请选择岗位")'
                     >
                         <el-option
                             v-for="(item, index) in optionsData.jobs"
@@ -70,13 +70,13 @@
                 </el-form-item>
 
                 <!-- 角色选择框 -->
-                <el-form-item label="角色" prop="role_id" v-if="formData.root != 1">
+                <el-form-item :label='$ui("角色")' prop="role_id" v-if="formData.root != 1">
                     <el-select
                         v-model="formData.role_id"
                         :disabled="formData.root == 1"
                         class="flex-1"
                         multiple
-                        placeholder="请选择角色"
+                        :placeholder='$ui("请选择角色")'
                         clearable
                     >
                         <el-option
@@ -89,39 +89,39 @@
                 </el-form-item>
 
                 <!-- 密码输入框 -->
-                <el-form-item label="密码" prop="password">
+                <el-form-item :label='$ui("密码")' prop="password">
                     <el-input
                         v-model="formData.password"
                         show-password
                         clearable
-                        placeholder="请输入密码"
+                        :placeholder='$ui("请输入密码")'
                     />
                 </el-form-item>
 
                 <!-- 确认密码输入框 -->
-                <el-form-item label="确认密码" prop="password_confirm">
+                <el-form-item :label='$ui("确认密码")' prop="password_confirm">
                     <el-input
                         v-model="formData.password_confirm"
                         show-password
                         clearable
-                        placeholder="请输入确认密码"
+                        :placeholder='$ui("请输入确认密码")'
                     />
                 </el-form-item>
 
                 <!-- 管理员状态 -->
-                <el-form-item label="管理员状态" v-if="formData.root != 1">
+                <el-form-item :label='$ui("管理员状态")' v-if="formData.root != 1">
                     <el-switch v-model="formData.disable" :active-value="0" :inactive-value="1" />
                 </el-form-item>
 
                 <!-- 多处登录 -->
-                <el-form-item label="多处登录">
+                <el-form-item :label='$ui("多处登录")'>
                     <div>
                         <el-switch
                             v-model="formData.multipoint_login"
                             :active-value="1"
                             :inactive-value="0"
                         />
-                        <div class="form-tips">允许多人同时在线登录</div>
+                        <div class="form-tips">{{ $ui("允许多人同时在线登录") }}</div>
                     </div>
                 </el-form-item>
             </el-form>
@@ -129,6 +129,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 
 import { deptAll } from '@/api/org/department'
@@ -143,7 +144,7 @@ const formRef = shallowRef<FormInstance>()
 const popupRef = shallowRef<InstanceType<typeof Popup>>()
 const mode = ref('add')
 const popupTitle = computed(() => {
-    return mode.value == 'edit' ? '编辑管理员' : '新增管理员'
+    return mode.value == 'edit' ? translateUiText("编辑管理员") : translateUiText("新增管理员")
 })
 const formData = reactive({
     id: '',
@@ -161,8 +162,8 @@ const formData = reactive({
 })
 const passwordConfirmValidator = (rule: object, value: string, callback: any) => {
     if (formData.password) {
-        if (!value) callback(new Error('请再次输入密码'))
-        if (value !== formData.password) callback(new Error('两次输入密码不一致!'))
+        if (!value) callback(new Error(translateUiText("请再次输入密码")))
+        if (value !== formData.password) callback(new Error(translateUiText("两次输入密码不一致!")))
     }
     callback()
 }
@@ -174,7 +175,7 @@ const roleIdValidator = (rule: object, value: string, callback: any) => {
         if (formData.role_id.length) {
             callback()
         } else {
-            callback(new Error('请选择角色'))
+            callback(new Error(translateUiText("请选择角色")))
         }
     }
 }
@@ -182,14 +183,14 @@ const formRules = reactive({
     account: [
         {
             required: true,
-            message: '请输入账号',
+            message: () => translateUiText("请输入账号"),
             trigger: ['blur']
         }
     ],
     name: [
         {
             required: true,
-            message: '请输入名称',
+            message: () => translateUiText("请输入名称"),
             trigger: ['blur']
         }
     ],
@@ -202,14 +203,14 @@ const formRules = reactive({
     password: [
         {
             required: true,
-            message: '请输入密码',
+            message: () => translateUiText("请输入密码"),
             trigger: ['blur']
         }
     ] as any[],
     password_confirm: [
         {
             required: true,
-            message: '请输入确认密码',
+            message: () => translateUiText("请输入确认密码"),
             trigger: ['blur']
         },
         {

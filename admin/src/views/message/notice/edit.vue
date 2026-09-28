@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-card class="!border-none" shadow="never">
-            <el-page-header content="编辑通知设置" @back="$router.back()" />
+            <el-page-header :content='$ui("编辑通知设置")' @back="$router.back()" />
         </el-card>
         <el-form
             ref="formRef"
@@ -11,28 +11,28 @@
             v-loading="loading"
         >
             <el-card class="!border-none mt-4" shadow="never">
-                <div class="font-medium mb-7">通知名称</div>
-                <el-form-item label="通知名称"> {{ formData.scene_name }} </el-form-item>
-                <el-form-item label="通知类型"> {{ formData.type }} </el-form-item>
-                <el-form-item label="通知业务"> {{ formData.scene_desc }} </el-form-item>
+                <div class="font-medium mb-7">{{ $ui("通知名称") }}</div>
+                <el-form-item :label='$ui("通知名称")'> {{ formData.scene_name }} </el-form-item>
+                <el-form-item :label='$ui("通知类型")'> {{ formData.type }} </el-form-item>
+                <el-form-item :label='$ui("通知业务")'> {{ formData.scene_desc }} </el-form-item>
             </el-card>
             <el-card class="!border-none mt-4" shadow="never">
-                <div class="font-medium mb-7">短信通知</div>
-                <el-form-item label="开启状态" prop="sms_notice.status" required>
+                <div class="font-medium mb-7">{{ $ui("短信通知") }}</div>
+                <el-form-item :label='$ui("开启状态")' prop="sms_notice.status" required>
                     <el-radio-group v-model="formData.sms_notice.status">
-                        <el-radio label="0">关闭</el-radio>
-                        <el-radio label="1">开启</el-radio>
+                        <el-radio label="0">{{ $ui("关闭") }}</el-radio>
+                        <el-radio label="1">{{ $ui("开启") }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="模板ID" prop="sms_notice.template_id">
+                <el-form-item :label='$ui("模板ID")' prop="sms_notice.template_id">
                     <div class="w-80">
                         <el-input
                             v-model="formData.sms_notice.template_id"
-                            placeholder="请输入模板ID"
+                            :placeholder='$ui("请输入模板ID")'
                         />
                     </div>
                 </el-form-item>
-                <el-form-item label="短信内容" prop="sms_notice.content">
+                <el-form-item :label='$ui("短信内容")' prop="sms_notice.content">
                     <div class="flex-1">
                         <div class="w-full max-w-[320px]">
                             <el-input
@@ -51,12 +51,13 @@
             </el-card>
         </el-form>
         <footer-btns>
-            <el-button type="primary" @click="handleSave">保存</el-button>
+            <el-button type="primary" @click="handleSave">{{ $ui("保存") }}</el-button>
         </footer-btns>
     </div>
 </template>
 
 <script lang="ts" setup name="noticeEdit">
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 import { pick } from 'lodash'
 
@@ -88,14 +89,14 @@ const rules = {
     'sms_notice.template_id': [
         {
             required: true,
-            message: '请输入模板ID',
+            message: () => translateUiText("请输入模板ID"),
             trigger: 'blur'
         }
     ],
     'sms_notice.content': [
         {
             required: true,
-            message: '请输入短信内容',
+            message: () => translateUiText("请输入短信内容"),
             trigger: 'blur'
         }
     ]
@@ -122,7 +123,7 @@ const handleSave = async () => {
         template: pick(formData, ['sms_notice', 'oa_notice', 'mnp_notice', 'system_notice'])
     }
     await setNoticeConfig(data)
-    feedback.msgSuccess('操作成功')
+    feedback.msgSuccess(translateUiText("操作成功"))
     removeTab()
     router.back()
 }

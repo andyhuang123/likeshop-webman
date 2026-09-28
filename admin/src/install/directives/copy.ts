@@ -1,3 +1,4 @@
+import { translateUiText } from "@/i18n";
 /**
  * perm 操作权限处理
  * 指令用法：
@@ -17,10 +18,10 @@ export default {
         el.onclick = () => {
             toClipboard(el.getAttribute(clipboard)!)
                 .then(() => {
-                    feedback.msgSuccess('复制成功')
+                    feedback.msgSuccess(translateUiText("复制成功"))
                 })
                 .catch(() => {
-                    feedback.msgError('复制失败')
+                    feedback.msgError(translateUiText("复制失败"))
                 })
         }
     },

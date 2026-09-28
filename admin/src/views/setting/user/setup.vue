@@ -2,9 +2,9 @@
 <template>
     <div class="user-setup">
         <el-card shadow="never" class="!border-none">
-            <div class="font-medium mb-7">基本设置</div>
+            <div class="font-medium mb-7">{{ $ui("基本设置") }}</div>
             <el-form ref="formRef" :model="formData" label-width="120px">
-                <el-form-item label="用户默认头像">
+                <el-form-item :label='$ui("用户默认头像")'>
                     <div>
                         <material-picker v-model="formData.default_avatar" :limit="1" />
                     </div>
@@ -12,7 +12,7 @@
                 <el-form-item>
                     <div>
                         <div class="form-tips">
-                            用户注册时给的默认头像，建议尺寸：400*400像素，支持jpg，jpeg，png格式
+                            {{ $ui("用户注册时给的默认头像，建议尺寸：400*400像素，支持jpg，jpeg，png格式") }}
                         </div>
                     </div>
                 </el-form-item>
@@ -20,12 +20,13 @@
         </el-card>
 
         <footer-btns v-perms="['setting.user.user/setConfig']">
-            <el-button type="primary" @click="handleSubmit">保存</el-button>
+            <el-button type="primary" @click="handleSubmit">{{ $ui("保存") }}</el-button>
         </footer-btns>
     </div>
 </template>
 
 <script lang="ts" setup name="userSetup">
+import { translateUiText } from "@/i18n";
 import { getUserSetup, setUserSetup } from '@/api/setting/user'
 
 // 表单数据
@@ -42,7 +43,7 @@ const getData = async () => {
             formData[key] = data[key]
         }
     } catch (error) {
-        console.log('获取=>', error)
+        console.log(translateUiText("获取=>"), error)
     }
 }
 
@@ -52,7 +53,7 @@ const handleSubmit = async () => {
         await setUserSetup(formData)
         getData()
     } catch (error) {
-        console.log('保存=>', error)
+        console.log(translateUiText("保存=>"), error)
     }
 }
 

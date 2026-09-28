@@ -11,7 +11,7 @@
                 <del-wrap @close="handleDelete(index)" class="max-w-[400px]">
                     <div class="bg-fill-light w-full p-4 mt-4">
                         <el-form-item
-                            label="导航图标"
+                            :label='$ui("导航图标")'
                             v-if="
                                 element.unselected !== undefined || element.selected !== undefined
                             "
@@ -26,7 +26,7 @@
                                 <template #upload>
                                     <div class="upload-btn w-[60px] h-[60px]">
                                         <icon name="el-icon-Plus" :size="16" />
-                                        <span class="text-xs leading-5"> 未选中 </span>
+                                        <span class="text-xs leading-5"> {{ $ui("未选中") }} </span>
                                     </div>
                                 </template>
                             </material-picker>
@@ -40,18 +40,18 @@
                                 <template #upload>
                                     <div class="upload-btn w-[60px] h-[60px]">
                                         <icon name="el-icon-Plus" :size="16" />
-                                        <span class="text-xs leading-5"> 选中 </span>
+                                        <span class="text-xs leading-5"> {{ $ui("选中") }} </span>
                                     </div>
                                 </template>
                             </material-picker>
                         </el-form-item>
-                        <el-form-item label="导航名称" v-if="element.name !== undefined">
-                            <el-input v-model="element.name" placeholder="请输入名称" />
+                        <el-form-item :label='$ui("导航名称")' v-if="element.name !== undefined">
+                            <el-input v-model="element.name" :placeholder='$ui("请输入名称")' />
                         </el-form-item>
-                        <el-form-item label="链接地址" v-if="element.link !== undefined">
+                        <el-form-item :label='$ui("链接地址")' v-if="element.link !== undefined">
                             <link-picker v-model="element.link" type="pc" />
                         </el-form-item>
-                        <el-form-item label="是否显示" v-if="element.is_show !== undefined">
+                        <el-form-item :label='$ui("是否显示")' v-if="element.is_show !== undefined">
                             <div class="flex-1 flex items-center">
                                 <el-switch
                                     v-model="element.is_show"
@@ -70,7 +70,7 @@
     </div>
 
     <el-form-item v-if="menu.length < max" label-width="0">
-        <el-button type="primary" @click="handleAdd"> 添加导航 </el-button>
+        <el-button type="primary" @click="handleAdd"> {{ $ui("添加导航") }} </el-button>
     </el-form-item>
 </template>
 

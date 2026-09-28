@@ -3,48 +3,48 @@
     <div class="journal">
         <el-card class="!border-none" shadow="never">
             <el-form class="ls-form" :model="formData" inline>
-                <el-form-item label="管理员">
+                <el-form-item :label='$ui("管理员")'>
                     <el-input
                         class="w-[280px]"
-                        placeholder="请输入"
+                        :placeholder='$ui("请输入")'
                         v-model="formData.admin_name"
                         clearable
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
 
-                <el-form-item label="访问方式">
-                    <el-select class="w-[280px]" v-model="formData.type" placeholder="请选择">
+                <el-form-item :label='$ui("访问方式")'>
+                    <el-select class="w-[280px]" v-model="formData.type" :placeholder='$ui("请选择")'>
                         <el-option
                             v-for="(item, index) in visitType"
                             :key="index"
-                            :label="item.label"
+                            :label="$ui(item.label)"
                             :value="item.value"
                         />
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="来源IP">
+                <el-form-item :label='$ui("来源IP")'>
                     <el-input
                         class="w-[280px]"
-                        placeholder="请输入"
+                        :placeholder='$ui("请输入")'
                         v-model="formData.ip"
                         clearable
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
 
-                <el-form-item label="访问时间">
+                <el-form-item :label='$ui("访问时间")'>
                     <daterange-picker
                         v-model:startTime="formData.start_time"
                         v-model:endTime="formData.end_time"
                     />
                 </el-form-item>
 
-                <el-form-item label="访问链接">
+                <el-form-item :label='$ui("访问链接")'>
                     <el-input
                         class="w-[280px]"
-                        placeholder="请输入"
+                        :placeholder='$ui("请输入")'
                         v-model="formData.url"
                         clearable
                         @keyup.enter="resetPage"
@@ -52,8 +52,8 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
+                    <el-button type="primary" @click="resetPage">{{ $ui("查询") }}</el-button>
+                    <el-button @click="resetParams">{{ $ui("重置") }}</el-button>
                     <export-data
                         class="ml-2.5"
                         :fetch-fun="systemLogLists"
@@ -67,15 +67,15 @@
         <el-card class="!border-none mt-4" shadow="never" v-loading="pager.loading">
             <div>
                 <el-table :data="pager.lists" size="large">
-                    <el-table-column label="记录ID" prop="id" />
-                    <el-table-column label="操作" prop="action" min-width="120" />
-                    <el-table-column label="管理员" prop="admin_name" min-width="120" />
-                    <el-table-column label="管理员ID" prop="admin_id" min-width="120" />
-                    <el-table-column label="访问链接" prop="url" min-width="160" />
-                    <el-table-column label="访问方式" prop="type" />
-                    <el-table-column label="访问参数" prop="params" min-width="160" />
-                    <el-table-column label="来源IP" prop="ip" min-width="160" />
-                    <el-table-column label="日志时间" prop="create_time" min-width="180" />
+                    <el-table-column :label='$ui("记录ID")' prop="id" />
+                    <el-table-column :label='$ui("操作")' prop="action" min-width="120" />
+                    <el-table-column :label='$ui("管理员")' prop="admin_name" min-width="120" />
+                    <el-table-column :label='$ui("管理员ID")' prop="admin_id" min-width="120" />
+                    <el-table-column :label='$ui("访问链接")' prop="url" min-width="160" />
+                    <el-table-column :label='$ui("访问方式")' prop="type" />
+                    <el-table-column :label='$ui("访问参数")' prop="params" min-width="160" />
+                    <el-table-column :label='$ui("来源IP")' prop="ip" min-width="160" />
+                    <el-table-column :label='$ui("日志时间")' prop="create_time" min-width="180" />
                 </el-table>
             </div>
             <div class="flex mt-4 justify-end">
@@ -86,6 +86,7 @@
 </template>
 
 <script setup lang="ts" name="journal">
+import { translateUiText } from "@/i18n";
 import { systemLogLists } from '@/api/setting/system'
 import { usePaging } from '@/hooks/usePaging'
 

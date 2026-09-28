@@ -9,34 +9,34 @@
             @close="handleClose"
         >
             <el-form ref="formRef" :model="formData" label-width="84px" :rules="formRules">
-                <el-form-item label="岗位名称" prop="name">
+                <el-form-item :label='$ui("岗位名称")' prop="name">
                     <el-input
                         v-model="formData.name"
-                        placeholder="请输入岗位名称"
+                        :placeholder='$ui("请输入岗位名称")'
                         clearable
                         :maxlength="100"
                     />
                 </el-form-item>
-                <el-form-item label="岗位编码" prop="code">
-                    <el-input v-model="formData.code" placeholder="请输入岗位编码" clearable />
+                <el-form-item :label='$ui("岗位编码")' prop="code">
+                    <el-input v-model="formData.code" :placeholder='$ui("请输入岗位编码")' clearable />
                 </el-form-item>
-                <el-form-item label="排序" prop="sort">
+                <el-form-item :label='$ui("排序")' prop="sort">
                     <div>
                         <el-input-number v-model="formData.sort" :min="0" :max="9999" />
-                        <div class="form-tips">默认为0， 数值越大越排前</div>
+                        <div class="form-tips">{{ $ui("默认为0， 数值越大越排前") }}</div>
                     </div>
                 </el-form-item>
-                <el-form-item label="备注" prop="remark">
+                <el-form-item :label='$ui("备注")' prop="remark">
                     <el-input
                         v-model="formData.remark"
-                        placeholder="请输入备注"
+                        :placeholder='$ui("请输入备注")'
                         type="textarea"
                         :autosize="{ minRows: 4, maxRows: 6 }"
                         maxlength="200"
                         show-word-limit
                     />
                 </el-form-item>
-                <el-form-item label="岗位状态" required prop="status">
+                <el-form-item :label='$ui("岗位状态")' required prop="status">
                     <el-switch v-model="formData.status" :active-value="1" :inactive-value="0" />
                 </el-form-item>
             </el-form>
@@ -44,6 +44,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 
 import { jobsAdd, jobsDetail, jobsEdit } from '@/api/org/post'
@@ -54,7 +55,7 @@ const formRef = shallowRef<FormInstance>()
 const popupRef = shallowRef<InstanceType<typeof Popup>>()
 const mode = ref('add')
 const popupTitle = computed(() => {
-    return mode.value == 'edit' ? '编辑岗位' : '新增岗位'
+    return mode.value == 'edit' ? translateUiText("编辑岗位") : translateUiText("新增岗位")
 })
 const formData = reactive({
     id: '',
@@ -69,14 +70,14 @@ const formRules = {
     code: [
         {
             required: true,
-            message: '请输入岗位编码',
+            message: () => translateUiText("请输入岗位编码"),
             trigger: ['blur']
         }
     ],
     name: [
         {
             required: true,
-            message: '请输入岗位名称',
+            message: () => translateUiText("请输入岗位名称"),
             trigger: ['blur']
         }
     ]

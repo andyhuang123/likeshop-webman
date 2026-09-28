@@ -7,6 +7,8 @@ import {
 } from 'element-plus'
 import type { LoadingInstance } from 'element-plus/es/components/loading/src/loading'
 
+import { translateUiText } from '@/i18n'
+
 export class Feedback {
     private loadingInstance: LoadingInstance | null = null
     static instance: Feedback | null = null
@@ -15,65 +17,65 @@ export class Feedback {
     }
     // 消息提示
     msg(msg: string) {
-        ElMessage.info(msg)
+        ElMessage.info(translateUiText(msg))
     }
     // 错误消息
     msgError(msg: string) {
-        ElMessage.error(msg)
+        ElMessage.error(translateUiText(msg))
     }
     // 成功消息
     msgSuccess(msg: string) {
-        ElMessage.success(msg)
+        ElMessage.success(translateUiText(msg))
     }
     // 警告消息
     msgWarning(msg: string) {
-        ElMessage.warning(msg)
+        ElMessage.warning(translateUiText(msg))
     }
     // 弹出提示
     alert(msg: string) {
-        ElMessageBox.alert(msg, '系统提示')
+        ElMessageBox.alert(translateUiText(msg), translateUiText('系统提示'))
     }
     // 错误提示
     alertError(msg: string) {
-        ElMessageBox.alert(msg, '系统提示', { type: 'error' })
+        ElMessageBox.alert(translateUiText(msg), translateUiText('系统提示'), { type: 'error' })
     }
     // 成功提示
     alertSuccess(msg: string) {
-        ElMessageBox.alert(msg, '系统提示', { type: 'success' })
+        ElMessageBox.alert(translateUiText(msg), translateUiText('系统提示'), { type: 'success' })
     }
     // 警告提示
     alertWarning(msg: string) {
-        ElMessageBox.alert(msg, '系统提示', { type: 'warning' })
+        ElMessageBox.alert(translateUiText(msg), translateUiText('系统提示'), { type: 'warning' })
     }
     // 通知提示
     notify(msg: string) {
-        ElNotification.info(msg)
+        ElNotification.info(translateUiText(msg))
     }
     // 错误通知
     notifyError(msg: string) {
-        ElNotification.error(msg)
+        ElNotification.error(translateUiText(msg))
     }
     // 成功通知
     notifySuccess(msg: string) {
-        ElNotification.success(msg)
+        ElNotification.success(translateUiText(msg))
     }
     // 警告通知
     notifyWarning(msg: string) {
-        ElNotification.warning(msg)
+        ElNotification.warning(translateUiText(msg))
     }
     // 确认窗体
     confirm(msg: string) {
-        return ElMessageBox.confirm(msg, '温馨提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
+        return ElMessageBox.confirm(translateUiText(msg), translateUiText('温馨提示'), {
+            confirmButtonText: translateUiText('确定'),
+            cancelButtonText: translateUiText('取消'),
             type: 'warning'
         })
     }
     // 提交内容
     prompt(content: string, title: string, options?: ElMessageBoxOptions) {
-        return ElMessageBox.prompt(content, title, {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
+        return ElMessageBox.prompt(translateUiText(content), translateUiText(title), {
+            confirmButtonText: translateUiText('确定'),
+            cancelButtonText: translateUiText('取消'),
             ...options
         })
     }
@@ -81,7 +83,7 @@ export class Feedback {
     loading(msg: string) {
         this.loadingInstance = ElLoading.service({
             lock: true,
-            text: msg
+            text: translateUiText(msg)
         })
     }
     // 关闭全局loading

@@ -4,7 +4,7 @@
         <el-card class="!border-none" shadow="never">
             <el-alert
                 type="warning"
-                title="温馨提示：管理系统运行过程中产生的缓存"
+                :title='$ui("温馨提示：管理系统运行过程中产生的缓存")'
                 :closable="false"
                 show-icon
             ></el-alert>
@@ -12,11 +12,15 @@
 
         <el-card class="!border-none mt-4" shadow="never">
             <el-table :data="cacheDate" size="large">
-                <el-table-column label="管理内容" prop="content" min-width="130"></el-table-column>
-                <el-table-column label="内容说明" prop="desc" min-width="180"></el-table-column>
-                <el-table-column label="操作" width="130" fixed="right">
+                <el-table-column :label='$ui("管理内容")' min-width="130">
+                    <template #default="{ row }">{{ $ui(row.content) }}</template>
+                </el-table-column>
+                <el-table-column :label='$ui("内容说明")' min-width="180">
+                    <template #default="{ row }">{{ $ui(row.desc) }}</template>
+                </el-table-column>
+                <el-table-column :label='$ui("操作")' width="130" fixed="right">
                     <template #default>
-                        <el-button type="primary" link @click="handleClean">清除系统缓存</el-button>
+                        <el-button type="primary" link @click="handleClean">{{ $ui("清除系统缓存") }}</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -25,6 +29,7 @@
 </template>
 
 <script setup lang="ts" name="cache">
+import { translateUiText } from "@/i18n";
 import { systemCacheClear } from '@/api/setting/system'
 import feedback from '@/utils/feedback'
 
@@ -38,7 +43,7 @@ const cacheDate = ref<Array<object>>([
 
 // 清理缓存
 const handleClean = async () => {
-    await feedback.confirm('确认清除系统缓存？')
+    await feedback.confirm(translateUiText("确认清除系统缓存？"))
     await systemCacheClear()
     window.location.reload()
 }

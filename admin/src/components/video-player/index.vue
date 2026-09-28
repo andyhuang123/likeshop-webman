@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateUiText } from "@/i18n";
 import 'vue3-video-play/dist/style.css'
 
 import { reactive, shallowRef } from 'vue'
@@ -54,17 +55,17 @@ const pause = () => {
 }
 
 const onPlay = (event: any) => {
-    console.log(event, '播放')
+    console.log(event, translateUiText("播放"))
 }
 const onPause = (event: any) => {
-    console.log(event, '暂停')
+    console.log(event, translateUiText("暂停"))
 }
 
 const onTimeupdate = (event: any) => {
     console.log(event, '时间更新')
 }
 const onCanplay = (event: any) => {
-    console.log(event, '可以播放')
+    console.log(event, translateUiText("可以播放"))
 }
 
 defineExpose({

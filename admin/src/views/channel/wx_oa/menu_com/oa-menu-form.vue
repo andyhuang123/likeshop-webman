@@ -1,15 +1,15 @@
 <template>
     <el-form ref="menuFormRef" :rules="rules" :model="menuForm" label-width="100px">
         <!-- 菜单名称 -->
-        <el-form-item :label="modular === 'master' ? '主菜单名称' : '子菜单名称'" prop="name">
+        <el-form-item :label="$ui(modular === 'master' ? '主菜单名称' : '子菜单名称')" prop="name">
             <el-input v-model="menuForm.name" />
         </el-form-item>
 
         <!-- 菜单类型 -->
-        <el-form-item label="主菜单类型" prop="menuType" v-if="modular === 'master'">
+        <el-form-item :label='$ui("主菜单类型")' prop="menuType" v-if="modular === 'master'">
             <el-radio-group v-model="menuForm.menuType">
-                <el-radio :label="false">不配置子菜单</el-radio>
-                <el-radio :label="true">配置子菜单</el-radio>
+                <el-radio :label="false">{{ $ui("不配置子菜单") }}</el-radio>
+                <el-radio :label="true">{{ $ui("配置子菜单") }}</el-radio>
             </el-radio-group>
         </el-form-item>
         <el-form-item label="" v-if="menuForm.menuType && modular === 'master'">
@@ -18,15 +18,15 @@
 
         <template v-if="!menuForm.menuType">
             <!-- 跳转链接 -->
-            <el-form-item label="跳转链接" prop="visitType">
+            <el-form-item :label='$ui("跳转链接")' prop="visitType">
                 <el-radio-group v-model="menuForm.visitType">
-                    <el-radio label="view">网页</el-radio>
-                    <el-radio label="miniprogram">小程序</el-radio>
+                    <el-radio label="view">{{ $ui("网页") }}</el-radio>
+                    <el-radio label="miniprogram">{{ $ui("小程序") }}</el-radio>
                 </el-radio-group>
             </el-form-item>
 
             <!-- 网址 -->
-            <el-form-item label="网址" prop="url">
+            <el-form-item :label='$ui("网址")' prop="url">
                 <el-input v-model="menuForm.url" />
             </el-form-item>
 
@@ -37,7 +37,7 @@
                 </el-form-item>
 
                 <!-- 路径 -->
-                <el-form-item label="路径" prop="pagePath">
+                <el-form-item :label='$ui("路径")' prop="pagePath">
                     <el-input v-model="menuForm.pagePath" />
                 </el-form-item>
             </template>

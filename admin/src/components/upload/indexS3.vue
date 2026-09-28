@@ -22,7 +22,7 @@
         <el-dialog
             v-if="showProgress && fileList.length"
             v-model="visible"
-            title="上传进度"
+            :title='$ui("上传进度")'
             :close-on-click-modal="false"
             width="500px"
             :modal="false"
@@ -43,6 +43,7 @@
 </template>
 
 <script lang="ts">
+import { translateUiText } from "@/i18n";
 import type { ElUpload, UploadProgressEvent, UploadRequestOptions } from 'element-plus'
 import { UploadAjaxError } from 'element-plus/es/components/upload/src/ajax'
 import { isArray, isNil } from 'lodash'
@@ -227,7 +228,7 @@ export default defineComponent({
             getActionUrl(option)
                 .then((actionRes: any) => {
                     if (!actionRes) {
-                        return Promise.reject(new Error('获取上传地址失败'))
+                        return Promise.reject(new Error(translateUiText("获取上传地址失败")))
                     }
                     option.is_oss_req = actionRes.is_oss_req
                     option.action = actionRes.action

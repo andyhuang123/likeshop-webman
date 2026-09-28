@@ -20,7 +20,7 @@
         <el-dialog
             v-if="showProgress && fileList.length"
             v-model="visible"
-            title="上传进度"
+            :title='$ui("上传进度")'
             :close-on-click-modal="false"
             width="500px"
             :modal="false"

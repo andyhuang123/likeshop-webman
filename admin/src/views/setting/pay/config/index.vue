@@ -3,7 +3,7 @@
         <el-card class="!border-none" shadow="never">
             <el-alert
                 type="warning"
-                title="温馨提示：设置系统支持的支付方式"
+                :title='$ui("温馨提示：设置系统支持的支付方式")'
                 :closable="false"
                 show-icon
             />
@@ -11,19 +11,19 @@
         <el-card shadow="never" class="mt-4 !border-none">
             <div>
                 <el-table :data="payConfigList">
-                    <el-table-column prop="pay_way_name" label="支付方式" min-width="150" />
-                    <el-table-column prop="name" label="显示名称" min-width="150" />
-                    <el-table-column label="图标" min-width="150">
+                    <el-table-column prop="pay_way_name" :label='$ui("支付方式")' min-width="150" />
+                    <el-table-column prop="name" :label='$ui("显示名称")' min-width="150" />
+                    <el-table-column :label='$ui("图标")' min-width="150">
                         <template #default="{ row }">
                             <el-image
                                 :src="row.icon"
-                                alt="图标"
+                                :alt='$ui("图标")'
                                 style="width: 34px; height: 34px"
                             />
                         </template>
                     </el-table-column>
-                    <el-table-column prop="sort" label="排序" min-width="150" />
-                    <el-table-column label="操作" min-width="80" fixed="right">
+                    <el-table-column prop="sort" :label='$ui("排序")' min-width="150" />
+                    <el-table-column :label='$ui("操作")' min-width="80" fixed="right">
                         <!-- 操作 -->
                         <template #default="{ row }">
                             <el-button
@@ -32,7 +32,7 @@
                                 type="primary"
                                 @click="handleEdit(row)"
                             >
-                                配置
+                                {{ $ui("配置") }}
                             </el-button>
                         </template>
                     </el-table-column>

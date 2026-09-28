@@ -1,7 +1,7 @@
 <template>
     <popup
         ref="popupRef"
-        title="余额调整"
+        :title='$ui("余额调整")'
         width="500px"
         @confirm="handleConfirm"
         :async="true"
@@ -9,23 +9,23 @@
     >
         <div class="pr-8">
             <el-form ref="formRef" :model="formData" label-width="120px" :rules="formRules">
-                <el-form-item label="当前余额">¥ {{ value }} </el-form-item>
-                <el-form-item label="余额增减" required prop="action">
+                <el-form-item :label='$ui("当前余额")'>¥ {{ value }} </el-form-item>
+                <el-form-item :label='$ui("余额增减")' required prop="action">
                     <el-radio-group v-model="formData.action">
-                        <el-radio :label="1">增加余额</el-radio>
-                        <el-radio :label="2">扣减余额</el-radio>
+                        <el-radio :label="1">{{ $ui("增加余额") }}</el-radio>
+                        <el-radio :label="2">{{ $ui("扣减余额") }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="调整余额" prop="num">
+                <el-form-item :label='$ui("调整余额")' prop="num">
                     <el-input
                         :model-value="formData.num"
-                        placeholder="请输入调整的金额"
+                        :placeholder='$ui("请输入调整的金额")'
                         type="number"
                         @input="numberValidate"
                     />
                 </el-form-item>
-                <el-form-item label="调整后余额"> ¥ {{ adjustmentMoney }} </el-form-item>
-                <el-form-item label="备注" prop="remark">
+                <el-form-item :label='$ui("调整后余额")'> ¥ {{ adjustmentMoney }} </el-form-item>
+                <el-form-item :label='$ui("备注")' prop="remark">
                     <el-input v-model="formData.remark" type="textarea" :rows="4" />
                 </el-form-item>
             </el-form>
@@ -33,6 +33,7 @@
     </popup>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { FormInstance, FormRules } from 'element-plus'
 
 import Popup from '@/components/popup/index.vue'
@@ -68,13 +69,13 @@ const formRules: FormRules = {
     num: [
         {
             required: true,
-            message: '请输入调整的金额'
+            message: () => translateUiText("请输入调整的金额")
         }
     ]
 }
 const numberValidate = (value: string) => {
     if (value.includes('-')) {
-        return feedback.msgError('请输入正整数')
+        return feedback.msgError(translateUiText("请输入正整数"))
     }
     formData.num = value
 }
@@ -99,7 +100,7 @@ watch(
 )
 watch(adjustmentMoney, (val) => {
     if (val < 0) {
-        feedback.msgError('调整后余额需大于0')
+        feedback.msgError(translateUiText("调整后余额需大于0"))
         formData.num = ''
     }
 })

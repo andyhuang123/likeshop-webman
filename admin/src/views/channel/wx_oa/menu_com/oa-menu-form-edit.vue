@@ -54,7 +54,7 @@ const handleRules = async () => {
         ref="menuFromPopupRef"
         async
         :clickModalClose="false"
-        :title="`${modular === 'add' ? '新增' : '编辑'}子菜单`"
+        :title="$ui(modular === 'add' ? '新增子菜单' : '编辑子菜单')"
         @confirm="handleRules"
     >
         <oa-menu-form

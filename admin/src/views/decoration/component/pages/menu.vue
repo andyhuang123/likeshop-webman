@@ -6,7 +6,7 @@
             @select="handleSelect"
         >
             <el-menu-item v-for="(item, key) in menus" :index="key" :key="item.id">
-                <span>{{ item.name }}</span>
+                <span>{{ $ui(item.name) }}</span>
             </el-menu-item>
         </el-menu>
     </div>

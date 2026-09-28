@@ -12,7 +12,7 @@
         >
             <el-sub-menu v-for="(item, index) in menus" :index="item.type" :key="index">
                 <template #title>
-                    <span>{{ item.name }}</span>
+                    <span>{{ $ui(item.name) }}</span>
                 </template>
                 <el-menu-item
                     v-for="(sitem, sindex) in item.children"
@@ -20,7 +20,7 @@
                     :key="sindex"
                     style="min-width: 160px"
                 >
-                    <span>{{ sitem.name }}</span>
+                    <span>{{ $ui(sitem.name) }}</span>
                 </el-menu-item>
             </el-sub-menu>
         </el-menu>

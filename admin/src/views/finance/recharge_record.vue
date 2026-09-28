@@ -3,51 +3,51 @@
         <el-card class="!border-none" shadow="never">
             <el-alert
                 type="warning"
-                title="温馨提示：用户充值记录"
+                :title='$ui("温馨提示：用户充值记录")'
                 :closable="false"
                 show-icon
             ></el-alert>
             <el-form ref="formRef" class="mb-[-16px] mt-[16px]" :model="queryParams" :inline="true">
-                <el-form-item label="充值单号">
+                <el-form-item :label='$ui("充值单号")'>
                     <el-input
                         class="w-[280px]"
                         v-model="queryParams.sn"
-                        placeholder="请输入充值单号"
+                        :placeholder='$ui("请输入充值单号")'
                         clearable
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="用户信息">
+                <el-form-item :label='$ui("用户信息")'>
                     <el-input
                         class="w-[280px]"
                         v-model="queryParams.user_info"
-                        placeholder="请输入用户账号/昵称/手机号"
+                        :placeholder='$ui("请输入用户账号/昵称/手机号")'
                         clearable
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="支付方式">
+                <el-form-item :label='$ui("支付方式")'>
                     <el-select class="w-[280px]" v-model="queryParams.pay_way">
-                        <el-option label="全部" value />
-                        <el-option label="微信支付" :value="2" />
+                        <el-option :label='$ui("全部")' value />
+                        <el-option :label='$ui("微信支付")' :value="2" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="支付状态">
+                <el-form-item :label='$ui("支付状态")'>
                     <el-select class="w-[280px]" v-model="queryParams.pay_status">
-                        <el-option label="全部" value />
-                        <el-option label="未支付" :value="0" />
-                        <el-option label="已支付" :value="1" />
+                        <el-option :label='$ui("全部")' value />
+                        <el-option :label='$ui("未支付")' :value="0" />
+                        <el-option :label='$ui("已支付")' :value="1" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="下单时间">
+                <el-form-item :label='$ui("下单时间")'>
                     <daterange-picker
                         v-model:startTime="queryParams.start_time"
                         v-model:endTime="queryParams.end_time"
                     />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
+                    <el-button type="primary" @click="resetPage">{{ $ui("查询") }}</el-button>
+                    <el-button @click="resetParams">{{ $ui("重置") }}</el-button>
                     <export-data
                         class="ml-2.5"
                         :fetch-fun="rechargeLists"
@@ -65,7 +65,7 @@
                 element-loading-spinner="el-icon-Loading"
                 element-loading-background="rgba(255, 255, 255, 0.8)"
             >
-                <el-table-column label="用户信息" min-width="160">
+                <el-table-column :label='$ui("用户信息")' min-width="160">
                     <template #default="{ row }">
                         <div class="flex items-center">
                             <image-contain
@@ -80,11 +80,11 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="充值单号" prop="sn" min-width="190" />
-                <el-table-column label="充值金额" prop="order_amount" min-width="100">
+                <el-table-column :label='$ui("充值单号")' prop="sn" min-width="190" />
+                <el-table-column :label='$ui("充值金额")' prop="order_amount" min-width="100">
                 </el-table-column>
-                <el-table-column label="支付方式" prop="pay_way_text" min-width="100" />
-                <el-table-column label="支付状态" prop="" min-width="100">
+                <el-table-column :label='$ui("支付方式")' prop="pay_way_text" min-width="100" />
+                <el-table-column :label='$ui("支付状态")' prop="" min-width="100">
                     <template #default="{ row }">
                         <span
                             :class="{
@@ -95,9 +95,9 @@
                         </span>
                     </template>
                 </el-table-column>
-                <el-table-column label="提交时间" prop="create_time" min-width="180" />
-                <el-table-column label="支付时间" prop="pay_time" min-width="180" />
-                <el-table-column label="操作" width="120" fixed="right">
+                <el-table-column :label='$ui("提交时间")' prop="create_time" min-width="180" />
+                <el-table-column :label='$ui("支付时间")' prop="pay_time" min-width="180" />
+                <el-table-column :label='$ui("操作")' width="120" fixed="right">
                     <template #default="{ row }">
                         <el-button
                             v-if="row.pay_status == 1"
@@ -107,7 +107,7 @@
                             :disabled="row.refund_status == 1"
                             @click="handleRefund(row.id)"
                         >
-                            退款
+                            {{ $ui("退款") }}
                         </el-button>
                     </template>
                 </el-table-column>
@@ -119,6 +119,7 @@
     </div>
 </template>
 <script lang="ts" setup name="rechargeRecord">
+import { translateUiText } from "@/i18n";
 import { rechargeLists, refund } from '@/api/finance'
 import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
@@ -137,7 +138,7 @@ const { pager, getLists, resetPage, resetParams } = usePaging({
     params: queryParams
 })
 const handleRefund = async (id: number) => {
-    await feedback.confirm('确认退款？')
+    await feedback.confirm(translateUiText("确认退款？"))
     await refund({
         recharge_id: id
     })

@@ -6,14 +6,14 @@
                     <el-tooltip
                         class="box-item"
                         effect="dark"
-                        :content="isCollapsed ? '展开菜单' : '收起菜单'"
+                        :content="isCollapsed ? $ui('展开菜单') : $ui('收起菜单')"
                         placement="bottom"
                     >
                         <fold />
                     </el-tooltip>
                 </div>
                 <div class="navbar-item">
-                    <el-tooltip class="box-item" effect="dark" content="刷新" placement="bottom">
+                    <el-tooltip class="box-item" effect="dark" :content="$ui('刷新')" placement="bottom">
                         <refresh />
                     </el-tooltip>
                 </div>
@@ -26,7 +26,7 @@
                     <el-tooltip
                         class="box-item"
                         effect="dark"
-                        :content="isFullscreen ? '退出全屏' : '全屏模式'"
+                        :content="isFullscreen ? $ui('退出全屏') : $ui('全屏模式')"
                         placement="bottom"
                     >
                         <full-screen />
@@ -42,7 +42,7 @@
                     <el-tooltip
                         class="box-item"
                         effect="dark"
-                        content="主题设置"
+                        :content="$ui('主题设置')"
                         placement="bottom"
                     >
                         <setting />

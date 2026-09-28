@@ -3,7 +3,7 @@
         <el-card class="!border-none" shadow="never">
             <el-alert
                 type="warning"
-                title="温馨提示：填写微信小程序开发配置，请前往微信公众平台申请小程序并完成认证"
+                :title='$ui("温馨提示：填写微信小程序开发配置，请前往微信公众平台申请小程序并完成认证")'
                 :closable="false"
                 show-icon
             />
@@ -15,135 +15,136 @@
             :label-width="appStore.isMobile ? '80px' : '160px'"
         >
             <el-card class="!border-none mt-4" shadow="never">
-                <div class="font-medium mb-7">微信小程序</div>
-                <el-form-item label="小程序名称" prop="name">
+                <div class="font-medium mb-7">{{ $ui("微信小程序") }}</div>
+                <el-form-item :label='$ui("小程序名称")' prop="name">
                     <div class="w-80">
-                        <el-input v-model="formData.name" placeholder="请输入小程序名称" />
+                        <el-input v-model="formData.name" :placeholder='$ui("请输入小程序名称")' />
                     </div>
                 </el-form-item>
-                <el-form-item label="原始ID" prop="original_id">
+                <el-form-item :label='$ui("原始ID")' prop="original_id">
                     <div class="w-80">
-                        <el-input v-model="formData.original_id" placeholder="请输入原始ID" />
+                        <el-input v-model="formData.original_id" :placeholder='$ui("请输入原始ID")' />
                     </div>
                 </el-form-item>
-                <el-form-item label="小程序码" prop="qr_code">
+                <el-form-item :label='$ui("小程序码")' prop="qr_code">
                     <div class="flex-1">
                         <div>
                             <material-picker v-model="formData.qr_code" :limit="1" />
                         </div>
-                        <div class="form-tips">建议尺寸：宽400px*高400px。jpg，jpeg，png格式</div>
+                        <div class="form-tips">{{ $ui("建议尺寸：宽400px*高400px。jpg，jpeg，png格式") }}</div>
                     </div>
                 </el-form-item>
             </el-card>
             <el-card class="!border-none mt-4" shadow="never">
-                <div class="font-medium mb-7">开发者ID</div>
+                <div class="font-medium mb-7">{{ $ui("开发者ID") }}</div>
                 <el-form-item label="AppID" prop="app_id">
                     <div class="w-80">
-                        <el-input v-model="formData.app_id" placeholder="请输入AppID" />
+                        <el-input v-model="formData.app_id" :placeholder='$ui("请输入AppID")' />
                     </div>
                 </el-form-item>
                 <el-form-item label="AppSecret" prop="app_secret">
                     <div class="w-80">
-                        <el-input v-model="formData.app_secret" placeholder="请输入AppSecret" />
+                        <el-input v-model="formData.app_secret" :placeholder='$ui("请输入AppSecret")' />
                     </div>
                 </el-form-item>
                 <el-form-item>
                     <div class="form-tips">
-                        小程序账号登录微信公众平台，点击开发>开发设置->开发者ID，设置AppID和AppSecret
+                        {{ $ui("小程序账号登录微信公众平台，点击开发>开发设置->开发者ID，设置AppID和AppSecret") }}
                     </div>
                 </el-form-item>
             </el-card>
             <el-card class="!border-none mt-4" shadow="never">
-                <div class="font-medium mb-7">服务器域名</div>
-                <el-form-item label="request合法域名" prop="appId">
+                <div class="font-medium mb-7">{{ $ui("服务器域名") }}</div>
+                <el-form-item :label='$ui("request合法域名")' prop="appId">
                     <div class="flex-1 min-w-0">
                         <div class="sm:flex">
                             <div class="mr-4 sm:w-80 flex">
                                 <el-input v-model="formData.request_domain" disabled />
                             </div>
-                            <el-button v-copy="formData.request_domain">复制</el-button>
+                            <el-button v-copy="formData.request_domain">{{ $ui("复制") }}</el-button>
                         </div>
                         <div class="form-tips">
-                            小程序账号登录微信公众平台，点击开发>开发设置->服务器域名，填写https协议域名
+                            {{ $ui("小程序账号登录微信公众平台，点击开发>开发设置->服务器域名，填写https协议域名") }}
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item label="socket合法域名">
+                <el-form-item :label='$ui("socket合法域名")'>
                     <div class="flex-1 min-w-0">
                         <div class="sm:flex">
                             <div class="mr-4 sm:w-80 flex">
                                 <el-input v-model="formData.socket_domain" disabled />
                             </div>
-                            <el-button v-copy="formData.socket_domain">复制</el-button>
+                            <el-button v-copy="formData.socket_domain">{{ $ui("复制") }}</el-button>
                         </div>
                         <div class="form-tips">
-                            小程序账号登录微信公众平台，点击开发>开发设置->服务器域名，填写wss协议域名
+                            {{ $ui("小程序账号登录微信公众平台，点击开发>开发设置->服务器域名，填写wss协议域名") }}
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item label="uploadFile合法域名">
+                <el-form-item :label='$ui("uploadFile合法域名")'>
                     <div class="flex-1 min-w-0">
                         <div class="sm:flex">
                             <div class="mr-4 sm:w-80 flex">
                                 <el-input v-model="formData.upload_file_domain" disabled />
                             </div>
-                            <el-button v-copy="formData.upload_file_domain">复制</el-button>
+                            <el-button v-copy="formData.upload_file_domain">{{ $ui("复制") }}</el-button>
                         </div>
                         <div class="form-tips">
-                            小程序账号登录微信公众平台，点击开发>开发设置->服务器域名，填写https协议域名
+                            {{ $ui("小程序账号登录微信公众平台，点击开发>开发设置->服务器域名，填写https协议域名") }}
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item label="downloadFile合法域名">
+                <el-form-item :label='$ui("downloadFile合法域名")'>
                     <div class="flex-1 min-w-0">
                         <div class="sm:flex">
                             <div class="mr-4 sm:w-80 flex">
                                 <el-input v-model="formData.download_file_domain" disabled />
                             </div>
-                            <el-button v-copy="formData.download_file_domain">复制</el-button>
+                            <el-button v-copy="formData.download_file_domain">{{ $ui("复制") }}</el-button>
                         </div>
                         <div class="form-tips">
-                            小程序账号登录微信公众平台，点击开发>开发设置->服务器域名，填写https协议域名
+                            {{ $ui("小程序账号登录微信公众平台，点击开发>开发设置->服务器域名，填写https协议域名") }}
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item label="udp合法域名">
+                <el-form-item :label='$ui("udp合法域名")'>
                     <div class="flex-1 min-w-0">
                         <div class="sm:flex">
                             <div class="mr-4 sm:w-80 flex">
                                 <el-input v-model="formData.udp_domain" disabled />
                             </div>
-                            <el-button v-copy="formData.udp_domain">复制</el-button>
+                            <el-button v-copy="formData.udp_domain">{{ $ui("复制") }}</el-button>
                         </div>
                         <div class="form-tips">
-                            小程序账号登录微信公众平台，点击开发>开发设置->服务器域名，填写udp协议域名
+                            {{ $ui("小程序账号登录微信公众平台，点击开发>开发设置->服务器域名，填写udp协议域名") }}
                         </div>
                     </div>
                 </el-form-item>
             </el-card>
             <el-card class="!border-none mt-4" shadow="never">
-                <div class="font-medium mb-7">业务域名</div>
-                <el-form-item label="业务域名">
+                <div class="font-medium mb-7">{{ $ui("业务域名") }}</div>
+                <el-form-item :label='$ui("业务域名")'>
                     <div class="flex-1 min-w-0">
                         <div class="sm:flex">
                             <div class="mr-4 sm:w-80 flex">
                                 <el-input v-model="formData.business_domain" disabled />
                             </div>
-                            <el-button v-copy="formData.business_domain">复制</el-button>
+                            <el-button v-copy="formData.business_domain">{{ $ui("复制") }}</el-button>
                         </div>
                         <div class="form-tips">
-                            小程序账号登录微信公众平台，点击开发>开发设置->业务域名，填写业务域名
+                            {{ $ui("小程序账号登录微信公众平台，点击开发>开发设置->业务域名，填写业务域名") }}
                         </div>
                     </div>
                 </el-form-item>
             </el-card>
         </el-form>
         <footer-btns v-perms="['channel.mnp_settings/setConfig']">
-            <el-button type="primary" @click="handelSave">保存</el-button>
+            <el-button type="primary" @click="handelSave">{{ $ui("保存") }}</el-button>
         </footer-btns>
     </div>
 </template>
 <script lang="ts" setup name="weappConfig">
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 
 import { getWeappConfig, setWeappConfig } from '@/api/channel/weapp'
@@ -169,14 +170,14 @@ const formRules = {
     app_id: [
         {
             required: true,
-            message: '请输入AppID',
+            message: () => translateUiText("请输入AppID"),
             trigger: ['blur', 'change']
         }
     ],
     app_secret: [
         {
             required: true,
-            message: '请输入AppSecret',
+            message: () => translateUiText("请输入AppSecret"),
             trigger: ['blur', 'change']
         }
     ]

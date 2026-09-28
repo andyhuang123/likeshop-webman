@@ -22,14 +22,14 @@
             <template #footer>
                 <div class="dialog-footer">
                     <el-button v-if="cancelButtonText" @click="handleEvent('cancel')">
-                        {{ cancelButtonText }}
+                        {{ cancelButtonText === '取消' ? $ui('取消') : cancelButtonText }}
                     </el-button>
                     <el-button
                         v-if="confirmButtonText"
                         type="primary"
                         @click="handleEvent('confirm')"
                     >
-                        {{ confirmButtonText }}
+                        {{ confirmButtonText === '确定' ? $ui('确定') : confirmButtonText }}
                     </el-button>
                 </div>
             </template>

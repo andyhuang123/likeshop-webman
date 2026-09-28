@@ -1,7 +1,7 @@
 <template>
     <div class="code-edit">
         <el-card class="!border-none" shadow="never">
-            <el-page-header content="编辑数据表" @back="$router.back()" />
+            <el-page-header :content='$ui("编辑数据表")' @back="$router.back()" />
         </el-card>
         <el-card class="mt-4 !border-none" shadow="never">
             <el-form
@@ -12,31 +12,31 @@
                 :rules="rules"
             >
                 <el-tabs v-model="activeName">
-                    <el-tab-pane label="基础信息" name="base">
-                        <el-form-item label="表名称" prop="table_name">
+                    <el-tab-pane :label='$ui("基础信息")' name="base">
+                        <el-form-item :label='$ui("表名称")' prop="table_name">
                             <div class="w-80">
                                 <el-input
                                     v-model="formData.table_name"
-                                    placeholder="请输入表名称"
+                                    :placeholder='$ui("请输入表名称")'
                                     clearable
                                 />
                             </div>
                         </el-form-item>
-                        <el-form-item label="表描述" prop="table_comment">
+                        <el-form-item :label='$ui("表描述")' prop="table_comment">
                             <div class="w-80">
                                 <el-input
                                     v-model="formData.table_comment"
-                                    placeholder="请输入表描述"
+                                    :placeholder='$ui("请输入表描述")'
                                     clearable
                                 />
                             </div>
                         </el-form-item>
-                        <el-form-item label="作者">
+                        <el-form-item :label='$ui("作者")'>
                             <div class="w-80">
                                 <el-input v-model="formData.author" clearable />
                             </div>
                         </el-form-item>
-                        <el-form-item label="备注">
+                        <el-form-item :label='$ui("备注")'>
                             <div class="w-80">
                                 <el-input
                                     v-model="formData.remark"
@@ -50,16 +50,16 @@
                             </div>
                         </el-form-item>
                     </el-tab-pane>
-                    <el-tab-pane label="字段管理" name="column">
+                    <el-tab-pane :label='$ui("字段管理")' name="column">
                         <el-table :data="formData.table_column">
-                            <el-table-column label="字段列名" prop="column_name" />
-                            <el-table-column label="字段描述" prop="column_comment" min-width="120">
+                            <el-table-column :label='$ui("字段列名")' prop="column_name" />
+                            <el-table-column :label='$ui("字段描述")' prop="column_comment" min-width="120">
                                 <template v-slot="{ row }">
                                     <el-input v-model="row.column_comment" clearable />
                                 </template>
                             </el-table-column>
-                            <el-table-column label="物理类型" prop="column_type" />
-                            <el-table-column label="必填" width="80">
+                            <el-table-column :label='$ui("物理类型")' prop="column_type" />
+                            <el-table-column :label='$ui("必填")' width="80">
                                 <template v-slot="{ row }">
                                     <el-checkbox
                                         v-model="row.is_required"
@@ -68,7 +68,7 @@
                                     />
                                 </template>
                             </el-table-column>
-                            <el-table-column label="插入" width="80">
+                            <el-table-column :label='$ui("插入")' width="80">
                                 <template v-slot="{ row }">
                                     <el-checkbox
                                         v-model="row.is_insert"
@@ -77,7 +77,7 @@
                                     />
                                 </template>
                             </el-table-column>
-                            <el-table-column label="编辑" width="80">
+                            <el-table-column :label='$ui("编辑")' width="80">
                                 <template v-slot="{ row }">
                                     <el-checkbox
                                         v-model="row.is_update"
@@ -86,7 +86,7 @@
                                     />
                                 </template>
                             </el-table-column>
-                            <el-table-column label="列表" width="80">
+                            <el-table-column :label='$ui("列表")' width="80">
                                 <template v-slot="{ row }">
                                     <el-checkbox
                                         v-model="row.is_lists"
@@ -95,7 +95,7 @@
                                     />
                                 </template>
                             </el-table-column>
-                            <el-table-column label="查询" width="80">
+                            <el-table-column :label='$ui("查询")' width="80">
                                 <template v-slot="{ row }">
                                     <el-checkbox
                                         v-model="row.is_query"
@@ -104,7 +104,7 @@
                                     />
                                 </template>
                             </el-table-column>
-                            <el-table-column label="查询方式">
+                            <el-table-column :label='$ui("查询方式")'>
                                 <template v-slot="{ row }">
                                     <el-select v-model="row.query_type">
                                         <el-option label="=" value="=" />
@@ -118,21 +118,21 @@
                                     </el-select>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="显示类型" min-width="120">
+                            <el-table-column :label='$ui("显示类型")' min-width="120">
                                 <template v-slot="{ row }">
                                     <el-select v-model="row.view_type">
-                                        <el-option label="文本框" value="input" />
-                                        <el-option label="文本域" value="textarea" />
-                                        <el-option label="下拉框" value="select" />
-                                        <el-option label="单选框" value="radio" />
-                                        <el-option label="复选框" value="checkbox" />
-                                        <el-option label="日期控件" value="datetime" />
-                                        <el-option label="图片选择控件" value="imageSelect" />
-                                        <el-option label="富文本控件" value="editor" />
+                                        <el-option :label='$ui("文本框")' value="input" />
+                                        <el-option :label='$ui("文本域")' value="textarea" />
+                                        <el-option :label='$ui("下拉框")' value="select" />
+                                        <el-option :label='$ui("单选框")' value="radio" />
+                                        <el-option :label='$ui("复选框")' value="checkbox" />
+                                        <el-option :label='$ui("日期控件")' value="datetime" />
+                                        <el-option :label='$ui("图片选择控件")' value="imageSelect" />
+                                        <el-option :label='$ui("富文本控件")' value="editor" />
                                     </el-select>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="字典类型" min-width="120">
+                            <el-table-column :label='$ui("字典类型")' min-width="120">
                                 <template v-slot="{ row }">
                                     <el-select
                                         v-model="row.dict_type"
@@ -144,7 +144,7 @@
                                                 row.view_type == 'checkbox'
                                             )
                                         "
-                                        placeholder="字典类型"
+                                        :placeholder='$ui("字典类型")'
                                     >
                                         <el-option
                                             v-for="(item, index) in optionsData.dict_type"
@@ -158,21 +158,21 @@
                             </el-table-column>
                         </el-table>
                     </el-tab-pane>
-                    <el-tab-pane label="生成配置" name="config">
-                        <el-form-item label="模板类型" prop="template_type">
+                    <el-tab-pane :label='$ui("生成配置")' name="config">
+                        <el-form-item :label='$ui("模板类型")' prop="template_type">
                             <el-radio-group v-model="formData.template_type">
-                                <el-radio :label="0">单表（curd）</el-radio>
-                                <el-radio :label="1">树表（curd）</el-radio>
+                                <el-radio :label="0">{{ $ui("单表（curd）") }}</el-radio>
+                                <el-radio :label="1">{{ $ui("树表（curd）") }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item label="删除类型" prop="delete.type">
+                        <el-form-item :label='$ui("删除类型")' prop="delete.type">
                             <el-radio-group v-model="formData.delete.type">
-                                <el-radio :label="0">物理删除</el-radio>
-                                <el-radio :label="1">软删除</el-radio>
+                                <el-radio :label="0">{{ $ui("物理删除") }}</el-radio>
+                                <el-radio :label="1">{{ $ui("软删除") }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item
-                            label="删除字段"
+                            :label='$ui("删除字段")'
                             prop="delete.name"
                             v-if="formData.delete.type == 1"
                         >
@@ -186,7 +186,7 @@
                             </el-select>
                         </el-form-item>
                         <template v-if="formData.template_type == 1">
-                            <el-form-item label="树表ID" prop="treePrimary">
+                            <el-form-item :label='$ui("树表ID")' prop="treePrimary">
                                 <div>
                                     <el-select
                                         class="w-80"
@@ -200,10 +200,10 @@
                                             :label="`${item.column_name}：${item.column_comment}`"
                                         />
                                     </el-select>
-                                    <div class="form-tips">指定树表的主要ID，一般为主键</div>
+                                    <div class="form-tips">{{ $ui("指定树表的主要ID，一般为主键") }}</div>
                                 </div>
                             </el-form-item>
-                            <el-form-item label="树表父ID" prop="treeParent">
+                            <el-form-item :label='$ui("树表父ID")' prop="treeParent">
                                 <div>
                                     <el-select
                                         class="w-80"
@@ -217,10 +217,10 @@
                                             :label="`${item.column_name}：${item.column_comment}`"
                                         />
                                     </el-select>
-                                    <div class="form-tips">指定树表的父ID，比如：parent_id</div>
+                                    <div class="form-tips">{{ $ui("指定树表的父ID，比如：parent_id") }}</div>
                                 </div>
                             </el-form-item>
-                            <el-form-item label="树名称" prop="treeName">
+                            <el-form-item :label='$ui("树名称")' prop="treeName">
                                 <el-select class="w-80" v-model="formData.tree.tree_name" clearable>
                                     <el-option
                                         v-for="item in formData.table_column"
@@ -231,109 +231,107 @@
                                 </el-select>
                             </el-form-item>
                         </template>
-                        <el-form-item label="类描述">
+                        <el-form-item :label='$ui("类描述")'>
                             <div class="w-80">
                                 <div>
                                     <el-input
                                         v-model="formData.class_comment"
-                                        placeholder="请输入文件描述"
+                                        :placeholder='$ui("请输入文件描述")'
                                         clearable
                                     />
                                 </div>
                                 <div class="form-tips">
                                     <div>
-                                        例：填写test,生成文件描述为test控制器(test逻辑/test模型)
+                                        {{ $ui("例：填写test,生成文件描述为test控制器(test逻辑/test模型)") }}
                                     </div>
                                 </div>
                             </div>
                         </el-form-item>
 
-                        <el-form-item label="生成方式" prop="generate_type">
+                        <el-form-item :label='$ui("生成方式")' prop="generate_type">
                             <el-radio-group v-model="formData.generate_type">
-                                <el-radio :label="0">压缩包下载</el-radio>
-                                <el-radio :label="1">生成到模块</el-radio>
+                                <el-radio :label="0">{{ $ui("压缩包下载") }}</el-radio>
+                                <el-radio :label="1">{{ $ui("生成到模块") }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item label="模块名" prop="module_name">
+                        <el-form-item :label='$ui("模块名")' prop="module_name">
                             <div class="w-80">
                                 <el-input
                                     v-model="formData.module_name"
-                                    placeholder="请输入模块名"
+                                    :placeholder='$ui("请输入模块名")'
                                     clearable
                                 />
-                                <div class="form-tips">生成文件所在模块</div>
+                                <div class="form-tips">{{ $ui("生成文件所在模块") }}</div>
                             </div>
                         </el-form-item>
-                        <el-form-item label="类目录">
+                        <el-form-item :label='$ui("类目录")'>
                             <div class="w-80">
                                 <div>
                                     <el-input
                                         v-model="formData.class_dir"
-                                        placeholder="请输入文件所在目录"
+                                        :placeholder='$ui("请输入文件所在目录")'
                                         clearable
                                     />
                                 </div>
                                 <div class="form-tips">
                                     <div>
-                                        例：填写test,则在app/模块名/controller/test下生成控制器
+                                        {{ $ui("例：填写test,则在app/模块名/controller/test下生成控制器") }}
                                     </div>
                                 </div>
                             </div>
                         </el-form-item>
 
-                        <el-form-item label="父级菜单" prop="menu.pid">
+                        <el-form-item :label='$ui("父级菜单")' prop="menu.pid">
                             <el-tree-select
                                 class="w-80"
                                 v-model="formData.menu.pid"
                                 :data="optionsData.menu"
                                 clearable
                                 node-key="id"
-                                :props="{
-                                    label: 'name'
-                                }"
+                                :props="menuOptionsProps"
                                 default-expand-all
-                                placeholder="请选择父级菜单"
+                                :placeholder='$ui("请选择父级菜单")'
                                 check-strictly
                             />
                         </el-form-item>
-                        <el-form-item label="菜单名称" prop="menu.name">
+                        <el-form-item :label='$ui("菜单名称")' prop="menu.name">
                             <div class="w-80">
                                 <el-input
                                     v-model="formData.menu.name"
-                                    placeholder="请输入菜单名称"
+                                    :placeholder='$ui("请输入菜单名称")'
                                     clearable
                                 />
                             </div>
                         </el-form-item>
-                        <el-form-item label="菜单构建" prop="menu.type" required>
+                        <el-form-item :label='$ui("菜单构建")' prop="menu.type" required>
                             <div>
                                 <el-radio-group v-model="formData.menu.type">
-                                    <el-radio :label="1">自动构建</el-radio>
-                                    <el-radio :label="0">手动添加</el-radio>
+                                    <el-radio :label="1">{{ $ui("自动构建") }}</el-radio>
+                                    <el-radio :label="0">{{ $ui("手动添加") }}</el-radio>
                                 </el-radio-group>
                                 <div class="form-tips">
-                                    自动构建：自动执行生成菜单sql。手动添加：自行添加菜单。
+                                    {{ $ui("自动构建：自动执行生成菜单sql。手动添加：自行添加菜单。") }}
                                 </div>
                             </div>
                         </el-form-item>
                     </el-tab-pane>
-                    <el-tab-pane label="关联配置" name="relations">
+                    <el-tab-pane :label='$ui("关联配置")' name="relations">
                         <el-button type="primary" @click="showEditPopup('add')">
                             <template #icon>
                                 <icon name="el-icon-Plus" />
                             </template>
-                            新增关联
+                            {{ $ui("新增关联") }}
                         </el-button>
                         <div class="mt-4">
                             <el-table :data="formData.relations" size="mini">
-                                <el-table-column prop="type" label="关联类型">
+                                <el-table-column prop="type" :label='$ui("关联类型")'>
                                     <template #default="{ row }">
                                         <dict-value :value="row.type" :options="relationTypes" />
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="name" label="关联名称" />
-                                <el-table-column prop="model" label="关联模型" />
-                                <el-table-column prop="local_key" label="关联键">
+                                <el-table-column prop="name" :label='$ui("关联名称")' />
+                                <el-table-column prop="model" :label='$ui("关联模型")' />
+                                <el-table-column prop="local_key" :label='$ui("关联键")'>
                                     <template #default="{ row }">
                                         <dict-value
                                             :value="row.local_key"
@@ -345,18 +343,18 @@
                                         />
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="foreign_key" label="外键" />
-                                <el-table-column label="操作">
+                                <el-table-column prop="foreign_key" :label='$ui("外键")' />
+                                <el-table-column :label='$ui("操作")'>
                                     <template #default="{ row, $index }">
                                         <el-button
                                             link
                                             type="primary"
                                             @click="showEditPopup('edit', row, $index)"
                                         >
-                                            编辑
+                                            {{ $ui("编辑") }}
                                         </el-button>
                                         <el-button link type="danger" @click="handelDelete($index)">
-                                            删除
+                                            {{ $ui("删除") }}
                                         </el-button>
                                     </template>
                                 </el-table-column>
@@ -376,12 +374,13 @@
             </el-form>
         </el-card>
         <footer-btns>
-            <el-button type="primary" @click="onSubmit">保存</el-button>
+            <el-button type="primary" @click="onSubmit">{{ $ui("保存") }}</el-button>
         </footer-btns>
     </div>
 </template>
 
 <script lang="ts" setup name="tableEdit">
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 import { cloneDeep } from 'lodash'
 
@@ -397,16 +396,16 @@ const route = useRoute()
 const router = useRouter()
 const activeName = ref('column')
 const showEdit = ref(false)
-const relationTypes = [
+const relationTypes = computed(() => [
     {
-        name: '一对一',
+        name: translateUiText("一对一"),
         value: 'has_one'
     },
     {
-        name: '一对多',
+        name: translateUiText("一对多"),
         value: 'has_many'
     }
-]
+])
 const formData = reactive({
     id: '',
     table_name: '',
@@ -439,16 +438,19 @@ let editIndex = 0
 const formRef = shallowRef<FormInstance>()
 const editRef = shallowRef<InstanceType<typeof RelationsAdd>>()
 const rules = reactive({
-    table_name: [{ required: true, message: '请输入表名称' }],
-    table_comment: [{ required: true, message: '请输入表描述' }],
-    module_name: [{ required: true, message: '请输入模块名' }],
+    table_name: [{ required: true, message: () => translateUiText("请输入表名称") }],
+    table_comment: [{ required: true, message: () => translateUiText("请输入表描述") }],
+    module_name: [{ required: true, message: () => translateUiText("请输入模块名") }],
     generate_type: [{ required: true, trigger: 'change' }],
     template_type: [{ required: true, trigger: 'change' }],
-    ['menu.pid']: [{ required: true, message: '请选择父级菜单' }],
-    ['menu.name']: [{ required: true, message: '请输入菜单名称' }],
+    ['menu.pid']: [{ required: true, message: () => translateUiText("请选择父级菜单") }],
+    ['menu.name']: [{ required: true, message: () => translateUiText("请输入菜单名称") }],
     ['delete.type']: [{ required: true, trigger: 'change' }],
-    ['delete.name']: [{ required: true, message: '请选择删除字段' }]
+    ['delete.name']: [{ required: true, message: () => translateUiText("请选择删除字段") }]
 })
+const menuOptionsProps = {
+    label: (data: any) => translateUiText(data.name)
+}
 
 const showEditPopup = async (type: string, data?: any, index?: number) => {
     showEdit.value = true
@@ -488,7 +490,7 @@ const getDetails = async () => {
         (value) => {
             if (value == 1) {
                 feedback
-                    .confirm('生成到模块方式如遇同名文件会覆盖旧文件，确定要选择此方式吗？')
+                    .confirm(translateUiText("生成到模块方式如遇同名文件会覆盖旧文件，确定要选择此方式吗？"))
                     .catch(() => {
                         formData.generate_type = 0
                     })

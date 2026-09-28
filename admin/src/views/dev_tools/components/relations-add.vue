@@ -9,8 +9,8 @@
             @close="handleClose"
         >
             <el-form ref="formRef" :model="formData" label-width="84px" :rules="formRules">
-                <el-form-item label="关联类型" prop="type">
-                    <el-select class="flex-1" v-model="formData.type" placeholder="请选择关联类型">
+                <el-form-item :label='$ui("关联类型")' prop="type">
+                    <el-select class="flex-1" v-model="formData.type" :placeholder='$ui("请选择关联类型")'>
                         <el-option
                             v-for="(item, index) in types"
                             :key="index"
@@ -19,11 +19,11 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="关联名称" prop="name">
-                    <el-input v-model="formData.name" placeholder="请输入关联名称" />
+                <el-form-item :label='$ui("关联名称")' prop="name">
+                    <el-input v-model="formData.name" :placeholder='$ui("请输入关联名称")' />
                 </el-form-item>
-                <el-form-item label="关联模型" prop="model">
-                    <el-select class="flex-1" v-model="formData.model" placeholder="请选择关联模型">
+                <el-form-item :label='$ui("关联模型")' prop="model">
+                    <el-select class="flex-1" v-model="formData.model" :placeholder='$ui("请选择关联模型")'>
                         <el-option
                             v-for="item in optionsData.models"
                             :label="item"
@@ -32,12 +32,12 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="关联健" prop="local_key">
+                <el-form-item :label='$ui("关联健")' prop="local_key">
                     <el-select
                         class="flex-1"
                         v-model="formData.local_key"
                         clearable
-                        placeholder="请选择关联健"
+                        :placeholder='$ui("请选择关联健")'
                     >
                         <el-option
                             v-for="item in column"
@@ -47,10 +47,10 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="外键" prop="foreign_key">
+                <el-form-item :label='$ui("外键")' prop="foreign_key">
                     <el-input
                         v-model="formData.foreign_key"
-                        placeholder="关联表外键或中间表的外键"
+                        :placeholder='$ui("关联表外键或中间表的外键")'
                     />
                 </el-form-item>
             </el-form>
@@ -58,6 +58,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 import type { PropType } from 'vue'
 
@@ -80,7 +81,7 @@ const formRef = shallowRef<FormInstance>()
 const popupRef = shallowRef<InstanceType<typeof Popup>>()
 const mode = ref<'add' | 'edit'>('add')
 const popupTitle = computed(() => {
-    return mode.value == 'edit' ? '编辑关联' : '新增关联'
+    return mode.value == 'edit' ? translateUiText("编辑关联") : translateUiText("新增关联")
 })
 const formData = reactive({
     name: '',
@@ -94,31 +95,31 @@ const formRules = {
     name: [
         {
             required: true,
-            message: '请输入关联名称'
+            message: () => translateUiText("请输入关联名称")
         }
     ],
     type: [
         {
             required: true,
-            message: '请选择关联类型'
+            message: () => translateUiText("请选择关联类型")
         }
     ],
     model: [
         {
             required: true,
-            message: '请选择关联模型'
+            message: () => translateUiText("请选择关联模型")
         }
     ],
     local_key: [
         {
             required: true,
-            message: '请选择关联健'
+            message: () => translateUiText("请选择关联健")
         }
     ],
     foreign_key: [
         {
             required: true,
-            message: '请输入外键'
+            message: () => translateUiText("请输入外键")
         }
     ]
 }

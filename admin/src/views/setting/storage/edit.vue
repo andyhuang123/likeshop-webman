@@ -2,25 +2,25 @@
     <div class="edit-popup">
         <popup
             ref="popupRef"
-            title="设置存储"
+            :title='$ui("设置存储")'
             :async="true"
             width="550px"
             @confirm="handleSubmit"
             @close="handleClose"
         >
             <el-form ref="formRef" :model="formData" label-width="120px" :rules="formRules">
-                <el-form-item label="存储方式" prop="engine">
+                <el-form-item :label='$ui("存储方式")' prop="engine">
                     <div>
-                        <el-radio model-value>{{ getStorageInfo?.name }} </el-radio>
-                        <div class="form-tips">{{ getStorageInfo?.tips }}</div>
+                        <el-radio model-value>{{ $ui(getStorageInfo?.name || '') }} </el-radio>
+                        <div class="form-tips">{{ $ui(getStorageInfo?.tips || '') }}</div>
                     </div>
                 </el-form-item>
                 <div v-if="formData.engine !== 'local'">
-                    <el-form-item label=" 存储空间名称" prop="bucket">
+                    <el-form-item :label='$ui(" 存储空间名称")' prop="bucket">
                         <div class="flex-1">
                             <el-input
                                 v-model="formData.bucket"
-                                placeholder="请输入存储空间名称(Bucket)"
+                                :placeholder='$ui("请输入存储空间名称(Bucket)")'
                                 clearable
                             />
                         </div>
@@ -28,67 +28,67 @@
                     <el-form-item label="ACCESS_KEY" prop="access_key">
                         <el-input
                             v-model="formData.access_key"
-                            placeholder="请输入ACCESS_KEY(AK)"
+                            :placeholder='$ui("请输入ACCESS_KEY(AK)")'
                             clearable
                         />
                     </el-form-item>
                     <el-form-item label="SECRET_KEY" prop="secret_key">
                         <el-input
                             v-model="formData.secret_key"
-                            placeholder="请输入SECRET_KEY(SK)"
+                            :placeholder='$ui("请输入SECRET_KEY(SK)")'
                             clearable
                         />
                     </el-form-item>
-                    <el-form-item label="S3状态" prop="status">
+                    <el-form-item :label='$ui("S3状态")' prop="status">
                         <el-radio-group v-model="formData.is_oss_req">
-                            <el-radio :label="0">关闭</el-radio>
-                            <el-radio :label="1">开启</el-radio>
+                            <el-radio :label="0">{{ $ui("关闭") }}</el-radio>
+                            <el-radio :label="1">{{ $ui("开启") }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="S3请求方式" prop="method" v-if="formData.is_oss_req == 1">
+                    <el-form-item :label='$ui("S3请求方式")' prop="method" v-if="formData.is_oss_req == 1">
                         <el-input
                             v-model="formData.method"
-                            placeholder="请输入S3请求方式"
+                            :placeholder='$ui("请输入S3请求方式")'
                             clearable
                         />
                     </el-form-item>
                     <el-form-item
                         v-if="formData.engine == StorageEnum.QCLOUD || formData.is_oss_req == 1"
-                        label="region 区域代码"
+                        :label='$ui("region 区域代码")'
                         prop="region"
                     >
-                        <el-input v-model="formData.region" placeholder="请输入region" clearable />
+                        <el-input v-model="formData.region" :placeholder='$ui("请输入region")' clearable />
                     </el-form-item>
                     <el-form-item
                         v-if="formData.is_oss_req == 1"
-                        label="endpoint S3区域地址"
+                        :label='$ui("endpoint S3区域地址")'
                         prop="endpoint"
                     >
                         <el-input
                             v-model="formData.endpoint"
-                            placeholder="请输入endpoint"
+                            :placeholder='$ui("请输入endpoint")'
                             clearable
                         />
                     </el-form-item>
-                    <el-form-item label="空间域名" prop="domain">
+                    <el-form-item :label='$ui("空间域名")' prop="domain">
                         <div class="flex-1">
                             <div>
                                 <el-input
                                     v-model="formData.domain"
-                                    placeholder="请输入空间域名(Domain)"
+                                    :placeholder='$ui("请输入空间域名(Domain)")'
                                     clearable
                                 />
                             </div>
                             <div class="form-tips">
-                                请补全http://或https://，例如https://static.cloud.com
+                                {{ $ui("请补全http://或https://，例如https://static.cloud.com") }}
                             </div>
                         </div>
                     </el-form-item>
                 </div>
-                <el-form-item label="状态" prop="status">
+                <el-form-item :label='$ui("状态")' prop="status">
                     <el-radio-group v-model="formData.status">
-                        <el-radio :label="0">关闭</el-radio>
-                        <el-radio :label="1">开启</el-radio>
+                        <el-radio :label="0">{{ $ui("关闭") }}</el-radio>
+                        <el-radio :label="1">{{ $ui("开启") }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </el-form>
@@ -96,6 +96,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 
 import { storageSetup } from '@/api/setting/storage'
@@ -152,35 +153,35 @@ const formRules = {
     bucket: [
         {
             required: true,
-            message: '请输入存储空间名称',
+            message: () => translateUiText("请输入存储空间名称"),
             trigger: 'blur'
         }
     ],
     access_key: [
         {
             required: true,
-            message: '请输入ACCESS_KEY',
+            message: () => translateUiText("请输入ACCESS_KEY"),
             trigger: 'blur'
         }
     ],
     secret_key: [
         {
             required: true,
-            message: '请输入SECRET_KEY',
+            message: () => translateUiText("请输入SECRET_KEY"),
             trigger: 'blur'
         }
     ],
     domain: [
         {
             required: true,
-            message: '请输入空间域名',
+            message: () => translateUiText("请输入空间域名"),
             trigger: 'blur'
         }
     ],
     region: [
         {
             required: true,
-            message: '请输入REGION',
+            message: () => translateUiText("请输入REGION"),
             trigger: 'blur'
         }
     ]

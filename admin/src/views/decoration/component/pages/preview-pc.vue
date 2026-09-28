@@ -49,7 +49,7 @@
                         }"
                     >
                         <div>
-                            <el-tooltip effect="dark" content="编辑组件内容" placement="right">
+                            <el-tooltip effect="dark" :content='$ui("编辑组件内容")' placement="right">
                                 <el-button
                                     class="py-[5px]"
                                     type="primary"

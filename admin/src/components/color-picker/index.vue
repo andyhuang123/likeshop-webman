@@ -2,7 +2,7 @@
     <div class="color-select flex flex-1">
         <el-color-picker v-model="color" :predefine="predefineColors"></el-color-picker>
         <el-input v-model="color" class="mx-[10px] flex-1" type="text" readonly></el-input>
-        <el-button type="text" @click="reset">重置</el-button>
+        <el-button type="text" @click="reset">{{ $ui("重置") }}</el-button>
     </div>
 </template>
 

@@ -2,7 +2,7 @@
     <div class="post-lists">
         <el-card class="!border-none" shadow="never">
             <el-form ref="formRef" class="mb-[-16px]" :model="queryParams" :inline="true">
-                <el-form-item label="岗位编码">
+                <el-form-item :label='$ui("岗位编码")'>
                     <el-input
                         class="w-[280px]"
                         v-model="queryParams.code"
@@ -10,7 +10,7 @@
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="岗位名称">
+                <el-form-item :label='$ui("岗位名称")'>
                     <el-input
                         class="w-[280px]"
                         v-model="queryParams.name"
@@ -18,16 +18,16 @@
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="岗位状态">
+                <el-form-item :label='$ui("岗位状态")'>
                     <el-select class="w-[280px]" v-model="queryParams.status">
-                        <el-option label="全部" value />
-                        <el-option label="正常" :value="1" />
-                        <el-option label="停用" :value="0" />
+                        <el-option :label='$ui("全部")' value />
+                        <el-option :label='$ui("正常")' :value="1" />
+                        <el-option :label='$ui("停用")' :value="0" />
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
+                    <el-button type="primary" @click="resetPage">{{ $ui("查询") }}</el-button>
+                    <el-button @click="resetParams">{{ $ui("重置") }}</el-button>
                     <export-data
                         class="ml-2.5"
                         :fetch-fun="jobsLists"
@@ -43,7 +43,7 @@
                     <template #icon>
                         <icon name="el-icon-Plus" />
                     </template>
-                    新增
+                    {{ $ui("新增") }}
                 </el-button>
             </div>
             <el-table
@@ -54,19 +54,19 @@
                 element-loading-spinner="el-icon-Loading"
                 element-loading-background="rgba(255, 255, 255, 0.8)"
             >
-                <el-table-column label="岗位编码" prop="code" min-width="100" />
-                <el-table-column label="岗位名称" prop="name" min-width="100" />
-                <el-table-column label="排序" prop="sort" min-width="100" />
-                <el-table-column label="备注" prop="remark" min-width="100" show-overflow-tooltip />
-                <el-table-column label="添加时间" prop="create_time" min-width="180" />
-                <el-table-column label="状态" prop="status" min-width="100">
+                <el-table-column :label='$ui("岗位编码")' prop="code" min-width="100" />
+                <el-table-column :label='$ui("岗位名称")' prop="name" min-width="100" />
+                <el-table-column :label='$ui("排序")' prop="sort" min-width="100" />
+                <el-table-column :label='$ui("备注")' prop="remark" min-width="100" show-overflow-tooltip />
+                <el-table-column :label='$ui("添加时间")' prop="create_time" min-width="180" />
+                <el-table-column :label='$ui("状态")' prop="status" min-width="100">
                     <template #default="{ row }">
                         <el-tag class="ml-2" :type="row.status ? '' : 'danger'">
                             {{ row.status_desc }}
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" width="120" fixed="right">
+                <el-table-column :label='$ui("操作")' width="120" fixed="right">
                     <template #default="{ row }">
                         <el-button
                             v-perms="['dept.jobs/edit']"
@@ -74,7 +74,7 @@
                             link
                             @click="handleEdit(row)"
                         >
-                            编辑
+                            {{ $ui("编辑") }}
                         </el-button>
                         <el-button
                             v-perms="['dept.jobs/delete']"
@@ -82,7 +82,7 @@
                             link
                             @click="handleDelete(row.id)"
                         >
-                            删除
+                            {{ $ui("删除") }}
                         </el-button>
                     </template>
                 </el-table-column>
@@ -95,6 +95,7 @@
     </div>
 </template>
 <script lang="ts" setup name="post">
+import { translateUiText } from "@/i18n";
 import { jobsDelete, jobsLists } from '@/api/org/post'
 import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
@@ -128,7 +129,7 @@ const handleEdit = async (data: any) => {
 }
 
 const handleDelete = async (id: number) => {
-    await feedback.confirm('确定要删除？')
+    await feedback.confirm(translateUiText("确定要删除？"))
     await jobsDelete({ id })
     getLists()
 }

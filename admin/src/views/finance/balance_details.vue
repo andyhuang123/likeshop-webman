@@ -3,23 +3,23 @@
         <el-card class="!border-none" shadow="never">
             <el-alert
                 type="warning"
-                title="温馨提示：用户账户变动记录"
+                :title='$ui("温馨提示：用户账户变动记录")'
                 :closable="false"
                 show-icon
             ></el-alert>
             <el-form ref="formRef" class="mb-[-16px] mt-[16px]" :model="queryParams" :inline="true">
-                <el-form-item label="用户信息">
+                <el-form-item :label='$ui("用户信息")'>
                     <el-input
                         class="w-[280px]"
                         v-model="queryParams.user_info"
-                        placeholder="请输入用户账号/昵称/手机号"
+                        :placeholder='$ui("请输入用户账号/昵称/手机号")'
                         clearable
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item label="变动类型">
+                <el-form-item :label='$ui("变动类型")'>
                     <el-select class="w-[280px]" v-model="queryParams.change_type">
-                        <el-option label="全部" value />
+                        <el-option :label='$ui("全部")' value />
                         <el-option
                             v-for="(value, key) in optionsData.change_type"
                             :key="key"
@@ -28,15 +28,15 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="记录时间">
+                <el-form-item :label='$ui("记录时间")'>
                     <daterange-picker
                         v-model:startTime="queryParams.start_time"
                         v-model:endTime="queryParams.end_time"
                     />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
+                    <el-button type="primary" @click="resetPage">{{ $ui("查询") }}</el-button>
+                    <el-button @click="resetParams">{{ $ui("重置") }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -48,8 +48,8 @@
                 element-loading-spinner="el-icon-Loading"
                 element-loading-background="rgba(255, 255, 255, 0.8)"
             >
-                <el-table-column label="用户账号" prop="account" min-width="100" />
-                <el-table-column label="用户昵称" min-width="160">
+                <el-table-column :label='$ui("用户账号")' prop="account" min-width="100" />
+                <el-table-column :label='$ui("用户昵称")' min-width="160">
                     <template #default="{ row }">
                         <div class="flex items-center">
                             <image-contain
@@ -64,19 +64,19 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="手机号码" prop="mobile" min-width="100" />
-                <el-table-column label="变动金额" prop="change_amount" min-width="100">
+                <el-table-column :label='$ui("手机号码")' prop="mobile" min-width="100" />
+                <el-table-column :label='$ui("变动金额")' prop="change_amount" min-width="100">
                     <template #default="{ row }">
                         <span :class="{ 'text-error': row.action == 2 }">
                             {{ row.change_amount }}
                         </span>
                     </template>
                 </el-table-column>
-                <el-table-column label="剩余金额" prop="left_amount" min-width="100" />
-                <el-table-column label="变动类型" prop="change_type_desc" min-width="120" />
+                <el-table-column :label='$ui("剩余金额")' prop="left_amount" min-width="100" />
+                <el-table-column :label='$ui("变动类型")' prop="change_type_desc" min-width="120" />
 
-                <el-table-column label="来源单号" prop="source_sn" min-width="100" />
-                <el-table-column label="记录时间" prop="create_time" min-width="120" />
+                <el-table-column :label='$ui("来源单号")' prop="source_sn" min-width="100" />
+                <el-table-column :label='$ui("记录时间")' prop="create_time" min-width="120" />
             </el-table>
             <div class="flex justify-end mt-4">
                 <pagination v-model="pager" @change="getLists" />

@@ -1,11 +1,11 @@
 <template>
     <div class="article-list">
         <el-form ref="formRef" :model="queryParams" :inline="true">
-            <el-form-item label="文章名称">
+            <el-form-item :label='$ui("文章名称")'>
                 <el-input
                     class="w-[280px]"
                     v-model="queryParams.name"
-                    placeholder="请输入"
+                    :placeholder='$ui("请输入")'
                     clearable
                     @keyup.enter="resetPage"
                 >
@@ -22,7 +22,7 @@
             height="432px"
             @row-click="handleSelectItem"
         >
-            <el-table-column label="选择" min-width="50">
+            <el-table-column :label='$ui("选择")' min-width="50">
                 <template #default="{ row }">
                     <div class="flex row-center">
                         <el-checkbox
@@ -33,7 +33,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="文章名称" min-width="180">
+            <el-table-column :label='$ui("文章名称")' min-width="180">
                 <template #default="{ row }">
                     <div class="flex items-center">
                         <el-image
@@ -51,7 +51,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="创建时间" prop="create_time" min-width="140" />
+            <el-table-column :label='$ui("创建时间")' prop="create_time" min-width="140" />
         </el-table>
 
         <div class="flex justify-end mt-4">

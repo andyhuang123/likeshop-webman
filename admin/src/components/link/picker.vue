@@ -1,6 +1,11 @@
 <template>
     <div class="link-picker flex-1" @click="!disabled && popupRef?.open()">
-        <el-input :model-value="getLink" placeholder="请选择链接" readonly :disabled="disabled">
+        <el-input
+            :model-value="modelValue?.type === LinkTypeEnum.SHOP_PAGES ? $ui(getLink) : getLink"
+            :placeholder='$ui("请选择链接")'
+            readonly
+            :disabled="disabled"
+        >
             <template #suffix>
                 <icon v-if="!modelValue?.path" name="el-icon-ArrowRight" />
                 <icon
@@ -10,7 +15,7 @@
                 />
             </template>
         </el-input>
-        <popup ref="popupRef" width="1050px" title="链接选择" @confirm="handleConfirm">
+        <popup ref="popupRef" width="1050px" :title='$ui("链接选择")' @confirm="handleConfirm">
             <link-content v-model="activeLink" />
         </popup>
     </div>

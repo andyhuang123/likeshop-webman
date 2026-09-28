@@ -2,23 +2,23 @@
     <div>
         <el-form label-width="70px">
             <el-card shadow="never" class="!border-none flex mt-2">
-                <el-form-item label="标题">
+                <el-form-item :label='$ui("标题")'>
                     <el-input class="w-[396px]" v-model="contentData.title" />
                 </el-form-item>
             </el-card>
             <el-card shadow="never" class="!border-none flex mt-2">
                 <div class="flex items-end mb-4">
-                    <div class="text-base text-[#101010] font-medium">展示样式</div>
+                    <div class="text-base text-[#101010] font-medium">{{ $ui("展示样式") }}</div>
                 </div>
                 <el-radio-group v-model="contentData.style">
-                    <el-radio :label="1">横排</el-radio>
-                    <el-radio :label="2">竖排</el-radio>
+                    <el-radio :label="1">{{ $ui("横排") }}</el-radio>
+                    <el-radio :label="2">{{ $ui("竖排") }}</el-radio>
                 </el-radio-group>
             </el-card>
             <el-card shadow="never" class="!border-none flex mt-2">
                 <div class="flex items-end mb-4">
-                    <div class="text-base text-[#101010] font-medium">菜单</div>
-                    <div class="text-xs text-tx-secondary ml-2">建议图片尺寸：100px*100px</div>
+                    <div class="text-base text-[#101010] font-medium">{{ $ui("菜单") }}</div>
+                    <div class="text-xs text-tx-secondary ml-2">{{ $ui("建议图片尺寸：100px*100px") }}</div>
                 </div>
                 <div class="flex-1">
                     <AddNav v-model="contentData.data" />

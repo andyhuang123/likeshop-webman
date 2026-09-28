@@ -9,49 +9,49 @@
                 :rules="rules"
                 label-width="100px"
             >
-                <el-form-item label="头像：" prop="avatar">
+                <el-form-item :label='$ui("头像：")' prop="avatar">
                     <material-picker v-model="formData.avatar" :limit="1" />
                 </el-form-item>
 
-                <el-form-item label="账号：" prop="account">
+                <el-form-item :label='$ui("账号：")' prop="account">
                     <div class="w-80">
                         <el-input v-model="formData.account" disabled />
                     </div>
                 </el-form-item>
 
-                <el-form-item label="名称：" prop="name">
+                <el-form-item :label='$ui("名称：")' prop="name">
                     <div class="w-80">
-                        <el-input v-model="formData.name" placeholder="请输入名称" />
+                        <el-input v-model="formData.name" :placeholder='$ui("请输入名称")' />
                     </div>
                 </el-form-item>
 
-                <el-form-item label="当前密码：" prop="password_old">
+                <el-form-item :label='$ui("当前密码：")' prop="password_old">
                     <div class="w-80">
                         <el-input
                             v-model.trim="formData.password_old"
-                            placeholder="修改密码时必填, 不修改密码时留空"
+                            :placeholder='$ui("修改密码时必填, 不修改密码时留空")'
                             type="password"
                             show-password
                         />
                     </div>
                 </el-form-item>
 
-                <el-form-item label="新的密码：" prop="password">
+                <el-form-item :label='$ui("新的密码：")' prop="password">
                     <div class="w-80">
                         <el-input
                             v-model.trim="formData.password"
-                            placeholder="修改密码时必填, 不修改密码时留空"
+                            :placeholder='$ui("修改密码时必填, 不修改密码时留空")'
                             type="password"
                             show-password
                         />
                     </div>
                 </el-form-item>
 
-                <el-form-item label="确定密码：" prop="password_confirm">
+                <el-form-item :label='$ui("确定密码：")' prop="password_confirm">
                     <div class="w-80">
                         <el-input
                             v-model.trim="formData.password_confirm"
-                            placeholder="修改密码时必填, 不修改密码时留空"
+                            :placeholder='$ui("修改密码时必填, 不修改密码时留空")'
                             type="password"
                             show-password
                         />
@@ -60,12 +60,13 @@
             </el-form>
         </el-card>
         <footer-btns>
-            <el-button type="primary" @click="handleSubmit">保存</el-button>
+            <el-button type="primary" @click="handleSubmit">{{ $ui("保存") }}</el-button>
         </footer-btns>
     </div>
 </template>
 
 <script setup lang="ts" name="userSetting">
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 
 import { setUserInfo } from '@/api/user'
@@ -89,14 +90,14 @@ const rules = reactive<object>({
     avatar: [
         {
             required: true,
-            message: '头像不能为空',
+            message: () => translateUiText("头像不能为空"),
             trigger: ['change']
         }
     ],
     name: [
         {
             required: true,
-            message: '请输入名称',
+            message: () => translateUiText("请输入名称"),
             trigger: ['blur']
         }
     ]
@@ -115,31 +116,31 @@ const getUser = async () => {
 const setUser = async () => {
     if (formData.password_old || formData.password || formData.password_confirm) {
         if (!formData.password_old) {
-            return feedback.msgError('请输入当前密码')
+            return feedback.msgError(translateUiText("请输入当前密码"))
         }
 
         if (!formData.password) {
-            return feedback.msgError('请输入新的密码')
+            return feedback.msgError(translateUiText("请输入新的密码"))
         }
 
         if (!formData.password_confirm) {
-            return feedback.msgError('请输入确定密码')
+            return feedback.msgError(translateUiText("请输入确定密码"))
         }
 
         if (formData.password_confirm != formData.password) {
-            return feedback.msgError('两次输入的密码不一样')
+            return feedback.msgError(translateUiText("两次输入的密码不一样"))
         }
     }
 
     if (formData.password_old && formData.password && formData.password_confirm) {
         if (formData.password_old.length < 6 || formData.password_old.length > 32) {
-            return feedback.msgError('密码长度在6到32之间')
+            return feedback.msgError(translateUiText("密码长度在6到32之间"))
         }
         if (formData.password.length < 6 || formData.password.length > 32) {
-            return feedback.msgError('密码长度在6到32之间')
+            return feedback.msgError(translateUiText("密码长度在6到32之间"))
         }
         if (formData.password_confirm.length < 6 || formData.password_confirm.length > 32) {
-            return feedback.msgError('密码长度在6到32之间')
+            return feedback.msgError(translateUiText("密码长度在6到32之间"))
         }
     }
     await setUserInfo(formData)

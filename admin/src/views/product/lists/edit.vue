@@ -2,7 +2,7 @@
     <div class="product-edit">
         <el-card class="!border-none" shadow="never">
             <el-page-header
-                :content="route.meta.title || (mode == 'edit' ? '编辑商品' : '新增商品')"
+                :content="$ui(route.meta.title || (mode == 'edit' ? '编辑商品' : '新增商品'))"
                 @back="router.back()"
             />
         </el-card>
@@ -16,22 +16,22 @@
             >
                 <div class="xl:flex">
                     <div>
-                        <el-form-item label="商品名称" prop="name">
+                        <el-form-item :label='$ui("商品名称")' prop="name">
                             <div class="w-80">
                                 <el-input
                                     v-model="formData.name"
-                                    placeholder="请输入商品名称"
+                                    :placeholder='$ui("请输入商品名称")'
                                     maxlength="64"
                                     show-word-limit
                                     clearable
                                 />
                             </div>
                         </el-form-item>
-                        <el-form-item label="商品分类" prop="category_id">
+                        <el-form-item :label='$ui("商品分类")' prop="category_id">
                             <el-select
                                 class="w-80"
                                 v-model="formData.category_id"
-                                placeholder="请选择商品分类"
+                                :placeholder='$ui("请选择商品分类")'
                                 clearable
                             >
                                 <el-option
@@ -42,75 +42,75 @@
                                 />
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="商品封面" prop="main_image">
+                        <el-form-item :label='$ui("商品封面")' prop="main_image">
                             <div>
                                 <material-picker v-model="formData.main_image" :limit="1" />
-                                <div class="form-tips">建议尺寸：800*800px</div>
+                                <div class="form-tips">{{ $ui("建议尺寸：800*800px") }}</div>
                             </div>
                         </el-form-item>
-                        <el-form-item label="商品轮播图" prop="product_images">
+                        <el-form-item :label='$ui("商品轮播图")' prop="product_images">
                             <div>
                                 <material-picker v-model="formData.product_images" :limit="10" />
-                                <div class="form-tips">建议尺寸：800*800px，最多上传10张</div>
+                                <div class="form-tips">{{ $ui("建议尺寸：800*800px，最多上传10张") }}</div>
                             </div>
                         </el-form-item>
-                        <el-form-item label="商品规格" required>
+                        <el-form-item :label='$ui("商品规格")' required>
                             <el-radio-group
                                 v-model="formData.spec_type"
                                 @change="handleSpecTypeChange"
                             >
-                                <el-radio :label="1">单规格</el-radio>
-                                <el-radio :label="2">多规格</el-radio>
+                                <el-radio :label="1">{{ $ui("单规格") }}</el-radio>
+                                <el-radio :label="2">{{ $ui("多规格") }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
 
                         <!-- 单规格 -->
                         <div v-if="formData.spec_type === 1">
-                            <el-form-item label="SKU编码" prop="sku">
+                            <el-form-item :label='$ui("SKU编码")' prop="sku">
                                 <div class="w-80">
                                     <el-input
                                         v-model="formData.sku"
-                                        placeholder="请输入SKU编码"
+                                        :placeholder='$ui("请输入SKU编码")'
                                         maxlength="64"
                                         clearable
                                     />
                                 </div>
                             </el-form-item>
-                            <el-form-item label="价格" prop="price">
+                            <el-form-item :label='$ui("价格")' prop="price">
                                 <div class="w-80">
                                     <el-input
                                         v-model.number="formData.price"
-                                        placeholder="请输入价格"
+                                        :placeholder='$ui("请输入价格")'
                                     />
                                 </div>
                             </el-form-item>
-                            <el-form-item label="划线价" prop="market_price">
+                            <el-form-item :label='$ui("划线价")' prop="market_price">
                                 <div class="w-80">
                                     <el-input
                                         v-model.number="formData.market_price"
-                                        placeholder="请输入划线价"
+                                        :placeholder='$ui("请输入划线价")'
                                     />
                                 </div>
                             </el-form-item>
-                            <el-form-item label="成本价" prop="cost_price">
+                            <el-form-item :label='$ui("成本价")' prop="cost_price">
                                 <div class="w-80">
                                     <el-input
                                         v-model.number="formData.cost_price"
-                                        placeholder="请输入成本价"
+                                        :placeholder='$ui("请输入成本价")'
                                     />
                                 </div>
                             </el-form-item>
-                            <el-form-item label="库存" prop="stock">
+                            <el-form-item :label='$ui("库存")' prop="stock">
                                 <div>
                                     <el-input-number v-model="formData.stock" :min="0" />
                                 </div>
                             </el-form-item>
-                            <el-form-item label="重量(kg)" prop="weight">
+                            <el-form-item :label='$ui("重量(kg)")' prop="weight">
                                 <div>
                                     <el-input-number v-model="formData.weight" :min="0" />
                                 </div>
                             </el-form-item>
-                            <el-form-item label="体积(m³)" prop="volume">
+                            <el-form-item :label='$ui("体积(m³)")' prop="volume">
                                 <div>
                                     <el-input-number v-model="formData.volume" :min="0" />
                                 </div>
@@ -121,7 +121,7 @@
                         <div v-if="formData.spec_type === 2" class="pl-10">
                             <div class="mb-4">
                                 <el-button type="primary" link @click="addSpec"
-                                    >添加规格项</el-button
+                                    >{{ $ui("添加规格项") }}</el-button
                                 >
                             </div>
                             <div
@@ -130,18 +130,18 @@
                                 class="bg-gray-50 p-4 mb-4 rounded"
                             >
                                 <div class="flex items-center mb-2">
-                                    <span class="mr-2">规格名：</span>
+                                    <span class="mr-2">{{ $ui("规格名：") }}</span>
                                     <el-input
                                         v-model="spec.name"
                                         class="w-40 mr-4"
-                                        placeholder="例如：颜色"
+                                        :placeholder='$ui("例如：颜色")'
                                     />
                                     <el-button type="danger" link @click="removeSpec(index)"
-                                        >删除</el-button
+                                        >{{ $ui("删除") }}</el-button
                                     >
                                 </div>
                                 <div class="flex items-center flex-wrap">
-                                    <span class="mr-2">规格值：</span>
+                                    <span class="mr-2">{{ $ui("规格值：") }}</span>
                                     <div
                                         v-for="(val, vIndex) in spec.values"
                                         :key="vIndex"
@@ -154,7 +154,7 @@
                                     <div class="w-32">
                                         <el-input
                                             v-model="spec.tempValue"
-                                            placeholder="输入后回车"
+                                            :placeholder='$ui("输入后回车")'
                                             @keyup.enter="addSpecValue(index)"
                                             @blur="addSpecValue(index)"
                                         />
@@ -173,7 +173,7 @@
                                             {{ row.value_names.split(',')[index] }}
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="价格" min-width="100">
+                                    <el-table-column :label='$ui("价格")' min-width="100">
                                         <template #default="{ row }">
                                             <el-input-number
                                                 v-model="row.price"
@@ -183,7 +183,7 @@
                                             />
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="划线价" min-width="100">
+                                    <el-table-column :label='$ui("划线价")' min-width="100">
                                         <template #default="{ row }">
                                             <el-input-number
                                                 v-model="row.market_price"
@@ -193,7 +193,7 @@
                                             />
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="成本价" min-width="100">
+                                    <el-table-column :label='$ui("成本价")' min-width="100">
                                         <template #default="{ row }">
                                             <el-input-number
                                                 v-model="row.cost_price"
@@ -203,7 +203,7 @@
                                             />
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="库存" min-width="100">
+                                    <el-table-column :label='$ui("库存")' min-width="100">
                                         <template #default="{ row }">
                                             <el-input-number
                                                 v-model="row.stock"
@@ -213,7 +213,7 @@
                                             />
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="重量(kg)" min-width="100">
+                                    <el-table-column :label='$ui("重量(kg)")' min-width="100">
                                         <template #default="{ row }">
                                             <el-input-number
                                                 v-model="row.weight"
@@ -223,7 +223,7 @@
                                             />
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="体积(m³)" min-width="100">
+                                    <el-table-column :label='$ui("体积(m³)")' min-width="100">
                                         <template #default="{ row }">
                                             <el-input-number
                                                 v-model="row.volume"
@@ -233,12 +233,12 @@
                                             />
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="SKU编码" min-width="120">
+                                    <el-table-column :label='$ui("SKU编码")' min-width="120">
                                         <template #default="{ row }">
                                             <el-input v-model="row.sku_code" />
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="图片" width="80">
+                                    <el-table-column :label='$ui("图片")' width="80">
                                         <template #default="{ row }">
                                             <material-picker
                                                 v-model="row.image"
@@ -251,21 +251,21 @@
                             </div>
                         </div>
 
-                        <el-form-item label="排序" prop="sort" class="mt-4">
+                        <el-form-item :label='$ui("排序")' prop="sort" class="mt-4">
                             <div>
                                 <el-input-number v-model="formData.sort" :min="0" :max="9999" />
-                                <div class="form-tips">默认为0， 数值越大越排前</div>
+                                <div class="form-tips">{{ $ui("默认为0， 数值越大越排前") }}</div>
                             </div>
                         </el-form-item>
-                        <el-form-item label="状态" required prop="status">
+                        <el-form-item :label='$ui("状态")' required prop="status">
                             <el-radio-group v-model="formData.status">
-                                <el-radio :label="1">显示</el-radio>
-                                <el-radio :label="0">隐藏</el-radio>
+                                <el-radio :label="1">{{ $ui("显示") }}</el-radio>
+                                <el-radio :label="0">{{ $ui("隐藏") }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </div>
                     <div class="xl:ml-20">
-                        <el-form-item label="商品描述" prop="description">
+                        <el-form-item :label='$ui("商品描述")' prop="description">
                             <editor v-model="formData.description" :height="400" :width="600" />
                         </el-form-item>
                     </div>
@@ -273,11 +273,12 @@
             </el-form>
         </el-card>
         <footer-btns>
-            <el-button type="primary" @click="handleSave">保存</el-button>
+            <el-button type="primary" @click="handleSave">{{ $ui("保存") }}</el-button>
         </footer-btns>
     </div>
 </template>
 <script lang="ts" setup name="productListsEdit">
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -313,9 +314,9 @@ const formData = reactive<ProductFormData>({
 const { removeTab } = useMultipleTabs()
 const formRef = shallowRef<FormInstance>()
 const rules = reactive({
-    name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
-    category_id: [{ required: true, message: '请选择商品分类', trigger: 'blur' }],
-    price: [{ required: true, message: '请输入商品价格', trigger: 'blur' }]
+    name: [{ required: true, message: () => translateUiText("请输入商品名称"), trigger: 'blur' }],
+    category_id: [{ required: true, message: () => translateUiText("请选择商品分类"), trigger: 'blur' }],
+    price: [{ required: true, message: () => translateUiText("请输入商品价格"), trigger: 'blur' }]
 })
 
 const cateOptions = ref<{ id: number; name: string }[]>([])
@@ -470,14 +471,14 @@ const handleSave = async () => {
         // 检查规格是否完善
         const hasEmptySpec = formData.specs.some((s) => !s.name || s.values.length === 0)
         if (hasEmptySpec || formData.skus.length === 0) {
-            feedback.msgError('请完善规格信息')
+            feedback.msgError(translateUiText("请完善规格信息"))
             return
         }
 
         // 检查每个 SKU 价格和库存
         const hasEmptySku = formData.skus.some((sku) => !sku.price && sku.price !== 0)
         if (hasEmptySku) {
-            feedback.msgError('请完善 SKU 价格')
+            feedback.msgError(translateUiText("请完善 SKU 价格"))
             return
         }
 

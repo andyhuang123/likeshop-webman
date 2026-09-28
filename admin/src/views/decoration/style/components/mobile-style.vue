@@ -1,7 +1,7 @@
 <template>
     <el-form label-width="140px">
         <div>
-            <div class="text-xl font-medium mb-[20px]">系统主题色</div>
+            <div class="text-xl font-medium mb-[20px]">{{ $ui("系统主题色") }}</div>
             <el-form-item label-width="50">
                 <ThemePicker
                     v-model="formData.themeColorId"
@@ -11,31 +11,31 @@
             </el-form-item>
         </div>
         <div>
-            <div class="text-xl font-medium mt-[40px] mb-[20px]">样式设置</div>
+            <div class="text-xl font-medium mt-[40px] mb-[20px]">{{ $ui("样式设置") }}</div>
 
-            <el-form-item label="导航顶部文字颜色">
+            <el-form-item :label='$ui("导航顶部文字颜色")'>
                 <div>
                     <el-radio-group v-model="formData.topTextColor">
-                        <el-radio label="white" size="large">白色</el-radio>
-                        <el-radio label="black" size="large">黑色</el-radio>
+                        <el-radio label="white" size="large">{{ $ui("白色") }}</el-radio>
+                        <el-radio label="black" size="large">{{ $ui("黑色") }}</el-radio>
                     </el-radio-group>
                     <div>
-                        <span class="form-tips">页面导航栏文字的颜色</span>
+                        <span class="form-tips">{{ $ui("页面导航栏文字的颜色") }}</span>
                     </div>
                 </div>
             </el-form-item>
-            <el-form-item label="导航顶部背景颜色">
+            <el-form-item :label='$ui("导航顶部背景颜色")'>
                 <div>
                     <color-picker
                         :resetColor="formData.themeColor1"
                         v-model="formData.navigationBarColor"
                     ></color-picker>
                     <div>
-                        <span class="form-tips"> 页面顶部导航栏背景颜色，不设置则跟随主题色 </span>
+                        <span class="form-tips"> {{ $ui("页面顶部导航栏背景颜色，不设置则跟随主题色") }} </span>
                     </div>
                 </div>
             </el-form-item>
-            <el-form-item label="自定义主题颜色" v-if="formData.themeColorId == 7">
+            <el-form-item :label='$ui("自定义主题颜色")' v-if="formData.themeColorId == 7">
                 <div>
                     <color-picker
                         v-model="formData.themeColor1"
@@ -47,15 +47,15 @@
                         class="mt-2"
                     ></color-picker>
                     <div>
-                        <span class="form-tips">自定义主题渐变色，用于按钮类和主要文字</span>
+                        <span class="form-tips">{{ $ui("自定义主题渐变色，用于按钮类和主要文字") }}</span>
                     </div>
                 </div>
             </el-form-item>
-            <el-form-item label="按钮文字颜色">
+            <el-form-item :label='$ui("按钮文字颜色")'>
                 <div>
                     <el-radio-group v-model="formData.buttonColor">
-                        <el-radio label="white" size="large">白色</el-radio>
-                        <el-radio label="black" size="large">黑色</el-radio>
+                        <el-radio label="white" size="large">{{ $ui("白色") }}</el-radio>
+                        <el-radio label="black" size="large">{{ $ui("黑色") }}</el-radio>
                     </el-radio-group>
                 </div>
             </el-form-item>
@@ -95,6 +95,7 @@
     </el-form>
 </template>
 <script setup lang="ts">
+import { translateUiText } from "@/i18n";
 import { useVModel } from '@vueuse/core'
 
 import ThemePicker from './theme-picker.vue'

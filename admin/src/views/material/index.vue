@@ -4,7 +4,7 @@
             <el-tabs v-model="activeTab">
                 <el-tab-pane
                     v-for="item in tabsMap"
-                    :label="item.name"
+                    :label="$ui(item.name)"
                     :name="item.type"
                     :index="item.type"
                     :key="item.type"

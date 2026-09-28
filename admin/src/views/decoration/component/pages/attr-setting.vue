@@ -4,7 +4,7 @@
             <div
                 class="title flex items-center before:w-[3px] before:h-[14px] before:block before:bg-primary before:mr-2 text-xl font-medium"
             >
-                {{ widget?.title }}
+                {{ $ui(widget?.title || '') }}
             </div>
         </el-card>
         <el-scrollbar class="w-full" style="height: calc(100% - 60px)">

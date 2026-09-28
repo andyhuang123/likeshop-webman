@@ -13,7 +13,7 @@
                         <el-form-item prop="account">
                             <el-input
                                 v-model="formData.account"
-                                placeholder="请输入账号"
+                                :placeholder="$ui('请输入账号')"
                                 @keyup.enter="handleEnter"
                             >
                                 <template #prepend>
@@ -26,7 +26,7 @@
                                 ref="passwordRef"
                                 v-model="formData.password"
                                 show-password
-                                placeholder="请输入密码"
+                                :placeholder="$ui('请输入密码')"
                                 @keyup.enter="handleLogin"
                             >
                                 <template #prepend>
@@ -36,10 +36,10 @@
                         </el-form-item>
                     </el-form>
                     <div class="mb-5">
-                        <el-checkbox v-model="remAccount" label="记住账号"></el-checkbox>
+                    <el-checkbox v-model="remAccount" :label="$ui('记住账号')"></el-checkbox>
                     </div>
                     <el-button type="primary" size="large" :loading="isLock" @click="lockLogin">
-                        登录
+                        {{ $ui('登录') }}
                     </el-button>
                 </div>
             </div>
@@ -55,6 +55,7 @@ import { computed, onMounted, reactive, ref, shallowRef } from 'vue'
 import { ACCOUNT_KEY } from '@/enums/cacheEnums'
 import { PageEnum } from '@/enums/pageEnum'
 import { useLockFn } from '@/hooks/useLockFn'
+import { translateUiText } from '@/i18n'
 import LayoutFooter from '@/layout/components/footer.vue'
 import useAppStore from '@/stores/modules/app'
 import useUserStore from '@/stores/modules/user'
@@ -76,14 +77,14 @@ const rules = {
     account: [
         {
             required: true,
-            message: '请输入账号',
+            message: () => translateUiText('请输入账号'),
             trigger: ['blur']
         }
     ],
     password: [
         {
             required: true,
-            message: '请输入密码',
+            message: () => translateUiText('请输入密码'),
             trigger: ['blur']
         }
     ]

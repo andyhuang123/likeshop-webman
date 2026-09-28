@@ -9,7 +9,7 @@
             @close="handleClose"
         >
             <el-form ref="formRef" :model="formData" label-width="84px" :rules="formRules">
-                <el-form-item label="上级部门" prop="pid" v-if="formData.pid !== 0">
+                <el-form-item :label='$ui("上级部门")' prop="pid" v-if="formData.pid !== 0">
                     <el-tree-select
                         class="flex-1"
                         v-model="formData.pid"
@@ -22,33 +22,33 @@
                         }"
                         check-strictly
                         :default-expand-all="true"
-                        placeholder="请选择上级部门"
+                        :placeholder='$ui("请选择上级部门")'
                     />
                 </el-form-item>
-                <el-form-item label="部门名称" prop="name">
+                <el-form-item :label='$ui("部门名称")' prop="name">
                     <el-input
                         v-model="formData.name"
-                        placeholder="请输入部门名称"
+                        :placeholder='$ui("请输入部门名称")'
                         :maxlength="100"
                     />
                 </el-form-item>
-                <el-form-item label="负责人" prop="leader">
+                <el-form-item :label='$ui("负责人")' prop="leader">
                     <el-input
                         v-model="formData.leader"
-                        placeholder="请输入负责人姓名"
+                        :placeholder='$ui("请输入负责人姓名")'
                         :maxlength="30"
                     />
                 </el-form-item>
-                <el-form-item label="联系电话" prop="mobile">
-                    <el-input v-model="formData.mobile" placeholder="请输入联系电话" />
+                <el-form-item :label='$ui("联系电话")' prop="mobile">
+                    <el-input v-model="formData.mobile" :placeholder='$ui("请输入联系电话")' />
                 </el-form-item>
-                <el-form-item label="排序" prop="sort">
+                <el-form-item :label='$ui("排序")' prop="sort">
                     <div>
                         <el-input-number v-model="formData.sort" :min="0" :max="9999" />
-                        <div class="form-tips">默认为0， 数值越大越排前</div>
+                        <div class="form-tips">{{ $ui("默认为0， 数值越大越排前") }}</div>
                     </div>
                 </el-form-item>
-                <el-form-item label="部门状态">
+                <el-form-item :label='$ui("部门状态")'>
                     <el-switch v-model="formData.status" :active-value="1" :inactive-value="0" />
                 </el-form-item>
             </el-form>
@@ -56,6 +56,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { translateUiText } from "@/i18n";
 import type { FormInstance } from 'element-plus'
 
 import { deptAdd, deptAll, deptDetail, deptEdit } from '@/api/org/department'
@@ -67,7 +68,7 @@ const formRef = shallowRef<FormInstance>()
 const popupRef = shallowRef<InstanceType<typeof Popup>>()
 const mode = ref('add')
 const popupTitle = computed(() => {
-    return mode.value == 'edit' ? '编辑部门' : '新增部门'
+    return mode.value == 'edit' ? translateUiText("编辑部门") : translateUiText("新增部门")
 })
 const formData = reactive({
     id: '',
@@ -88,7 +89,7 @@ const checkMobile = (rule: any, value: any, callback: any) => {
         if (reg.test(value)) {
             callback()
         } else {
-            return callback(new Error('请输入正确的手机号'))
+            return callback(new Error(translateUiText("请输入正确的手机号")))
         }
     }
 }
@@ -96,14 +97,14 @@ const formRules = {
     pid: [
         {
             required: true,
-            message: '请选择上级部门',
+            message: () => translateUiText("请选择上级部门"),
             trigger: ['change']
         }
     ],
     name: [
         {
             required: true,
-            message: '请输入部门名称',
+            message: () => translateUiText("请输入部门名称"),
             trigger: ['blur']
         }
     ],
