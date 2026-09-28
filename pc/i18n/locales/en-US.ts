@@ -204,7 +204,7 @@ export default {
             '手动添加': 'Add manually',
             '手机验证码登录': 'Sign in with SMS code',
             '扣减余额': 'Deduct balance',
-            '折': '折扣',
+            '折': 'discount',
             '折 (例如：8.5折)': 'Discount (for example, 15% off)',
             '折扣券': 'Discount coupon',
             '按钮': 'Button',
