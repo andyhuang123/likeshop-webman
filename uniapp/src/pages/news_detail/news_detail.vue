@@ -12,7 +12,7 @@
         <view class="news-detail-header py-[20rpx] px-[30rpx]">
             <view class="text-3xl font-medium">{{ newsData.title }}</view>
             <view class="flex mt-[20rpx] text-xs">
-                <view class="mr-[40rpx]" v-if="newsData.author">作者: {{ newsData.author }}</view>
+                <view class="mr-[40rpx]" v-if="newsData.author">{{ $ui("作者:") }} {{ newsData.author }}</view>
                 <view class="text-muted mr-[40rpx] flex-1">{{ newsData.create_time }}</view>
                 <view class="flex items-center text-muted flex-none">
                     <image
@@ -28,7 +28,7 @@
         <view class="news-detail-section bg-white p-[24rpx]">
             <!-- 摘要 -->
             <view class="summary p-[20rpx] text-base" v-if="newsData.abstract">
-                <text class="font-medium">摘要: </text> {{ newsData.abstract }}
+                <text class="font-medium">{{ $ui("摘要:") }} </text> {{ newsData.abstract }}
             </view>
             <!-- 内容 -->
             <view class="mt-[20rpx]">
@@ -42,7 +42,7 @@
                 size="40"
                 :color="newsData.collect ? '#F7BA47' : '#333'"
             ></u-icon>
-            <text class="ml-[10rpx]">收藏</text>
+            <text class="ml-[10rpx]">{{ $ui("收藏") }}</text>
         </view>
     </view>
 </template>
@@ -51,6 +51,7 @@
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { getArticleDetail, addCollect, cancelCollect } from '@/api/news'
+import { translateUiText as ui } from '@/i18n'
 
 const newsData = ref<any>({})
 let newsId = ''
@@ -63,10 +64,10 @@ const handleAddCollect = async (id: number) => {
     try {
         if (newsData.value.collect) {
             await cancelCollect({ id })
-            uni.$u.toast('已取消收藏')
+            uni.$u.toast(ui('已取消收藏'))
         } else {
             await addCollect({ id })
-            uni.$u.toast('收藏成功')
+            uni.$u.toast(ui('收藏成功'))
         }
         getData(newsId)
     } catch (e) {

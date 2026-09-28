@@ -1,6 +1,6 @@
 <template>
     <view class="bg-white p-[30rpx] flex text-[#101010] font-medium text-lg">
-        联系我们
+        {{ $ui("联系我们") }}
     </view>
     <view
         class="customer-service bg-white flex flex-col justify-center items-center mx-[36rpx] mt-[30rpx] rounded-[20rpx] px-[20rpx] pb-[100rpx]"
@@ -29,7 +29,7 @@
             <!-- #endif -->
         </view>
         <view v-if="content.time" class="text-muted text-sm mt-[30rpx]">
-            服务时间：{{ content.time }}
+            {{ $ui("服务时间：") }}{{ content.time }}
         </view>
     </view>
 </template>

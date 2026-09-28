@@ -42,7 +42,7 @@
             <view
                 class="flex items-center article-title mx-[20rpx] my-[30rpx] text-lg font-medium"
             >
-                最新资讯
+                {{ $ui("最新资讯") }}
             </view>
             <news-card
                 v-for="item in state.article"

@@ -13,7 +13,7 @@
                         <view class="truncate text-lg font-bold">{{ item.name }}</view>
                         <view class="mt-10 flex justify-between items-center">
                             <text class="text-price text-xl text-primary">¥{{ item.price }}</text>
-                            <u-button size="mini" type="primary" shape="circle">立即抽</u-button>
+                            <u-button size="mini" type="primary" shape="circle">{{ $ui("立即抽") }}</u-button>
                         </view>
                     </view>
                 </view>

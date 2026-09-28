@@ -2,11 +2,11 @@
     <!-- modal:隐私授权弹窗-->
     <view v-if="show" class="modal-box" @tap.stop>
         <view class="dialog" @tap.stop>
-            <view class="title">隐私政策提示</view>
+            <view class="title">{{ $ui("隐私政策提示") }}</view>
             <view class="content">
-                欢迎使用{{
+                {{ $ui("欢迎使用") }}{{
                     appStore.getWebsiteConfig.shop_name
-                }}小程序，请您在使用前点击
+                }}{{ $ui("小程序，请您在使用前点击") }}
                 <text
                     class="text-[#243245]"
                     hover-class="hover"
@@ -14,7 +14,7 @@
                 >
                     {{ name }}
                 </text>
-                并仔细阅读，如您同意全部内容，请点击同意开始使用我们的服务。
+                {{ $ui("并仔细阅读，如您同意全部内容，请点击同意开始使用我们的服务。") }}
             </view>
             <view class="btn-box">
                 <button
@@ -22,7 +22,7 @@
                     hover-class="hover"
                     @click="disagreePrivacy"
                 >
-                    不同意
+                    {{ $ui("不同意") }}
                 </button>
                 <button
                     class="btn bg-primary text-white"
@@ -31,7 +31,7 @@
                     open-type="agreePrivacyAuthorization"
                     @agreeprivacyauthorization="agreePrivacy"
                 >
-                    同意
+                    {{ $ui("同意") }}
                 </button>
             </view>
         </view>
@@ -41,6 +41,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { translateUiText as ui } from '@/i18n'
 const appStore = useAppStore()
 
 const name = ref<string>('')
@@ -75,7 +76,7 @@ const disagreeHandle = () => {
 }
 
 const disagreePrivacy = () => {
-    uni.$u.toast('同意隐私政策后可继续使用')
+    uni.$u.toast(ui('同意隐私政策后可继续使用'))
     // wx.exitMiniProgram()
 }
 

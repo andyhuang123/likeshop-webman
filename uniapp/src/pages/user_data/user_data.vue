@@ -26,7 +26,7 @@
         class="item text-nr flex justify-between"
         @click=";(showUserName = true), (newUsername = userInfo?.username)"
     >
-        <view class="label">账号</view>
+        <view class="label">{{ $ui("账号") }}</view>
         <view class="content">{{ userInfo?.account }}</view>
         <u-icon name="arrow-right" size="22" color="#666"></u-icon>
     </view>
@@ -36,23 +36,23 @@
         class="item text-nr flex justify-between"
         @click=";(showNickName = true), (newNickname = userInfo?.nickname)"
     >
-        <view class="label">昵称</view>
+        <view class="label">{{ $ui("昵称") }}</view>
         <view class="content">{{ userInfo?.nickname }}</view>
         <u-icon name="arrow-right" size="22" color="#666"></u-icon>
     </view>
 
     <!-- 性别 -->
     <view class="item text-nr flex justify-between" @click="changeSex">
-        <view class="label">性别</view>
-        <view class="content">{{ userInfo?.sex }}</view>
+        <view class="label">{{ $ui("性别") }}</view>
+        <view class="content">{{ $ui(userInfo?.sex || '') }}</view>
         <u-icon name="arrow-right" size="22" color="#666"></u-icon>
     </view>
 
     <!-- 手机号 -->
     <view class="item text-nr flex justify-between">
-        <view class="label">手机号</view>
+        <view class="label">{{ $ui("手机号") }}</view>
         <view class="content">{{
-            userInfo?.mobile == '' ? '未绑定手机号' : userInfo?.mobile
+            userInfo?.mobile == '' ? $ui('未绑定手机号') : userInfo?.mobile
         }}</view>
 
         <!-- #ifdef MP-WEIXIN -->
@@ -64,7 +64,7 @@
             size="mini"
             :plain="true"
         >
-            {{ userInfo?.mobile == '' ? '绑定手机号' : '更换手机号' }}
+            {{ $ui(userInfo?.mobile == '' ? '绑定手机号' : '更换手机号') }}
         </u-button>
         <!-- #endif -->
         <!-- #ifndef MP-WEIXIN -->
@@ -75,14 +75,14 @@
             shape="circle"
             :plain="true"
         >
-            {{ userInfo?.mobile == '' ? '绑定手机号' : '更换手机号' }}
+            {{ $ui(userInfo?.mobile == '' ? '绑定手机号' : '更换手机号') }}
         </u-button>
         <!-- #endif -->
     </view>
 
     <!-- 注册时间 -->
     <view class="item text-nr flex justify-between">
-        <view class="label">注册时间</view>
+        <view class="label">{{ $ui("注册时间") }}</view>
         <view class="content">{{ userInfo?.create_time }}</view>
     </view>
 
@@ -96,14 +96,14 @@
     >
         <view class="px-[50rpx] py-[40rpx] bg-white" style="width: 85vw">
             <form @submit="changeNameConfirm">
-                <view class="mb-[70rpx] text-xl text-center">修改昵称</view>
+                <view class="mb-[70rpx] text-xl text-center">{{ $ui("修改昵称") }}</view>
                 <u-form-item borderBottom>
                     <input
                         class="nr h-[60rpx] w-full"
                         :value="userInfo.nickname"
                         name="nickname"
                         type="nickname"
-                        placeholder="请输入昵称"
+                        :placeholder='$ui("请输入昵称")'
                     />
                 </u-form-item>
                 <view class="mt-[80rpx]">
@@ -113,7 +113,7 @@
                         size="mini"
                         hover-class="none"
                     >
-                        确定
+                        {{ $ui("确定") }}
                     </button>
                 </view>
             </form>
@@ -123,18 +123,18 @@
     <!-- 账号修改组件 -->
     <u-popup v-model="showUserName" :closeable="true" mode="center" border-radius="20">
         <view class="px-[50rpx] py-[40rpx] bg-white" style="width: 85vw">
-            <view class="mb-[70rpx] text-xl text-center">修改账号</view>
+            <view class="mb-[70rpx] text-xl text-center">{{ $ui("修改账号") }}</view>
             <u-form-item borderBottom>
                 <u-input
                     class="flex-1"
                     v-model="newUsername"
-                    placeholder="请输入账号"
+                    :placeholder='$ui("请输入账号")'
                     :border="false"
                 />
             </u-form-item>
             <view class="mt-[80rpx]">
                 <u-button @click="changeUserNameConfirm" type="primary" shape="circle">
-                    确定
+                    {{ $ui("确定") }}
                 </u-button>
             </view>
         </view>
@@ -153,12 +153,12 @@
     <!-- 账号修改组件 -->
     <u-popup v-model="showMobilePop" :closeable="true" mode="center" border-radius="20">
         <view class="px-[50rpx] py-[40rpx] bg-white" style="width: 85vw">
-            <view class="mb-[70rpx] text-xl text-center">{{ userInfo?.mobile == '' ? '绑定手机号' : '更换手机号' }}</view>
+            <view class="mb-[70rpx] text-xl text-center">{{ $ui(userInfo?.mobile == '' ? '绑定手机号' : '更换手机号') }}</view>
             <u-form-item borderBottom>
                 <u-input
                     class="flex-1"
                     v-model="newMobile"
-                    placeholder="请输入新的手机号码"
+                    :placeholder='$ui("请输入新的手机号码")'
                     :border="false"
                 />
             </u-form-item>
@@ -166,7 +166,7 @@
                 <u-input
                     class="flex-1"
                     v-model="mobileCode"
-                    placeholder="请输入验证码"
+                    :placeholder='$ui("请输入验证码")'
                     :border="false"
                 />
                 <view
@@ -176,32 +176,35 @@
                     <u-verification-code
                         ref="uCodeRef"
                         :seconds="60"
+                        :start-text="$ui('获取验证码')"
+                        :end-text="$ui('重新获取')"
                         @change="codeChange"
-                        change-text="x秒"
+                        :change-text="$ui('x秒')"
                     />
                     {{ codeTips }}
                 </view>
             </u-form-item>
             <view class="mt-[80rpx]">
-                <u-button @click="changeCodeMobile" type="primary" shape="circle"> 确定 </u-button>
+                <u-button @click="changeCodeMobile" type="primary" shape="circle"> {{ $ui("确定") }} </u-button>
             </view>
         </view>
     </u-popup>
 </template>
 
 <script lang="ts" setup>
-import { ref, shallowRef } from 'vue'
+import { ref, shallowRef, computed } from 'vue'
 import { onShow, onUnload } from '@dcloudio/uni-app'
 import { getUserInfo, userEdit, userBindMobile, userMnpMobile } from '@/api/user'
 import { smsSend } from '@/api/app'
 import { FieldType, SMSEnum } from '@/enums/appEnums'
+import { translateUiText as ui } from '@/i18n'
 
 // 用户信息
 const userInfo = ref<any>({})
 // 用户信息的枚举
 const fieldType = ref(FieldType.NONE)
 //选择性别数据
-const sexList = ref<Array<string> | null>(['男', '女'])
+const sexList = computed(() => ['男', '女'].map(ui))
 
 //显示昵称弹窗
 const showNickName = ref<boolean | null>(false)
@@ -236,13 +239,13 @@ const codeChange = (text: string) => {
 
 // 发送验证码
 const sendSms = async () => {
-    if (!newMobile.value) return uni.$u.toast('请输入新的手机号码')
+    if (!newMobile.value) return uni.$u.toast(ui('请输入新的手机号码'))
     if (uCodeRef.value?.canGetCode) {
         await smsSend({
             scene: userInfo.value.mobile ? SMSEnum.CHANGE_MOBILE : SMSEnum.BIND_MOBILE,
             mobile: newMobile.value
         })
-        uni.$u.toast('发送成功')
+        uni.$u.toast(ui('发送成功'))
         uCodeRef.value?.start()
     }
 }
@@ -259,7 +262,7 @@ const changeCodeMobile = async () => {
         mobile: newMobile.value,
         code: mobileCode.value
     })
-    uni.$u.toast('操作成功')
+    uni.$u.toast(ui('操作成功'))
     showMobilePop.value = false
     getUser()
 }
@@ -270,7 +273,7 @@ const setUserInfoFun = async (value: string): Promise<void> => {
         field: fieldType.value,
         value: value
     })
-    uni.$u.toast('操作成功')
+    uni.$u.toast(ui('操作成功'))
     getUser()
 }
 
@@ -288,8 +291,8 @@ const changeSexConfirm = (value) => {
 
 // 修改用户账号
 const changeUserNameConfirm = () => {
-    if (newUsername.value == '') return uni.$u.toast('账号不能为空')
-    if (newUsername.value.length > 10) return uni.$u.toast('账号长度不得超过十位数')
+    if (newUsername.value == '') return uni.$u.toast(ui('账号不能为空'))
+    if (newUsername.value.length > 10) return uni.$u.toast(ui('账号长度不得超过十位数'))
 
     fieldType.value = FieldType.USERNAME
     setUserInfoFun(newUsername.value)
@@ -299,8 +302,8 @@ const changeUserNameConfirm = () => {
 // 修改用户昵称
 const changeNameConfirm = async (e: any) => {
     newNickname.value = e.detail.value.nickname
-    if (newNickname.value == '') return uni.$u.toast('昵称不能为空')
-    if (newNickname.value.length > 10) return uni.$u.toast('昵称长度不得超过十位数')
+    if (newNickname.value == '') return uni.$u.toast(ui('昵称不能为空'))
+    if (newNickname.value.length > 10) return uni.$u.toast(ui('昵称长度不得超过十位数'))
     fieldType.value = FieldType.NICKNAME
     await setUserInfoFun(newNickname.value)
 
@@ -319,7 +322,7 @@ const getPhoneNumber = async (e): Promise<void> => {
         await userMnpMobile({
             ...data
         })
-        uni.$u.toast('操作成功')
+        uni.$u.toast(ui('操作成功'))
         getUser()
     }
 }

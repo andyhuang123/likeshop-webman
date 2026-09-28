@@ -9,7 +9,7 @@
     </page-meta>
     <view class="bg-white min-h-full flex flex-col items-center px-[40rpx] pt-[40rpx] box-border">
         <view class="w-full">
-            <view class="text-2xl font-medium mb-[60rpx]">绑定手机号</view>
+            <view class="text-2xl font-medium mb-[60rpx]">{{ $ui("绑定手机号") }}</view>
             <view
                 class="px-[18rpx] border border-solid border-lightc border-light rounded-[10rpx] h-[100rpx] items-center flex"
             >
@@ -17,7 +17,7 @@
                     class="flex-1"
                     v-model="formData.mobile"
                     :border="false"
-                    placeholder="请输入手机号码"
+                    :placeholder='$ui("请输入手机号码")'
                 />
             </view>
             <view
@@ -26,7 +26,7 @@
                 <u-input
                     class="flex-1"
                     v-model="formData.code"
-                    placeholder="请输入验证码"
+                    :placeholder='$ui("请输入验证码")'
                     :border="false"
                 />
 
@@ -37,8 +37,10 @@
                     <u-verification-code
                         ref="uCodeRef"
                         :seconds="60"
+                        :start-text="$ui('获取验证码')"
+                        :end-text="$ui('重新获取')"
                         @change="codeChange"
-                        change-text="x秒"
+                        :change-text="$ui('x秒')"
                     />
                     <text :class="formData.mobile ? 'text-primary' : 'text-muted'">
                         {{ codeTips }}
@@ -58,7 +60,7 @@
                     }"
                     @click="handleConfirm"
                 >
-                    确定
+                    {{ $ui("确定") }}
                 </u-button>
             </view>
         </view>
@@ -71,6 +73,7 @@ import { smsSend } from '@/api/app'
 import { SMSEnum } from '@/enums/appEnums'
 import { reactive, ref, shallowRef } from 'vue'
 import { useUserStore } from '@/stores/user'
+import { translateUiText as ui } from '@/i18n'
 const uCodeRef = shallowRef()
 const codeTips = ref('')
 
@@ -85,21 +88,21 @@ const formData = reactive({
     code: ''
 })
 const sendSms = async () => {
-    if (!formData.mobile) return uni.$u.toast('请输入手机号码')
+    if (!formData.mobile) return uni.$u.toast(ui('请输入手机号码'))
     if (uCodeRef.value?.canGetCode) {
         await smsSend({
             scene: SMSEnum.BIND_MOBILE,
             mobile: formData.mobile
         })
-        uni.$u.toast('发送成功')
+        uni.$u.toast(ui('发送成功'))
         uCodeRef.value?.start()
     }
 }
 const handleConfirm = async () => {
-    if (!formData.mobile) return uni.$u.toast('请输入手机号码')
-    if (!formData.code) return uni.$u.toast('请输入验证码')
+    if (!formData.mobile) return uni.$u.toast(ui('请输入手机号码'))
+    if (!formData.code) return uni.$u.toast(ui('请输入验证码'))
     await userBindMobile(formData, { token: userStore.temToken })
-    uni.$u.toast('绑定成功')
+    uni.$u.toast(ui('绑定成功'))
     userStore.login(userStore.temToken!)
     uni.navigateBack()
 }

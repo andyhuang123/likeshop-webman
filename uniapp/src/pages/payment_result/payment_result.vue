@@ -10,7 +10,7 @@
     <!-- 页面状态 -->
     <page-status :status="status">
         <template #error>
-            <u-empty text="订单不存在" mode="order"></u-empty>
+            <u-empty :text='$ui("订单不存在")' mode="order"></u-empty>
         </template>
         <template #default>
             <view class="payment-result p-[20rpx]">
@@ -37,20 +37,20 @@
                     <!-- 支付信息 -->
                     <view class="result-info">
                         <view class="result-info__item">
-                            <text>订单编号</text>
+                            <text>{{ $ui("订单编号") }}</text>
                             <text>{{ orderInfo.order.order_sn }}</text>
                         </view>
                         <view class="result-info__item">
-                            <text>付款时间</text>
+                            <text>{{ $ui("付款时间") }}</text>
                             <text>{{ orderInfo.order.pay_time }}</text>
                         </view>
                         <view class="result-info__item">
-                            <text>支付方式</text>
+                            <text>{{ $ui("支付方式") }}</text>
                             <template v-if="orderInfo.pay_status">
                                 <text>{{ orderInfo.order.pay_way || '-' }}</text>
                             </template>
                             <template v-else>
-                                <text>未支付</text>
+                                <text>{{ $ui("未支付") }}</text>
                             </template>
                         </view>
                     </view>
@@ -64,7 +64,7 @@
                             hover-class="none"
                             @click="goOrder"
                         >
-                            继续充值
+                            {{ $ui("继续充值") }}
                         </u-button>
                     </view>
                     <view class="mb-[20rpx]">
@@ -75,7 +75,7 @@
                             hover-class="none"
                             @click="goHome"
                         >
-                            返回首页
+                            {{ $ui("返回首页") }}
                         </u-button>
                     </view>
                 </view>
@@ -90,6 +90,7 @@ import {PageStatusEnum} from '@/enums/appEnums'
 import {onLoad} from '@dcloudio/uni-app'
 import {computed, reactive, ref} from 'vue'
 import {useRouter} from "uniapp-router-next";
+import { translateUiText as ui } from '@/i18n'
 
 const router = useRouter()
 
@@ -113,7 +114,8 @@ const orderInfo = reactive<any>({
 })
 const paymentStatus = computed(() => {
     const status = !!orderInfo.pay_status
-    return mapStatus[status ? 'succeed' : 'waiting']
+    const result = mapStatus[status ? 'succeed' : 'waiting']
+    return { ...result, text: ui(result.text) }
 })
 
 const initPageData = () => {
@@ -146,7 +148,7 @@ const goOrder = () => {
 
 onLoad(async (options: any) => {
     try {
-        if (!options.id) throw new Error('订单不存在')
+        if (!options.id) throw new Error(ui('订单不存在'))
         pageOptions.value = options
         await initPageData()
         status.value = PageStatusEnum['NORMAL']

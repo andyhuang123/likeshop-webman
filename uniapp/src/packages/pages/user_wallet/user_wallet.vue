@@ -19,7 +19,7 @@
                     class="bg-primary rounded-[14rpx] flex items-center justify-between pl-[44rpx] py-[54rpx] text-white"
                 >
                     <view>
-                        <view class="text-sm">钱包余额</view>
+                        <view class="text-sm">{{ $ui('钱包余额') }}</view>
                         <view class="text-[60rpx]">{{ wallet.user_money }}</view>
                     </view>
                     <navigator
@@ -28,7 +28,7 @@
                         hover-class="none"
                     >
                         <view class="text-primary px-[30rpx] py-[15rpx] bg-white rounded-l-full">
-                            去充值
+                            {{ $ui('去充值') }}
                         </view>
                     </navigator>
                 </view>
@@ -66,21 +66,22 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, shallowRef } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import { accountLog } from '@/api/user'
 import { rechargeConfig } from '@/api/recharge'
 import { onShow } from '@dcloudio/uni-app'
-const tabList = ref([
+import { translateUiText } from '@/i18n'
+const tabList = computed(() => [
     {
-        name: '全部',
+        name: translateUiText('全部'),
         type: ''
     },
     {
-        name: '收入',
+        name: translateUiText('收入'),
         type: 1
     },
     {
-        name: '支出',
+        name: translateUiText('支出'),
         type: 2
     }
 ])

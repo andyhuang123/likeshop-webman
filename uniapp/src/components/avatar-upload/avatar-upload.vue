@@ -14,7 +14,7 @@
                 class="border border-dotted border-light flex w-full h-full flex-col items-center justify-center text-muted text-xs box-border rounded"
             >
                 <u-icon name="plus" :size="36" />
-                添加图片
+                {{ $ui("添加图片") }}
             </div>
         </slot>
     </button>
@@ -25,6 +25,7 @@ import { useUserStore } from '@/stores/user'
 import { addUnit } from '@/utils/util'
 import { isBoolean } from 'lodash'
 import { computed, CSSProperties, onUnmounted } from 'vue'
+import { translateUiText as ui } from '@/i18n'
 
 const props = defineProps({
     modelValue: {
@@ -76,7 +77,7 @@ const chooseAvatar = (e: any) => {
 
 const uploadImageIng = async (file: string) => {
     uni.showLoading({
-        title: '正在上传中...'
+        title: ui('正在上传中...')
     })
     try {
         const res: any = await uploadImage(file, userStore.temToken!)

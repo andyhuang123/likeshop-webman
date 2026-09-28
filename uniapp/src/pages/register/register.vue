@@ -11,7 +11,7 @@
         class="register bg-white min-h-full flex flex-col items-center px-[40rpx] pt-[40rpx] box-border"
     >
         <view class="w-full">
-            <view class="text-2xl font-medium mb-[60rpx]">注册新账号</view>
+            <view class="text-2xl font-medium mb-[60rpx]">{{ $ui("注册新账号") }}</view>
 
             <view
                 class="px-[18rpx] border border-solid border-lightc border-light rounded-[10rpx] h-[100rpx] items-center flex"
@@ -20,7 +20,7 @@
                     class="flex-1"
                     v-model="formData.account"
                     :border="false"
-                    placeholder="请输入账号"
+                    :placeholder='$ui("请输入账号")'
                 />
             </view>
 
@@ -31,7 +31,7 @@
                     class="flex-1"
                     type="password"
                     v-model="formData.password"
-                    placeholder="请输入密码"
+                    :placeholder='$ui("请输入密码")'
                     :border="false"
                 />
             </view>
@@ -42,32 +42,32 @@
                     class="flex-1"
                     type="password"
                     v-model="formData.password_confirm"
-                    placeholder="请再次输入密码"
+                    :placeholder='$ui("请再次输入密码")'
                     :border="false"
                 />
             </view>
             <view class="mt-[40rpx]" v-if="isOpenAgreement">
                 <u-checkbox v-model="isCheckAgreement" shape="circle">
                     <view class="text-xs flex">
-                        已阅读并同意
+                        {{ $ui("已阅读并同意") }}
                         <view @click.stop>
                             <router-navigate
                                 class="text-primary"
                                 hover-class="none"
                                 to="/pages/agreement/agreement?type=service"
                             >
-                                《服务协议》
+                                {{ $ui("《服务协议》") }}
                             </router-navigate>
                         </view>
 
-                        和
+                        {{ $ui("和") }}
                         <view @click.stop>
                             <router-navigate
                                 class="text-primary"
                                 hover-class="none"
                                 to="/pages/agreement/agreement?type=privacy"
                             >
-                                《隐私协议》
+                                {{ $ui("《隐私协议》") }}
                             </router-navigate>
                         </view>
                     </view>
@@ -86,7 +86,7 @@
                                 : '0.5'
                     }"
                 >
-                    注册
+                    {{ $ui("注册") }}
                 </u-button>
             </view>
         </view>
@@ -101,14 +101,14 @@
         confirm-color="var(--color-primary)"
     >
         <view class="text-center px-[70rpx] py-[60rpx]">
-            <view> 请先阅读并同意</view>
+            <view> {{ $ui("请先阅读并同意") }}</view>
             <view class="flex justify-center">
                 <router-navigate data-theme="" to="/pages/agreement/agreement?type=service">
-                    <view class="text-primary">《服务协议》</view>
+                    <view class="text-primary">{{ $ui("《服务协议》") }}</view>
                 </router-navigate>
-                和
+                {{ $ui("和") }}
                 <router-navigate to="/pages/agreement/agreement?type=privacy">
-                    <view class="text-primary">《隐私协议》</view>
+                    <view class="text-primary">{{ $ui("《隐私协议》") }}</view>
                 </router-navigate>
             </view>
         </view>
@@ -119,6 +119,7 @@
 import {register} from '@/api/account'
 import {useAppStore} from '@/stores/app'
 import {computed, reactive, ref} from 'vue'
+import { translateUiText as ui } from '@/i18n'
 
 const isCheckAgreement = ref(false)
 const appStore = useAppStore()
@@ -130,11 +131,11 @@ const formData = reactive({
 })
 const showModel = ref(false)
 const accountRegister = async () => {
-    if (!formData.account) return uni.$u.toast('请输入账号')
-    if (!formData.password) return uni.$u.toast('请输入密码')
-    if (!formData.password_confirm) return uni.$u.toast('请输入确认密码')
+    if (!formData.account) return uni.$u.toast(ui('请输入账号'))
+    if (!formData.password) return uni.$u.toast(ui('请输入密码'))
+    if (!formData.password_confirm) return uni.$u.toast(ui('请输入确认密码'))
     if (!isCheckAgreement.value && isOpenAgreement.value) return (showModel.value = true)
-    if (formData.password != formData.password_confirm) return uni.$u.toast('两次输入的密码不一致')
+    if (formData.password != formData.password_confirm) return uni.$u.toast(ui('两次输入的密码不一致'))
     await register(formData)
     uni.navigateBack()
 }

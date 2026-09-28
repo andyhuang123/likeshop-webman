@@ -40,7 +40,7 @@
         hover-class="none"
     >
         <u-search
-            placeholder="请输入关键词搜索"
+            :placeholder='$ui("请输入关键词搜索")'
             :height="72"
             :disabled="true"
             :show-action="false"

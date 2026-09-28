@@ -15,7 +15,7 @@
         <u-navbar
             :is-back="false"
             :is-fixed="false"
-            title="资讯"
+            :title='$ui("资讯")'
             :border-bottom="false"
             :title-bold="true"
             :title-color="$theme.navColor"
@@ -27,7 +27,7 @@
     <view class="news">
         <!-- 搜索 -->
         <navigator class="news-search px-[24rpx] py-[14rpx] bg-white" url="/pages/search/search">
-            <u-search placeholder="请输入关键词搜索" disabled :show-action="false"></u-search>
+            <u-search :placeholder='$ui("请输入关键词搜索")' disabled :show-action="false"></u-search>
         </navigator>
 
         <!-- 内容 -->
@@ -53,8 +53,10 @@ import { ref, reactive, computed } from 'vue'
 import { onLoad, onShow, onReady } from '@dcloudio/uni-app'
 import NewsList from './component/news-list.vue'
 import { getArticleCate } from '@/api/news'
+import { translateUiText as ui } from '@/i18n'
 
-const tabList = ref<any>([])
+const categoryList = ref<any[]>([])
+const tabList = computed(() => [{ name: ui('全部'), id: '' }].concat(categoryList.value))
 const current = ref<number>(0)
 
 const handleChange = (index: number) => {
@@ -64,7 +66,7 @@ const handleChange = (index: number) => {
 
 const getData = async () => {
     const data = await getArticleCate()
-    tabList.value = [{ name: '全部', id: '' }].concat(data)
+    categoryList.value = data
 }
 
 onLoad((options) => {

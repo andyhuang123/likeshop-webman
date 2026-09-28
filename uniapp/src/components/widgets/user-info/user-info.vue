@@ -35,13 +35,13 @@
                 <view class="text-white ml-[20rpx]">
                     <view class="text-2xl">{{ user.nickname }}</view>
                     <view class="text-xs mt-[18rpx]" @click.stop="copy(user.account)">
-                        账号：{{ user.account }}
+                        {{ $ui("账号：") }}{{ user.account }}
                     </view>
                 </view>
             </view>
             <navigator v-else class="flex items-center" hover-class="none" url="/pages/login/login">
                 <u-avatar src="/static/images/user/default_avatar.png" :size="120"></u-avatar>
-                <view class="text-white text-3xl ml-[20rpx]">未登录</view>
+                <view class="text-white text-3xl ml-[20rpx]">{{ $ui("未登录") }}</view>
             </navigator>
             <navigator v-if="isLogin" hover-class="none" url="/pages/user_set/user_set">
                 <u-icon name="setting" color="#fff" :size="48"></u-icon>

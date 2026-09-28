@@ -9,7 +9,7 @@
 
         <!-- 奖池公示 -->
         <view class="mt-20 bg-white p-30">
-            <view class="text-lg font-bold mb-20">奖池公示</view>
+            <view class="text-lg font-bold mb-20">{{ $ui("奖池公示") }}</view>
             <view class="space-y-20">
                 <view 
                     v-for="(item, index) in detail.details" 
@@ -20,11 +20,11 @@
                         <u-image :src="item.product?.main_image" width="80rpx" height="80rpx" radius="8rpx"></u-image>
                         <view class="ml-20">
                             <view class="text-base">{{ item.product?.name }}</view>
-                            <view class="text-xs text-gray-500 mt-5">价值: ¥{{ item.product?.price }}</view>
+                            <view class="text-xs text-gray-500 mt-5">{{ $ui("价值: ¥") }}{{ item.product?.price }}</view>
                         </view>
                     </view>
                     <view class="text-sm text-primary font-medium">
-                        概率: {{ item.probability }}%
+                        {{ $ui("概率:") }} {{ item.probability }}%
                     </view>
                 </view>
             </view>
@@ -33,19 +33,19 @@
         <!-- 底部操作栏 -->
         <view class="fixed bottom-0 left-0 right-0 bg-white p-20 shadow flex items-center justify-between safe-area-inset-bottom z-50">
             <view class="flex-1 mr-20">
-                <u-button shape="circle" @click="toCabinet">我的盒柜</u-button>
+                <u-button shape="circle" @click="toCabinet">{{ $ui("我的盒柜") }}</u-button>
             </view>
             <view class="flex-2">
-                <u-button type="primary" shape="circle" @click="handleBuy">立即购买 (¥{{ detail.price }})</u-button>
+                <u-button type="primary" shape="circle" @click="handleBuy">{{ $ui("立即购买 (¥") }}{{ detail.price }})</u-button>
             </view>
         </view>
 
         <!-- 支付方式弹窗 -->
         <u-popup v-model="showPay" mode="bottom" border-radius="24">
             <view class="p-30">
-                <view class="text-center text-lg font-bold mb-30">选择支付方式</view>
+                <view class="text-center text-lg font-bold mb-30">{{ $ui("选择支付方式") }}</view>
                 <!-- 这里需要集成支付组件，简化处理 -->
-                <u-button type="primary" shape="circle" @click="confirmPay">微信支付</u-button>
+                <u-button type="primary" shape="circle" @click="confirmPay">{{ $ui("微信支付") }}</u-button>
             </view>
         </u-popup>
     </view>
@@ -56,6 +56,7 @@ import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { getBlindBoxDetail, buyBlindBox } from '@/api/marketing/blind_box'
 import { pay } from '@/utils/pay' // 假设有封装好的支付工具
+import { translateUiText as ui } from '@/i18n'
 
 const detail = ref<any>({})
 const blindBoxId = ref(0)
@@ -91,7 +92,7 @@ const confirmPay = async () => {
         // 调起支付
         await pay(res.pay_way, res.config)
         
-        uni.showToast({ title: '支付成功', icon: 'success' })
+        uni.showToast({ title: ui('支付成功'), icon: 'success' })
         showPay.value = false
         
         // 跳转到结果页或弹窗
@@ -100,7 +101,7 @@ const confirmPay = async () => {
             toCabinet()
         }, 1500)
     } catch (e) {
-        uni.showToast({ title: '支付失败', icon: 'none' })
+        uni.showToast({ title: ui('支付失败'), icon: 'none' })
     }
 }
 </script>

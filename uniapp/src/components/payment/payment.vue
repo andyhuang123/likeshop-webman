@@ -11,7 +11,7 @@
         <view class="h-[900rpx]">
             <page-status :status="popupStatus" :fixed="false">
                 <template #error>
-                    <u-empty text="订单信息错误，无法查询到订单信息" mode="order"></u-empty>
+                    <u-empty :text='$ui("订单信息错误，无法查询到订单信息")' mode="order"></u-empty>
                 </template>
                 <template #default>
                     <view class="payment h-full w-full flex flex-col">
@@ -63,7 +63,7 @@
                                 type="primary"
                                 :loading="isLock"
                             >
-                                立即支付
+                                {{ $ui("立即支付") }}
                             </u-button>
                         </view>
                     </view>
@@ -81,9 +81,9 @@
         :maskCloseAble="false"
     >
         <view class="content bg-white w-[560rpx] p-[40rpx]">
-            <view class="text-2xl font-medium text-center"> 支付确认 </view>
+            <view class="text-2xl font-medium text-center"> {{ $ui("支付确认") }} </view>
             <view class="pt-[30rpx] pb-[40rpx]">
-                <view> 请在微信内完成支付，如果您已支付成功，请点击`已完成支付`按钮 </view>
+                <view> {{ $ui("请在微信内完成支付，如果您已支付成功，请点击`已完成支付`按钮") }} </view>
             </view>
             <view class="flex">
                 <view class="flex-1 mr-[20rpx]">
@@ -96,7 +96,7 @@
                         :customStyle="{ width: '100%' }"
                         @click="queryPayResult(false)"
                     >
-                        重新支付
+                        {{ $ui("重新支付") }}
                     </u-button>
                 </view>
                 <view class="flex-1">
@@ -108,7 +108,7 @@
                         :customStyle="{ width: '100%' }"
                         @click="queryPayResult()"
                     >
-                        已完成支付
+                        {{ $ui("已完成支付") }}
                     </u-button>
                 </view>
             </view>
@@ -125,6 +125,7 @@ import { series } from '@/utils/util'
 import { ClientEnum, PageStatusEnum, PayStatusEnum } from '@/enums/appEnums'
 import { useUserStore } from '@/stores/user'
 import { client } from '@/utils/client'
+import { translateUiText as ui } from '@/i18n'
 /*
 页面参数 orderId：订单id，from：订单来源
 */
@@ -213,9 +214,9 @@ const payment = (() => {
             payWay.value == PayWayEnum.WECHAT
         ) {
             const res: any = await uni.showModal({
-                title: '温馨提示',
-                content: '当前账号未绑定微信，无法完成支付',
-                confirmText: '去绑定'
+                title: ui('温馨提示'),
+                content: ui('当前账号未绑定微信，无法完成支付'),
+                confirmText: ui('去绑定')
             })
             if (res.confirm) {
                 uni.navigateTo({
@@ -229,7 +230,7 @@ const payment = (() => {
     // 调用预支付
     const prepayTask = async () => {
         uni.showLoading({
-            title: '正在支付中'
+            title: ui('正在支付中')
         })
         const data = await prepay({
             order_id: props.orderId,
@@ -282,13 +283,13 @@ const queryPayResult = async (confirm = true) => {
 
     if (res.pay_status === 0) {
         if (confirm == true) {
-            uni.$u.toast('您的订单还未支付，请重新支付')
+            uni.$u.toast(ui('您的订单还未支付，请重新支付'))
         }
         showPay.value = true
         handlePayResult(PayStatusEnum.FAIL)
     } else {
         if (confirm == false) {
-            uni.$u.toast('您的订单已经支付，请勿重新支付')
+            uni.$u.toast(ui('您的订单已经支付，请勿重新支付'))
         }
         handlePayResult(PayStatusEnum.SUCCESS)
     }

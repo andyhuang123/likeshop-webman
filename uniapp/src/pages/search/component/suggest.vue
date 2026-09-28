@@ -2,7 +2,7 @@
     <view class="suggest bg-white">
         <!-- 热门搜索 -->
         <view class="hot" v-if="hot_search.status == 1 && searchData.length">
-            <view class="font-medium pl-[24rpx] pt-[26rpx] pb-[6rpx] text-lg">热门搜索</view>
+            <view class="font-medium pl-[24rpx] pt-[26rpx] pb-[6rpx] text-lg">{{ $ui("热门搜索") }}</view>
 
             <view class="w-full px-[24rpx]">
                 <block v-for="(hotItem, index) in searchData" :key="index">
@@ -24,8 +24,8 @@
         <!-- 历史搜索 -->
         <view class="history" v-if="his_search.length">
             <view class="flex justify-between px-[24rpx] pb-[6rpx] pt-[26rpx]">
-                <view class="text-lg font-medium">历史搜索</view>
-                <view class="text-xs text-muted" @click="() => emit('clear')">清空</view>
+                <view class="text-lg font-medium">{{ $ui("历史搜索") }}</view>
+                <view class="text-xs text-muted" @click="() => emit('clear')">{{ $ui("清空") }}</view>
             </view>
 
             <view class="w-full px-[24rpx]">

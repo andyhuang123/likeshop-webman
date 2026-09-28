@@ -24,7 +24,7 @@
                         :customStyle="{ height: '100rpx' }"
                         hover-class="none"
                     >
-                        用户一键登录
+                        {{ $ui("用户一键登录") }}
                     </u-button>
                 </view>
                 <!-- #endif -->
@@ -35,7 +35,7 @@
                         :customStyle="{ height: '100rpx' }"
                         hover-class="none"
                     >
-                        手机号登录
+                        {{ $ui("手机号登录") }}
                     </u-button>
                 </view>
             </block>
@@ -54,7 +54,7 @@
                             class="flex-1"
                             v-model="formData.account"
                             :border="false"
-                            placeholder="输入账号"
+                            :placeholder='$ui("输入账号")'
                         />
                     </view>
                     <view
@@ -64,14 +64,14 @@
                             class="flex-1"
                             v-model="formData.password"
                             type="password"
-                            placeholder="输入密码"
+                            :placeholder='$ui("输入密码")'
                             :border="false"
                         />
                         <navigator url="/pages/forget_pwd/forget_pwd" hover-class="none">
                             <view
                                 class="border-l border-solid border-0 border-light pl-3 text-muted leading-4 ml-3"
                             >
-                                忘记密码？
+                                {{ $ui("忘记密码？") }}
                             </view>
                         </navigator>
                     </view>
@@ -90,7 +90,7 @@
                             class="flex-1"
                             v-model="formData.account"
                             :border="false"
-                            placeholder="请输入手机号码"
+                            :placeholder='$ui("请输入手机号码")'
                         />
                     </view>
                     <view
@@ -99,7 +99,7 @@
                         <u-input
                             class="flex-1"
                             v-model="formData.code"
-                            placeholder="请输入验证码"
+                            :placeholder='$ui("请输入验证码")'
                             :border="false"
                         />
 
@@ -110,8 +110,10 @@
                             <u-verification-code
                                 ref="uCodeRef"
                                 :seconds="60"
+                                :start-text="$ui('获取验证码')"
+                                :end-text="$ui('重新获取')"
                                 @change="codeChange"
-                                change-text="x秒"
+                                :change-text="$ui('x秒')"
                             />
                             <text :class="formData.account ? 'text-primary' : 'text-muted'">
                                 {{ codeTips }}
@@ -124,25 +126,25 @@
             <view class="mt-[40rpx]" v-if="isOpenAgreement">
                 <u-checkbox v-model="isCheckAgreement" shape="circle">
                     <view class="text-xs flex">
-                        已阅读并同意
+                        {{ $ui("已阅读并同意") }}
                         <view @click.stop>
                             <navigator
                                 class="text-primary"
                                 hover-class="none"
                                 url="/pages/agreement/agreement?type=service"
                             >
-                                《服务协议》
+                                {{ $ui("《服务协议》") }}
                             </navigator>
                         </view>
 
-                        和
+                        {{ $ui("和") }}
                         <view @click.stop>
                             <navigator
                                 class="text-primary"
                                 hover-class="none"
                                 url="/pages/agreement/agreement?type=privacy"
                             >
-                                《隐私协议》
+                                {{ $ui("《隐私协议》") }}
                             </navigator>
                         </view>
                     </view>
@@ -159,12 +161,12 @@
                         }"
                         hover-class="none"
                     >
-                        登录
+                        {{ $ui("登录") }}
                     </u-button>
                 </view>
                 <view class="flex justify-between mt-[40rpx]">
                     <view
-                        >已有账号，使用
+                        >{{ $ui("已有账号，使用") }}
                         <span
                             class="text-primary"
                             @click="changeLoginWay(LoginWayEnum.ACCOUNT)"
@@ -172,7 +174,7 @@
                                 formData.scene == LoginWayEnum.MOBILE &&
                                 includeLoginWay(LoginWayEnum.ACCOUNT)
                             "
-                            >密码登录</span
+                            >{{ $ui("密码登录") }}</span
                         >
                         <span
                             class="text-primary"
@@ -181,11 +183,11 @@
                                 formData.scene == LoginWayEnum.ACCOUNT &&
                                 includeLoginWay(LoginWayEnum.MOBILE)
                             "
-                            >验证码登录</span
+                            >{{ $ui("验证码登录") }}</span
                         >
                     </view>
                     <navigator url="/pages/register/register" hover-class="none"
-                        >注册账号</navigator
+                        >{{ $ui("注册账号") }}</navigator
                     >
                 </view>
             </block>
@@ -200,14 +202,14 @@
             @cancel="showModel = false"
         >
             <view class="text-center px-[70rpx] py-[60rpx]">
-                <view> 请先阅读并同意 </view>
+                <view> {{ $ui("请先阅读并同意") }} </view>
                 <view class="flex justify-center">
                     <navigator data-theme="" url="/pages/agreement/agreement?type=service">
-                        <view class="text-primary">《服务协议》</view>
+                        <view class="text-primary">{{ $ui("《服务协议》") }}</view>
                     </navigator>
-                    和
+                    {{ $ui("和") }}
                     <navigator url="/pages/agreement/agreement?type=privacy">
-                        <view class="text-primary">《隐私协议》</view>
+                        <view class="text-primary">{{ $ui("《隐私协议》") }}</view>
                     </navigator>
                 </view>
             </view>
@@ -240,6 +242,7 @@ import wechatOa, { UrlScene } from '@/utils/wechat'
 // #endif
 import { onLoad, onShow } from '@dcloudio/uni-app'
 import { computed, reactive, ref, shallowRef, watch } from 'vue'
+import { translateUiText as ui } from '@/i18n'
 
 enum LoginWayEnum {
     ACCOUNT = 1,
@@ -282,7 +285,7 @@ const sendSms = async () => {
             scene: SMSEnum.LOGIN,
             mobile: formData.account
         })
-        uni.$u.toast('发送成功')
+        uni.$u.toast(ui('发送成功'))
         uCodeRef.value?.start()
     }
 }
@@ -307,15 +310,15 @@ const isForceBindMobile = computed(() => appStore.getLoginConfig.coerce_mobile =
 const loginFun = async () => {
     if (!isCheckAgreement.value && isOpenAgreement.value) return (showModel.value = true)
     if (formData.scene == LoginWayEnum.ACCOUNT) {
-        if (!formData.account) return uni.$u.toast('请输入账号/手机号码')
-        if (!formData.password) return uni.$u.toast('请输入密码')
+        if (!formData.account) return uni.$u.toast(ui('请输入账号/手机号码'))
+        if (!formData.password) return uni.$u.toast(ui('请输入密码'))
     }
     if (formData.scene == LoginWayEnum.MOBILE) {
-        if (!formData.account) return uni.$u.toast('请输入手机号码')
-        if (!formData.code) return uni.$u.toast('请输入验证码')
+        if (!formData.account) return uni.$u.toast(ui('请输入手机号码'))
+        if (!formData.code) return uni.$u.toast(ui('请输入验证码'))
     }
     uni.showLoading({
-        title: '请稍后...'
+        title: ui('请稍后...')
     })
     try {
         const data = await login(formData)
@@ -336,7 +339,7 @@ const loginHandle = async (data: any) => {
     }
     userStore.login(data.token)
     await userStore.getUser()
-    uni.$u.toast('登录成功')
+    uni.$u.toast(ui('登录成功'))
     uni.hideLoading()
     const pages = getCurrentPages()
     if (pages.length > 1) {
@@ -383,7 +386,7 @@ const wxLogin = async () => {
     // #ifdef MP-WEIXIN
 
     uni.showLoading({
-        title: '请稍后...'
+        title: ui('请稍后...')
     })
     try {
         const { code }: any = await uni.login({
@@ -453,7 +456,7 @@ onLoad(async () => {
     try {
         if (options.code && options.scene === UrlScene.LOGIN) {
             uni.showLoading({
-                title: '请稍后...'
+                title: ui('请稍后...')
             })
             const data = await oaLogin(options)
             if (data) {

@@ -11,21 +11,21 @@
                     <text class="text-3xl ml-5 font-bold">{{ title }}</text>
                 </view>
                 <view class="mt-5 text-muted">
-                    建议使用您的微信头像和昵称，以便获得更好的体验
+                    {{ $ui("建议使用您的微信头像和昵称，以便获得更好的体验") }}
                 </view>
                 <view class="mt-[30rpx]">
                     <form @submit="handleSubmit">
-                        <u-form-item required label="头像" :labelWidth="120">
+                        <u-form-item required :label='$ui("头像")' :labelWidth="120">
                             <view class="flex-1">
                                 <avatar-upload v-model="avatar"></avatar-upload>
                             </view>
                         </u-form-item>
-                        <u-form-item required label="昵称" :labelWidth="120">
+                        <u-form-item required :label='$ui("昵称")' :labelWidth="120">
                             <input
                                 class="flex-1 h-[60rpx]"
                                 name="nickname"
                                 type="nickname"
-                                placeholder="请输入昵称"
+                                :placeholder='$ui("请输入昵称")'
                             />
                         </u-form-item>
                         <view class="mt-[80rpx]">
@@ -34,12 +34,12 @@
                                 hover-class="none"
                                 form-type="submit"
                             >
-                                确定
+                                {{ $ui("确定") }}
                             </button>
                         </view>
 
                         <view class="flex justify-center mt-[60rpx]">
-                            <view class="text-muted" @click="showPopup = false">暂不登录</view>
+                            <view class="text-muted" @click="showPopup = false">{{ $ui("暂不登录") }}</view>
                         </view>
                     </form>
                 </view>
@@ -50,6 +50,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+import { translateUiText as ui } from '@/i18n'
 const props = defineProps({
     show: {
         type: Boolean
@@ -80,9 +81,9 @@ const avatar = ref()
 const handleSubmit = (e: any) => {
     const { nickname } = e.detail.value
   if (!avatar.value)
-      return uni.$u.toast('请添加头像')
+      return uni.$u.toast(ui('请添加头像'))
   if (!nickname)
-      return uni.$u.toast('请输入昵称')
+      return uni.$u.toast(ui('请输入昵称'))
     emit('update', {
         avatar: avatar.value,
         nickname

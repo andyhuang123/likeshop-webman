@@ -12,7 +12,7 @@
         <view class="px-[24rpx] py-[14rpx] bg-white">
             <u-search
                 v-model="keyword"
-                placeholder="请输入关键词搜索"
+                :placeholder='$ui("请输入关键词搜索")'
                 height="72"
                 @search="handleSearch"
                 @custom="handleSearch"
@@ -56,6 +56,7 @@ import { HISTORY } from '@/enums/constantEnums'
 import { getHotSearch } from '@/api/shop'
 import cache from '@/utils/cache'
 import { getArticleList } from '@/api/news'
+import { translateUiText as ui } from '@/i18n'
 
 interface Search {
     hot_search: {
@@ -102,8 +103,8 @@ const getHotSearchFunc = async () => {
 
 const handleClear = async (): Promise<void> => {
     const resModel: any = await uni.showModal({
-        title: '温馨提示',
-        content: '是否清空历史记录？'
+        title: ui('温馨提示'),
+        content: ui('是否清空历史记录？')
     })
     if (resModel.confirm) {
         cache.set(HISTORY, '')

@@ -9,7 +9,7 @@
     </page-meta>
     <view class="recharge p-[20rpx]">
         <view class="bg-white rounded-[14rpx] p-[40rpx]">
-            <view class="text-content">充值金额</view>
+            <view class="text-content">{{ $ui('充值金额') }}</view>
             <view class="border-0 border-b border-solid border-light">
                 <input
                     v-model="money"
@@ -19,18 +19,18 @@
                 />
             </view>
             <view class="mt-[20rpx] text-xs text-muted">
-                当前可用余额
+                {{ $ui('当前可用余额') }}
                 <text class="text-primary"> {{ wallet.user_money }}</text>
             </view>
         </view>
         <view class="mt-[40rpx]">
             <u-button :loading="isLock" type="primary" shape="circle" @click="rechargeLock">
-                立即充值
+                {{ $ui('立即充值') }}
             </u-button>
         </view>
         <view class="flex justify-center m-[60rpx]">
             <navigator url="/packages/pages/recharge_record/recharge_record" hover-class="none">
-                <text class="text-content text-sm">充值记录</text>
+                <text class="text-content text-sm">{{ $ui('充值记录') }}</text>
             </navigator>
         </view>
         <payment
@@ -49,6 +49,7 @@ import { recharge, rechargeConfig } from '@/api/recharge'
 import { useLockFn } from '@/hooks/useLockFn'
 import { onLoad, onShow } from '@dcloudio/uni-app'
 import { reactive, ref } from 'vue'
+import { translateUiText } from '@/i18n'
 const money = ref('')
 
 const payState = reactive({
@@ -65,11 +66,13 @@ const wallet = reactive({
 
 const { isLock, lockFn: rechargeLock } = useLockFn(async () => {
     const minNum = wallet.min_amount
-    if (!money.value) return uni.$u.toast('请输入充值金额')
+    if (!money.value) return uni.$u.toast(translateUiText('请输入充值金额'))
     if (minNum == 0 && Number(money.value) == minNum) {
-        return uni.$u.toast(`充值金额必须大于0`)
+        return uni.$u.toast(translateUiText('充值金额必须大于0'))
     }
-    if (Number(money.value) < minNum) return uni.$u.toast(`最低充值金额${minNum}`)
+    if (Number(money.value) < minNum) {
+        return uni.$u.toast(`${translateUiText('最低充值金额')}: ${minNum}`)
+    }
     const data = await recharge({
         money: money.value
     })
@@ -87,7 +90,7 @@ const handlePaySuccess = async () => {
 }
 
 const handlePayFail = async () => {
-    uni.$u.toast('支付失败')
+    uni.$u.toast(translateUiText('支付失败'))
 }
 
 const getWallet = async () => {

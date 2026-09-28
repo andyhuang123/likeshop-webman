@@ -30,13 +30,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, shallowRef } from 'vue'
+import { ref, computed, shallowRef } from 'vue'
 import { getCollect, cancelCollect } from '@/api/news'
+import { translateUiText as ui } from '@/i18n'
 
 const paging = shallowRef()
-const options = reactive([
+const options = computed(() => [
     {
-        text: '取消收藏',
+        text: ui('取消收藏'),
         style: {
             color: '#FFFFFF',
             backgroundColor: '#FF2C3C'
@@ -58,7 +59,7 @@ const handleCollect = async (index: number): Promise<void> => {
     try {
         const article_id: number = collectData.value[index].article_id
         await cancelCollect({ id: article_id })
-        uni.$u.toast('已取消收藏')
+        uni.$u.toast(ui('已取消收藏'))
         paging.value.reload()
     } catch (err) {
         //TODO handle the exception

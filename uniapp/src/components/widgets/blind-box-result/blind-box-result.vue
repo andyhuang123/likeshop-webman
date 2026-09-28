@@ -1,7 +1,7 @@
 <template>
     <u-popup v-model="show" mode="center" width="80%" border-radius="20">
         <view class="p-40 text-center relative bg-gradient-to-b from-purple-100 to-white">
-            <view class="text-2xl font-bold mb-30 text-purple-600">🎉 恭喜中奖 🎉</view>
+            <view class="text-2xl font-bold mb-30 text-purple-600">{{ $ui("🎉 恭喜中奖 🎉") }}</view>
             
             <view class="my-40 animate-bounce">
                 <u-image 
@@ -14,11 +14,11 @@
             </view>
             
             <view class="text-xl font-bold">{{ product?.name }}</view>
-            <view class="text-gray-500 mt-10 mb-40">商品已放入您的盒柜</view>
+            <view class="text-gray-500 mt-10 mb-40">{{ $ui("商品已放入您的盒柜") }}</view>
             
             <view class="flex justify-center space-x-20">
-                <u-button shape="circle" @click="close">继续购买</u-button>
-                <u-button type="primary" shape="circle" @click="toCabinet">去查看</u-button>
+                <u-button shape="circle" @click="close">{{ $ui("继续购买") }}</u-button>
+                <u-button type="primary" shape="circle" @click="toCabinet">{{ $ui("去查看") }}</u-button>
             </view>
         </view>
     </u-popup>
